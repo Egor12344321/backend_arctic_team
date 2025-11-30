@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_DB: arctic_team
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: egor
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
