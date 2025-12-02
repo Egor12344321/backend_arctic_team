@@ -2,6 +2,7 @@ package com.arctic.backend_for_arctic_team.security;
 
 import com.arctic.backend_for_arctic_team.entity.User;
 import com.arctic.backend_for_arctic_team.entity.UserRole;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +17,10 @@ import java.util.stream.Collectors;
 @Data
 public class UserDetailsImpl implements UserDetails {
     private final Long id;
-    private final String username;
+    private final String email;
+    private final String individualNimber;
+    private final String firstName;
+    private final String lastName;
     private final String password;
     private final Set<UserRole> roles;
     private final boolean enabled;
@@ -26,13 +30,16 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl(User user) {
         this.id = user.getId();
-        this.username = user.getEmail();
+        this.email = user.getEmail();
         this.password = user.getPassword();
         this.roles = user.getRoles();
         this.enabled = user.isEnabled();
         this.accountNonExpired = user.isAccountNonExpired();
         this.accountNonLocked = user.isAccountNonLocked();
         this.credentialsNonExpired = user.isCredentialsNonExpired();
+        this.individualNimber = user.getIndividualNumber();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
     }
 
     @Override
@@ -49,7 +56,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

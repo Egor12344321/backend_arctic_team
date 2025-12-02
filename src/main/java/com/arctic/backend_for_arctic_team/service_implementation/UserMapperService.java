@@ -1,0 +1,31 @@
+package com.arctic.backend_for_arctic_team.service_implementation;
+
+
+import com.arctic.backend_for_arctic_team.dto.reponse.RegisterResponse;
+import com.arctic.backend_for_arctic_team.dto.request.RegisterRequest;
+import com.arctic.backend_for_arctic_team.entity.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class UserMapperService {
+    private final PasswordEncoder passwordEncoder;
+
+    public RegisterResponse mapFromEntityToResponse(User user) {
+        return new RegisterResponse(
+                user.getEmail(),
+                user.getIndividualNumber()
+        );
+    }
+
+    public User mapFromRequestToEntity(RegisterRequest request) {
+        return User.builder()
+                .email(request.email())
+                .firstName(request.firstName())
+                .lastName(request.secondName())
+                .password(passwordEncoder.encode(request.password()))
+                .build();
+    }
+}
