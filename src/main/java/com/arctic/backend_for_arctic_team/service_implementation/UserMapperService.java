@@ -1,8 +1,8 @@
 package com.arctic.backend_for_arctic_team.service_implementation;
 
 
-import com.arctic.backend_for_arctic_team.dto.reponse.RegisterResponse;
-import com.arctic.backend_for_arctic_team.dto.request.RegisterRequest;
+import com.arctic.backend_for_arctic_team.dto.reponse.auth_responses.RegisterResponse;
+import com.arctic.backend_for_arctic_team.dto.request.auth_requests.RegisterRequest;
 import com.arctic.backend_for_arctic_team.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

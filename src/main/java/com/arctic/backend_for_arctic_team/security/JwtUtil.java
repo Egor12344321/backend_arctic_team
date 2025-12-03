@@ -34,6 +34,13 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
 
     }
+    public String extractIndividualNumber(String token){
+        return extractClaim(token, claims -> claims.get("individualNumber", String.class));
+    }
+
+    public String extractTokenType(String token){
+        return extractClaim(token, claims -> claims.get("type", String.class));
+    }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
@@ -69,6 +76,7 @@ public class JwtUtil {
         claims.put("roles", roles);
         claims.put("type", "access");
         claims.put("userId", userDetails.getId());
+        claims.put("individualNumber", userDetails.getIndividualNumber());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
@@ -80,6 +88,9 @@ public class JwtUtil {
 
     public String generateRefreshToken(UserDetailsImpl userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("type", "refresh");
+        claims.put("userId", userDetails.getId());
+        claims.put("individualNumber", userDetails.getIndividualNumber());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
@@ -96,6 +107,10 @@ public class JwtUtil {
         } catch (Exception e){
             return false;
         }
+    }
+
+    public Boolean isRefresh(String token){
+        return "refresh".equals(extractTokenType(token));
     }
 
 }

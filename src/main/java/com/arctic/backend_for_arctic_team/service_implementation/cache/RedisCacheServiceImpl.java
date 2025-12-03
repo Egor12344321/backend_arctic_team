@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.Optional;
 
 
 @Service
@@ -35,8 +36,8 @@ public class RedisCacheServiceImpl implements CacheService {
     }
 
     @Override
-    public void getFromCache(String individualNumber) {
+    public Optional<String> getFromCache(String individualNumber) {
         log.info("Started getting refreshToken for user: {}", individualNumber);
-        redisTemplate.opsForValue().get(REFRESH_REDIS_CACHE_PREFIX + individualNumber);
+        return Optional.ofNullable(redisTemplate.opsForValue().get(REFRESH_REDIS_CACHE_PREFIX + individualNumber));
     }
 }

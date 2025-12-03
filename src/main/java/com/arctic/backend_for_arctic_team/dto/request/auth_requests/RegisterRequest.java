@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.dto.request;
+package com.arctic.backend_for_arctic_team.dto.request.auth_requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

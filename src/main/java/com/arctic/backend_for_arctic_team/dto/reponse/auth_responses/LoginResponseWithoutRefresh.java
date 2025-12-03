@@ -1,6 +1,4 @@
-package com.arctic.backend_for_arctic_team.dto.reponse;
-
-import java.util.Locale;
+package com.arctic.backend_for_arctic_team.dto.reponse.auth_responses;
 
 public record LoginResponseWithoutRefresh(
         String accessToken,

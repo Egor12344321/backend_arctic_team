@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class UserDetailsImpl implements UserDetails {
     private final Long id;
     private final String email;
-    private final String individualNimber;
+    private final String individualNumber;
     private final String firstName;
     private final String lastName;
     private final String password;
@@ -37,7 +37,7 @@ public class UserDetailsImpl implements UserDetails {
         this.accountNonExpired = user.isAccountNonExpired();
         this.accountNonLocked = user.isAccountNonLocked();
         this.credentialsNonExpired = user.isCredentialsNonExpired();
-        this.individualNimber = user.getIndividualNumber();
+        this.individualNumber = user.getIndividualNumber();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
     }
