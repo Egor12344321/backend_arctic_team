@@ -1,10 +1,7 @@
 package com.arctic.backend_for_arctic_team.exceptions;
 
 
-import com.arctic.backend_for_arctic_team.exceptions.custom_exceptions.InvalidCredentialsException;
-import com.arctic.backend_for_arctic_team.exceptions.custom_exceptions.InvalidTokenRefreshException;
-import com.arctic.backend_for_arctic_team.exceptions.custom_exceptions.RefreshNotFoundException;
-import com.arctic.backend_for_arctic_team.exceptions.custom_exceptions.UserNotFoundException;
+import com.arctic.backend_for_arctic_team.exceptions.custom_exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,6 +36,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException e){
+        ResponseCookie deleteCookie = ResponseCookie.from("refresh", "")
+                .httpOnly(true)
+                .maxAge(0)
+                .path("/")
+                .build();
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> handleUnauthorizedException(UnauthorizedException e){
         ResponseCookie deleteCookie = ResponseCookie.from("refresh", "")
                 .httpOnly(true)
                 .maxAge(0)

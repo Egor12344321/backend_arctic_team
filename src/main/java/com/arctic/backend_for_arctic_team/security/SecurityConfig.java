@@ -1,9 +1,13 @@
 package com.arctic.backend_for_arctic_team.security;
 
 
+import com.arctic.backend_for_arctic_team.service_implementation.TokenBlackListedService;
+import com.arctic.backend_for_arctic_team.service_interface.AuthService;
+import com.arctic.backend_for_arctic_team.service_interface.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -22,6 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final JwtUtil jwtUtil;
+    private final TokenBlackListedService tokenBlackListedService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,7 +37,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**", "/auth/**", "/api/users/**", "/users/**").permitAll()
 //                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -40,7 +45,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthFilter jwtAuthFilter(){
-        return new JwtAuthFilter(jwtUtil, userDetailsServiceImpl);
+        return new JwtAuthFilter(jwtUtil, userDetailsServiceImpl, tokenBlackListedService);
     }
 
     @Bean

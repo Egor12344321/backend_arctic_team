@@ -1,5 +1,9 @@
 package com.arctic.backend_for_arctic_team.security;
 
+import com.arctic.backend_for_arctic_team.exceptions.custom_exceptions.UnauthorizedException;
+import com.arctic.backend_for_arctic_team.service_implementation.TokenBlackListedService;
+import com.arctic.backend_for_arctic_team.service_interface.AuthService;
+import com.arctic.backend_for_arctic_team.service_interface.CacheService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -8,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +31,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
+    private final TokenBlackListedService tokenBlackListedService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -32,24 +39,34 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwt;
         final String username;
         final String requestPath = request.getServletPath();
-        String path = request.getServletPath();
         String method = request.getMethod();
-
-        log.debug("Filtering request: {} {}", method, path);
+        log.debug("Filtering request: {} {}", method, requestPath);
         if (requestPath.startsWith("/api/auth/") &&
-                !requestPath.equals("/api/auth/validate")) {
+                !requestPath.equals("/api/auth/refresh") && !requestPath.equals("/api/auth/logout")) {
             filterChain.doFilter(request, response);
             return;
         }
-        if (authHeader == null || !authHeader.startsWith("Bearer")){
-            log.info("No token");
-            filterChain.doFilter(request, response);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+            log.info("No token for: {}", requestPath);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
         jwt = authHeader.substring(7);
+
+
         log.info("JwtAuthFilter: Получен токен: {}", jwt);
         try {
+            if (tokenBlackListedService.isAccessTokenBlacklisted(jwt)){
+                log.info("Пользователь вышел из аккаунта");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            if (!requestPath.equals("/api/auth/refresh") && jwtUtil.isRefresh(jwt)){
+                log.info("Отправлен refresh token, instead of access");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
             username = jwtUtil.extractUsername(jwt);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
                 log.info("Аутентификация отсутствует, проверяем токен для пользователя: {}", username);
@@ -74,6 +91,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
         } catch (Exception e){
             logger.error("JWT аутентификация неудачная" + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
         filterChain.doFilter(request, response);
 

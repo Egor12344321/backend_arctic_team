@@ -16,7 +16,8 @@ public class UserMapperService {
     public RegisterResponse mapFromEntityToResponse(User user) {
         return new RegisterResponse(
                 user.getEmail(),
-                user.getIndividualNumber()
+                user.getIndividualNumber(),
+                user.getCreatedAt()
         );
     }
 

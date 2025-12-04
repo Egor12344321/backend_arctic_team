@@ -18,6 +18,8 @@ import com.arctic.backend_for_arctic_team.service_interface.CacheService;
 import com.arctic.backend_for_arctic_team.service_interface.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +28,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
 
 
 @Service
@@ -37,7 +41,9 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserMapperService userMapperService;
     private final CacheService cacheService;
-    private final CookieUtil cookieUtil;
+    private final RedisTemplate<String, String> redisTemplate;
+    final static String ACCESS_PREFIX = "blacklistedAccess:";
+    private final TokenBlackListedService tokenBlackListedService;
 
     public RegisterResponse register(RegisterRequest request){
         User user = userMapperService.mapFromRequestToEntity(request);
@@ -130,6 +136,14 @@ public class AuthServiceImpl implements AuthService {
         log.error("Refresh token в cache и в cookie не совпадает");
         throw new InvalidTokenRefreshException("Refresh token в cache и в cookie не совпадает");
     }
+
+    public void logout(String accessToken) {
+        log.debug("Started logout for user: {}", jwtUtil.extractUsername(accessToken));
+        redisTemplate.opsForValue().set(ACCESS_PREFIX + tokenBlackListedService.generateTokenId(accessToken), accessToken, Duration.ofMinutes(30));
+        log.info("Access token saved to blacklist");
+        cacheService.removeFromCache("refresh:" + jwtUtil.extractIndividualNumber(accessToken));
+    }
+
 
 
 }
