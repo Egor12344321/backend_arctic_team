@@ -5,13 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -48,7 +47,6 @@ public class User{
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     private Set<UserRole> roles = new HashSet<>();
-
     private boolean enabled = true;
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
@@ -56,6 +54,16 @@ public class User{
 
     @PrePersist
     protected void onCreate(){
+        if (this.individualNumber == null) {
+            String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+            this.individualNumber = "ARCTIC-" + uuid.toUpperCase();
+            this.enabled = true;
+            this.accountNonExpired = true;
+            this.accountNonLocked = true;
+            this.credentialsNonExpired = true;
+
+        }
         this.createdAt = LocalDateTime.now();
     }
+
 }

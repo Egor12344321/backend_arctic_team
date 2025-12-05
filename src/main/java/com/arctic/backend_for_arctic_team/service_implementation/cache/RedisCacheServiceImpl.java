@@ -29,9 +29,9 @@ public class RedisCacheServiceImpl implements CacheService {
         log.info("Removing refresh token from cache for user: {}", individualNumber);
         Boolean deleted = redisTemplate.delete(REFRESH_REDIS_CACHE_PREFIX + individualNumber);
         if (deleted){
-            log.info("Cache refreshToken removed SUCCESSFULLY for user: {}", individualNumber);
+            log.info("Cache refreshToken removed SUCCESSFULLY for user with redis-prefix: {}", REFRESH_REDIS_CACHE_PREFIX + individualNumber);
         } else {
-            log.info("Cache refreshToken removing FAILED for user: {}", individualNumber);
+            log.info("Cache refreshToken removing FAILED for user with redis-prefix: {}", REFRESH_REDIS_CACHE_PREFIX + individualNumber);
         }
     }
 

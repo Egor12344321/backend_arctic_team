@@ -9,14 +9,21 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: redis-cache
       port: 6379
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-
+  redis:
+    host: redis-cache
+    port: 6379
 jwt:
   secret: JDPtGGTXFa92yrEMHEOnNNJvfkWern2d9CFudAdPgTk
   access-token-expiration: 900000
   refresh-token-expiration: 604800000
+
+logging:
+  level:
+    com.arctic.backend_for_arctic_team: TRACE
+    org.springframework.security: DEBUG

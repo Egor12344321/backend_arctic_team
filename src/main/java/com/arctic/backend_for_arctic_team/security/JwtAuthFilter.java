@@ -55,7 +55,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
 
 
-        log.info("JwtAuthFilter: Получен токен: {}", jwt);
+        log.info("JwtAuthFilter: Получен токен");
         try {
             if (tokenBlackListedService.isAccessTokenBlacklisted(jwt)){
                 log.info("Пользователь вышел из аккаунта");

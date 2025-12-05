@@ -14,4 +14,13 @@ public class CookieUtil {
                 .sameSite("Strict")
                 .build();
     }
+
+    public ResponseCookie deleteFromCookie(String name) {
+        return ResponseCookie.from(name, "")
+                .httpOnly(true)
+                .secure(false) // true in production
+                .maxAge(0)
+                .path("/")
+                .build();
+    }
 }

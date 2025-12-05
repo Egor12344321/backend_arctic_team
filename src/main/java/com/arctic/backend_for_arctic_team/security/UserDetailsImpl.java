@@ -33,10 +33,10 @@ public class UserDetailsImpl implements UserDetails {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.roles = user.getRoles();
-        this.enabled = user.isEnabled();
-        this.accountNonExpired = user.isAccountNonExpired();
-        this.accountNonLocked = user.isAccountNonLocked();
-        this.credentialsNonExpired = user.isCredentialsNonExpired();
+        this.enabled = true;
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
         this.individualNumber = user.getIndividualNumber();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();

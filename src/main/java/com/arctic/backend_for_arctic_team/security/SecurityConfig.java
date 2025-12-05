@@ -5,6 +5,7 @@ import com.arctic.backend_for_arctic_team.service_implementation.TokenBlackListe
 import com.arctic.backend_for_arctic_team.service_interface.AuthService;
 import com.arctic.backend_for_arctic_team.service_interface.CacheService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final JwtUtil jwtUtil;
@@ -30,6 +32,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        log.info("SECURITY-CHAIN: Started security chain");
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session

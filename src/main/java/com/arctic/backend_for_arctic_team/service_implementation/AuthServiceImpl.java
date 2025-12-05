@@ -137,11 +137,13 @@ public class AuthServiceImpl implements AuthService {
         throw new InvalidTokenRefreshException("Refresh token в cache и в cookie не совпадает");
     }
 
-    public void logout(String accessToken) {
+    public void logout(String accessToken, String refreshToken) {
         log.debug("Started logout for user: {}", jwtUtil.extractUsername(accessToken));
         redisTemplate.opsForValue().set(ACCESS_PREFIX + tokenBlackListedService.generateTokenId(accessToken), accessToken, Duration.ofMinutes(30));
         log.info("Access token saved to blacklist");
-        cacheService.removeFromCache("refresh:" + jwtUtil.extractIndividualNumber(accessToken));
+        String individualNumber = jwtUtil.extractIndividualNumber(refreshToken);
+        log.info("Individual number for deleting refresh: {}", individualNumber);
+        cacheService.removeFromCache(individualNumber);
     }
 
 
