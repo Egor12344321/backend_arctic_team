@@ -1,0 +1,14 @@
+package com.arctic.backend_for_arctic_team.auth.service_interface;
+
+import com.arctic.backend_for_arctic_team.auth.dto.reponse.auth_responses.LoginResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.reponse.auth_responses.RegisterResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.reponse.auth_responses.UpdateTokensResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.LoginRequest;
+import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.RegisterRequest;
+
+public interface AuthService {
+    RegisterResponse register(RegisterRequest request);
+    LoginResponse login(LoginRequest request);
+    UpdateTokensResponse refresh(String refreshToken);
+    void logout(String accessToken, String refreshToken);
+}
