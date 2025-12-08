@@ -1,10 +1,12 @@
 package com.arctic.backend_for_arctic_team.auth.security;
 
 
+import com.arctic.backend_for_arctic_team.auth.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -67,7 +69,7 @@ public class JwtUtil {
         return extractAllClaims(token).getExpiration();
     }
 
-    public String generateAccessToken(UserDetailsImpl userDetails){
+    public String generateAccessToken(User userDetails){
         Map<String, Object> claims = new HashMap<>();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -85,7 +87,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateRefreshToken(UserDetailsImpl userDetails) {
+    public String generateRefreshToken(User userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("type", "refresh");
         claims.put("userId", userDetails.getId());

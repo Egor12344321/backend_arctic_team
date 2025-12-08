@@ -36,40 +36,42 @@ public class ExpeditionController {
             @Valid @RequestBody CreateExpeditionRequest request,
             @AuthenticationPrincipal User currentUser) {
 
-        log.info("Leader {} creating expedition: {}", currentUser.getId(), request.name());
+        log.debug("EXPEDITION-CONTROLLER: Leader {} creating expedition: {}", currentUser.getId(), request.name());
         ExpeditionResponse expedition = expeditionService.createExpedition(request, currentUser);
+        log.debug("EXPEDITION-CONTROLLER: Leader {} creating expedition: {} ENDED", currentUser.getId(), request.name());
         return ResponseEntity.status(HttpStatus.CREATED).body(expedition);
     }
 
     @GetMapping("/my")
     public ResponseEntity<UserExpeditionResponse> getMyExpeditions(
-            @AuthenticationPrincipal UserDetailsImpl currentUser) {
+            @AuthenticationPrincipal User currentUser) {
 
         log.info("User {} requesting their expeditions", currentUser.getId());
+
         UserExpeditionResponse expeditions = expeditionService.getUserExpeditions(currentUser);
         return ResponseEntity.ok(expeditions);
     }
 
-    @GetMapping("/{expeditionId}")
-    public ResponseEntity<ExpeditionResponse> getExpeditionDetails(
-            @PathVariable Long expeditionId,
-            @AuthenticationPrincipal User currentUser) {
-
-        log.info("User {} requesting expedition {}", currentUser.getId(), expeditionId);
-        ExpeditionResponse details = expeditionService.getExpeditionDetails(expeditionId, currentUser);
-        return ResponseEntity.ok(details);
-    }
-
-
-    @DeleteMapping("/{expeditionId}")
-    public ResponseEntity<Void> deleteExpedition(
-            @PathVariable Long expeditionId,
-            @AuthenticationPrincipal User currentUser) {
-
-        log.info("Leader {} deleting expedition {}", currentUser.getId(), expeditionId);
-        expeditionService.deleteExpedition(expeditionId, currentUser);
-        return ResponseEntity.noContent().build();
-    }
+//    @GetMapping("/{expeditionId}")
+//    public ResponseEntity<ExpeditionResponse> getExpeditionDetails(
+//            @PathVariable Long expeditionId,
+//            @AuthenticationPrincipal User currentUser) {
+//
+//        log.info("User {} requesting expedition {}", currentUser.getId(), expeditionId);
+//        ExpeditionResponse details = expeditionService.getExpeditionDetails(expeditionId, currentUser);
+//        return ResponseEntity.ok(details);
+//    }
+//
+//
+//    @DeleteMapping("/{expeditionId}")
+//    public ResponseEntity<Void> deleteExpedition(
+//            @PathVariable Long expeditionId,
+//            @AuthenticationPrincipal User currentUser) {
+//
+//        log.info("Leader {} deleting expedition {}", currentUser.getId(), expeditionId);
+//        expeditionService.deleteExpedition(expeditionId, currentUser);
+//        return ResponseEntity.noContent().build();
+//    }
 
 
     @GetMapping("/{expeditionId}/participants")

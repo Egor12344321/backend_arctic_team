@@ -62,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
                 log.error("Authentication returned null principal");
                 throw new AuthenticationCredentialsNotFoundException("Authentication failed");
             }
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            User userDetails = (User) authentication.getPrincipal();
             if (!userDetails.isEnabled()) {
                 throw new DisabledException("User account is disabled");
             }
@@ -115,12 +115,12 @@ public class AuthServiceImpl implements AuthService {
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new UserNotFoundException("Пользователь с таким email не найден"));
             log.info("Пользователь с таким refresh найден");
-            UserDetailsImpl userDetails = new UserDetailsImpl(user);
+
 
             cacheService.removeFromCache(individualNumber);
 
-            String updatedRefreshToken = jwtUtil.generateRefreshToken(userDetails);
-            String updatedAccessToken = jwtUtil.generateAccessToken(userDetails);
+            String updatedRefreshToken = jwtUtil.generateRefreshToken(user);
+            String updatedAccessToken = jwtUtil.generateAccessToken(user);
 
             cacheService.saveToCache(individualNumber, updatedRefreshToken);
             return new UpdateTokensResponse(

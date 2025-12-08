@@ -7,6 +7,8 @@ import com.arctic.backend_for_arctic_team.expedition.model.entity.Expedition;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MapperService {
 
@@ -19,6 +21,4 @@ public class MapperService {
                 .leader(user)
                 .build();
     }
-
-
 }
