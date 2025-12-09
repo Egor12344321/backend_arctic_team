@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExpeditionExceptionHandler {
 
-    @ExceptionHandler(ExpeditionNotFoundException.class)
-    public ResponseEntity<?> handleExpeditionNotFoundException(Exception e){
+    @ExceptionHandler({ExpeditionNotFoundException.class, ParticipantNotFoundException.class})
+    public ResponseEntity<?> handleNotFoundException(Exception e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }

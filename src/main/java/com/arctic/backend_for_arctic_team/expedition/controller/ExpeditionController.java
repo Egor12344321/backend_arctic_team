@@ -9,6 +9,7 @@ import com.arctic.backend_for_arctic_team.expedition.model.dto.request.UpdateExp
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ParticipantResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.UserExpeditionResponse;
+import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepository;
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
 import com.arctic.backend_for_arctic_team.expedition.service.ParticipantService;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/expeditions")
+@RequestMapping("/api/expeditions")
 public class ExpeditionController {
     private final ExpeditionService expeditionService;
     private final ParticipantService participantService;
@@ -82,7 +83,7 @@ public class ExpeditionController {
         log.info("Leader {} viewing participants of expedition {}",
                 currentUser.getId(), expeditionId);
         List<ParticipantResponse> participants = participantService.getExpeditionParticipants(
-                expeditionId, currentUser);
+                expeditionId);
         return ResponseEntity.ok(participants);
     }
 
@@ -95,19 +96,19 @@ public class ExpeditionController {
         log.info("Leader {} adding participant {} to expedition {}",
                 currentUser.getId(), request.individualNumber(), expeditionId);
         ParticipantResponse participant = participantService.addParticipant(
-                expeditionId, request, currentUser);
+                expeditionId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(participant);
     }
 
-    @DeleteMapping("/{expeditionId}/participants/{userId}")
+    @DeleteMapping("/{expeditionId}/participants/{participantId}")
     public ResponseEntity<Void> removeParticipant(
             @PathVariable Long expeditionId,
-            @PathVariable Long userId,
+            @PathVariable Long participantId,
             @AuthenticationPrincipal User currentUser) {
 
         log.info("Leader {} removing participant {} from expedition {}",
-                currentUser.getId(), userId, expeditionId);
-        participantService.removeParticipant(expeditionId, userId, currentUser);
+                currentUser.getId(), participantId, expeditionId);
+        participantService.removeParticipant(expeditionId, participantId);
         return ResponseEntity.noContent().build();
     }
 

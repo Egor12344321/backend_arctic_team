@@ -9,8 +9,9 @@ public class CookieUtil {
     public ResponseCookie setRefreshTokenToCookie(String refreshToken) {
         return ResponseCookie.from("refresh", refreshToken)
                 .httpOnly(true)
+                .secure(false)
                 .maxAge(7 * 24 * 60 * 60)
-                .path("/api/auth")
+                .path("/")
                 .sameSite("Strict")
                 .build();
     }
@@ -18,9 +19,10 @@ public class CookieUtil {
     public ResponseCookie deleteFromCookie(String name) {
         return ResponseCookie.from(name, "")
                 .httpOnly(true)
-                .secure(false) // true in production
+                .secure(false)
                 .maxAge(0)
                 .path("/")
+                .sameSite("Strict")
                 .build();
     }
 }

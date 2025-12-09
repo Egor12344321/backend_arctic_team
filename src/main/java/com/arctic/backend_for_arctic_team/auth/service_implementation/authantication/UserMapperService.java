@@ -25,7 +25,7 @@ public class UserMapperService {
         return User.builder()
                 .email(request.email())
                 .firstName(request.firstName())
-                .lastName(request.secondName())
+                .lastName(request.lastName())
                 .password(passwordEncoder.encode(request.password()))
                 .build();
     }

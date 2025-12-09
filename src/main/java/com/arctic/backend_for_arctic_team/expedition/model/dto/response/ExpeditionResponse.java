@@ -28,7 +28,7 @@ public record ExpeditionResponse(
                 null,
                 expedition.getCreatedAt(),
                 expedition.getLeader().getLastName(),
-                expedition.getLeader().getLastName(),
+                expedition.getLeader().getFirstName(),
                 expedition.getLeader().getEmail()
         );
     }

@@ -9,7 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ExpeditionRepository extends JpaRepository<Expedition, Long> {
-    List<Expedition> findByUserId(Long id);
-
     List<Expedition> findByLeaderId(Long id);
 }

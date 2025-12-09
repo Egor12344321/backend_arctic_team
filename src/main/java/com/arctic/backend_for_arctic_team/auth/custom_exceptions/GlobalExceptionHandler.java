@@ -1,7 +1,6 @@
-package com.arctic.backend_for_arctic_team;
+package com.arctic.backend_for_arctic_team.auth.custom_exceptions;
 
 
-import com.arctic.backend_for_arctic_team.auth.custom_exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -58,4 +57,6 @@ public class GlobalExceptionHandler {
                 .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
                 .body(e.getMessage());
     }
+
+
 }

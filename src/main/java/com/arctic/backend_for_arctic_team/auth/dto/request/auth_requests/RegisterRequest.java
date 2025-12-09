@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
         @NotNull(message = "Имя обязательно для ввода") String firstName,
-        @NotNull(message = "Фамилия обязательна для ввода") String secondName,
+        @NotNull(message = "Фамилия обязательна для ввода") String lastName,
         @NotNull(message = "Email обязателен для ввода") @Email String email,
         @NotNull(message = "Пароль обязателен для ввода") @Size(min = 6, max = 30, message = "Пароль должен быть не менее 6 символов и не более 30") String password
 ) {

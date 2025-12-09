@@ -3,6 +3,7 @@ package com.arctic.backend_for_arctic_team.auth.security;
 import com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.TokenBlackListedService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 
 @Component
@@ -33,12 +35,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String requestPath = request.getServletPath();
         String method = request.getMethod();
         log.debug("Filtering request: {} {}", method, requestPath);
-        if (requestPath.startsWith("/api/auth/") &&
-                !requestPath.equals("/api/auth/refresh") && !requestPath.equals("/api/auth/logout")) {
+        if (requestPath.startsWith("/api/auth/") && !requestPath.equals("/api/auth/logout")) {
             filterChain.doFilter(request, response);
             return;
         }
-        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             log.info("No token for: {}", requestPath);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -49,20 +50,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         log.info("JwtAuthFilter: Получен токен");
         try {
-            if (tokenBlackListedService.isAccessTokenBlacklisted(jwt)){
+            if (tokenBlackListedService.isAccessTokenBlacklisted(jwt)) {
                 log.info("Пользователь вышел из аккаунта");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
-            if (!requestPath.equals("/api/auth/refresh") && jwtUtil.isRefresh(jwt)){
+            if (!requestPath.equals("/api/auth/refresh") && jwtUtil.isRefresh(jwt)) {
                 log.info("Отправлен refresh token, instead of access");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
             username = jwtUtil.extractUsername(jwt);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 log.info("Аутентификация отсутствует, проверяем токен для пользователя: {}", username);
-                if (jwtUtil.validateToken(jwt)){
+                if (jwtUtil.validateToken(jwt)) {
                     log.info("Token valid {}", username);
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -81,7 +82,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     log.info("Аутентификация уже установлена для пользователя: {}", username);
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error("JWT аутентификация неудачная" + e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
