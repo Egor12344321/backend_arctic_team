@@ -33,6 +33,7 @@ public class ExpeditionController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('LEADER')")
     public ResponseEntity<ExpeditionResponse> createExpedition(
             @Valid @RequestBody CreateExpeditionRequest request,
             @AuthenticationPrincipal User currentUser) {
@@ -44,6 +45,7 @@ public class ExpeditionController {
     }
 
     @GetMapping("/my")
+    @PreAuthorize("hasAnyRole('USER', 'LEADER', 'ADMIN')")
     public ResponseEntity<UserExpeditionResponse> getMyExpeditions(
             @AuthenticationPrincipal User currentUser) {
 
@@ -74,7 +76,7 @@ public class ExpeditionController {
 //        return ResponseEntity.noContent().build();
 //    }
 
-
+    @PreAuthorize("hasRole('LEADER')")
     @GetMapping("/{expeditionId}/participants")
     public ResponseEntity<List<ParticipantResponse>> getExpeditionParticipants(
             @PathVariable Long expeditionId,
@@ -88,6 +90,7 @@ public class ExpeditionController {
     }
 
     @PostMapping("/{expeditionId}/participants")
+    @PreAuthorize("hasRole('LEADER')")
     public ResponseEntity<ParticipantResponse> addParticipant(
             @PathVariable Long expeditionId,
             @Valid @RequestBody AddParticipantRequest request,
@@ -101,6 +104,7 @@ public class ExpeditionController {
     }
 
     @DeleteMapping("/{expeditionId}/participants/{participantId}")
+    @PreAuthorize("hasRole('LEADER')")
     public ResponseEntity<Void> removeParticipant(
             @PathVariable Long expeditionId,
             @PathVariable Long participantId,
