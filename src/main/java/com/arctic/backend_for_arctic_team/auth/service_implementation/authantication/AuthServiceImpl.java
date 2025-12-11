@@ -80,7 +80,8 @@ public class AuthServiceImpl implements AuthService {
                     userDetails.getUsername(),
                     userDetails.getIndividualNumber(),
                     userDetails.getFirstName(),
-                    userDetails.getLastName()
+                    userDetails.getLastName(),
+                    userDetails.getRoles()
             );
         } catch (AuthenticationException e){
             throw new InvalidCredentialsException("Неправильный логин или пароль");
