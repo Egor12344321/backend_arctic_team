@@ -10,7 +10,8 @@ import lombok.Builder;
 public class CardioMetrics {
     @Id
     @Column(name = "id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "individual_number")
     private String individualNumber;

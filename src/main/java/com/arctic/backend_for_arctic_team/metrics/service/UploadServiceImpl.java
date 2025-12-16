@@ -22,13 +22,18 @@ public class UploadServiceImpl implements UploadService{
     private final ProductivityMetricsUploadService productivityMetricsUploadService;
 
     @Override
-    public void uploadMetrics(UploadRequest uploadRequest) {
+    public UploadResponse uploadMetrics(UploadRequest uploadRequest) {
         log.info("Mapping from dto to entity");
-        cardioMetricsUploadService.upload(uploadRequest.cardioMetrics());
-        emotionalMetricsUploadService.upload(uploadRequest.emotionalMetrics());
-        memsMetricsUploadService.upload(uploadRequest.memsMetrics());
-        nfbMetricsUploadService.upload(uploadRequest.nfbMetrics());
-        physiologicalMetricsUploadService.upload(uploadRequest.physiologicalMetrics());
-        productivityMetricsUploadService.upload(uploadRequest.productivityMetrics());
+        try {
+            cardioMetricsUploadService.upload(uploadRequest.cardioMetrics());
+            emotionalMetricsUploadService.upload(uploadRequest.emotionalMetrics());
+            memsMetricsUploadService.upload(uploadRequest.memsMetrics());
+            nfbMetricsUploadService.upload(uploadRequest.nfbMetrics());
+            physiologicalMetricsUploadService.upload(uploadRequest.physiologicalMetrics());
+            productivityMetricsUploadService.upload(uploadRequest.productivityMetrics());
+            return new UploadResponse(true);
+        } catch (Exception e){
+            return new UploadResponse(false);
+        }
     }
 }

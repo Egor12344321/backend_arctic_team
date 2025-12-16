@@ -4,5 +4,5 @@ import com.arctic.backend_for_arctic_team.metrics.model.dto.request.UploadReques
 import com.arctic.backend_for_arctic_team.metrics.model.dto.response.UploadResponse;
 
 public interface UploadService {
-    void uploadMetrics(UploadRequest uploadRequest);
+    UploadResponse uploadMetrics(UploadRequest uploadRequest);
 }

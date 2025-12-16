@@ -7,6 +7,7 @@ import com.arctic.backend_for_arctic_team.metrics.service.UploadService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,11 +23,13 @@ public class MetricsSyncController {
     private final UploadService uploadService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadMetrics(@Valid @RequestBody UploadRequest uploadRequest){
+    public ResponseEntity<UploadResponse> uploadMetrics(@Valid @RequestBody UploadRequest uploadRequest){
         log.debug("METRICS-UPLOAD-CONTROLLER: Uploading metrics starting");
-        uploadService.uploadMetrics(uploadRequest);
+
+        UploadResponse response = uploadService.uploadMetrics(uploadRequest);
+
         log.debug("METRICS-UPLOAD-CONTROLLER: Uploading metrics ended");
 
-        return ResponseEntity.ok("Данные загружены");
+        return ResponseEntity.ok(response);
     }
 }

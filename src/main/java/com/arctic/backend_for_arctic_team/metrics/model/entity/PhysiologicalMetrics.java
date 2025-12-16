@@ -1,9 +1,6 @@
 package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
 
 @Entity
@@ -12,7 +9,8 @@ import lombok.Builder;
 public class PhysiologicalMetrics {
     @Id
     @Column(name = "id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "individual_number")
     private String individualNumber;
