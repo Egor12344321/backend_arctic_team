@@ -1,7 +1,9 @@
 package com.arctic.backend_for_arctic_team.metrics.service.metrics_upload_service;
 
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.EmotionalMetricDto;
+import com.arctic.backend_for_arctic_team.metrics.model.dto.request.ProductivityMetricDto;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.EmotionalMetrics;
+import com.arctic.backend_for_arctic_team.metrics.model.entity.ProductivityMetrics;
 import com.arctic.backend_for_arctic_team.metrics.repository.EmotionalMetricsRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +19,9 @@ public class EmotionalMetricsUploadService {
     private final EmotionalMetricsRepository emotionalMetricsRepository;
 
     public void upload(@Valid List<EmotionalMetricDto> emotionalMetricDtos) {
-        for (EmotionalMetricDto dto : emotionalMetricDtos) {
-            EmotionalMetrics emotionalMetrics = EmotionalMetricDto.mapToEmotionalEntity(dto);
-            emotionalMetricsRepository.save(emotionalMetrics);
-        }
+        List<EmotionalMetrics> emotionalMetrics = emotionalMetricDtos.stream()
+                .map(EmotionalMetricDto::mapToEmotionalEntity)
+                .toList();
+        emotionalMetricsRepository.saveAll(emotionalMetrics);
     }
 }

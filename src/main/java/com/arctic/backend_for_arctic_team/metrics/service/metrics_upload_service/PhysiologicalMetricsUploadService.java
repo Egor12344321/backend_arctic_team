@@ -21,9 +21,9 @@ public class PhysiologicalMetricsUploadService {
     private final PhysiologicalMetricsRepository physiologicalMetricsRepository;
 
     public void upload(@Valid List<PhysiologicalMetricDto> physiologicalMetricDtos) {
-        for (PhysiologicalMetricDto dto : physiologicalMetricDtos){
-            PhysiologicalMetrics physiologicalMetrics = PhysiologicalMetricDto.mapToPhysiologicalEntity(dto);
-            physiologicalMetricsRepository.save(physiologicalMetrics);
-        }
+        List<PhysiologicalMetrics> physiologicalMetrics = physiologicalMetricDtos.stream()
+                .map(PhysiologicalMetricDto::mapToPhysiologicalEntity)
+                .toList();
+        physiologicalMetricsRepository.saveAll(physiologicalMetrics);
     }
 }

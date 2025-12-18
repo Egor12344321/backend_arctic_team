@@ -2,7 +2,9 @@ package com.arctic.backend_for_arctic_team.metrics.service.metrics_upload_servic
 
 
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.MemsMetricDto;
+import com.arctic.backend_for_arctic_team.metrics.model.dto.request.ProductivityMetricDto;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.MemsMetrics;
+import com.arctic.backend_for_arctic_team.metrics.model.entity.ProductivityMetrics;
 import com.arctic.backend_for_arctic_team.metrics.repository.MemsMetricsRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +20,9 @@ public class MemsMetricsUploadService {
     private final MemsMetricsRepository memsMetricsRepository;
 
     public void upload(@Valid List<MemsMetricDto> memsMetricDtos) {
-        for (MemsMetricDto dto : memsMetricDtos){
-            MemsMetrics memsMetrics = MemsMetricDto.mapToMemsEntity(dto);
-            memsMetricsRepository.save(memsMetrics);
-        }
+        List<MemsMetrics> memsMetrics = memsMetricDtos.stream()
+                .map(MemsMetricDto::mapToMemsEntity)
+                .toList();
+        memsMetricsRepository.saveAll(memsMetrics);
     }
 }

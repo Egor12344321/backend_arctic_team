@@ -20,9 +20,9 @@ public class ProductivityMetricsUploadService {
 
     @Transactional
     public void upload(@Valid List<ProductivityMetricDto> productivityMetricDtos) {
-        for (ProductivityMetricDto dto : productivityMetricDtos){
-            ProductivityMetrics productivityMetrics = ProductivityMetricDto.mapToProductivityEntity(dto);
-            productivityMetricsRepository.save(productivityMetrics);
-        }
+        List<ProductivityMetrics> productivityMetrics = productivityMetricDtos.stream()
+                        .map(ProductivityMetricDto::mapToProductivityEntity)
+                        .toList();
+        productivityMetricsRepository.saveAll(productivityMetrics);
     }
 }

@@ -2,7 +2,9 @@ package com.arctic.backend_for_arctic_team.metrics.service.metrics_upload_servic
 
 
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.NfbMetricDto;
+import com.arctic.backend_for_arctic_team.metrics.model.dto.request.ProductivityMetricDto;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.NfbMetrics;
+import com.arctic.backend_for_arctic_team.metrics.model.entity.ProductivityMetrics;
 import com.arctic.backend_for_arctic_team.metrics.repository.NfbMetricsRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +20,9 @@ public class NfbMetricsUploadService {
     private final NfbMetricsRepository nfbMetricsRepository;
 
     public void upload(@Valid List<NfbMetricDto> nfbMetricDtos) {
-        for (NfbMetricDto dto : nfbMetricDtos){
-            NfbMetrics nfbMetrics = NfbMetricDto.mapToNfbEntity(dto);
-            nfbMetricsRepository.save(nfbMetrics);
-        }
+        List<NfbMetrics> nfbMetrics = nfbMetricDtos.stream()
+                .map(NfbMetricDto::mapToNfbEntity)
+                .toList();
+        nfbMetricsRepository.saveAll(nfbMetrics);
     }
 }

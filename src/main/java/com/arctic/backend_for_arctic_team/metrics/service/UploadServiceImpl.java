@@ -9,10 +9,12 @@ import com.arctic.backend_for_arctic_team.metrics.service.metrics_upload_service
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class UploadServiceImpl implements UploadService{
     private final CardioMetricsUploadService cardioMetricsUploadService;
     private final EmotionalMetricsUploadService emotionalMetricsUploadService;

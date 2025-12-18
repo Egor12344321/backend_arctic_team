@@ -15,6 +15,12 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
   redis:
     host: redis-cache
     port: 6379
@@ -27,3 +33,4 @@ logging:
   level:
     com.arctic.backend_for_arctic_team: TRACE
     org.springframework.security: DEBUG
+

@@ -2,6 +2,7 @@ package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
