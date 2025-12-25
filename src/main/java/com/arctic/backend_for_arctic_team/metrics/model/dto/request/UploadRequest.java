@@ -12,5 +12,8 @@ public record UploadRequest(
         @Valid List<MemsMetricDto> memsMetrics,
         @Valid List<NfbMetricDto> nfbMetrics,
         @Valid List<PhysiologicalMetricDto> physiologicalMetrics,
-        @Valid List<ProductivityMetricDto> productivityMetrics
+        @Valid List<ProductivityMetricDto> productivityMetrics,
+        List<EegArtifactsMetricsDto> artifactsMetricsDtos,
+        List<EegProceedMetricsDto> eegProceedMetricsDtos,
+        List<EegRawMetricsDto> eegRawMetricsDtos
 ) {}

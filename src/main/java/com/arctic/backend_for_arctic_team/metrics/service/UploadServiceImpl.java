@@ -25,6 +25,9 @@ public class UploadServiceImpl implements UploadService{
     private final NfbMetricsRepository nfbMetricsRepository;
     private final PhysiologicalMetricsRepository physiologicalMetricsRepository;
     private final ProductivityMetricsRepository productivityMetricsRepository;
+    private final EegArtifactsMetricsRepository eegArtifactsMetricsRepository;
+    private final EegProceedMetricsRepository eegProceedMetricsRepository;
+    private final EegRawMetricsRepository eegRawMetricsRepository;
 
     @Override
     public UploadResponse uploadMetrics(UploadRequest uploadRequest) {
@@ -36,6 +39,9 @@ public class UploadServiceImpl implements UploadService{
             uploadBatch(uploadRequest.nfbMetrics(), nfbMetricsRepository, NfbMetricDto::mapToNfbEntity);
             uploadBatch(uploadRequest.physiologicalMetrics(), physiologicalMetricsRepository, PhysiologicalMetricDto::mapToPhysiologicalEntity);
             uploadBatch(uploadRequest.productivityMetrics(), productivityMetricsRepository, ProductivityMetricDto::mapToProductivityEntity);
+            uploadBatch(uploadRequest.artifactsMetricsDtos(), eegArtifactsMetricsRepository, EegArtifactsMetricsDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.eegProceedMetricsDtos(), eegProceedMetricsRepository, EegProceedMetricsDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.eegRawMetricsDtos(), eegRawMetricsRepository, EegRawMetricsDto::mapFromRequestToEntity);
             return new UploadResponse(true);
         } catch (Exception e){
             return new UploadResponse(false);
