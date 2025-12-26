@@ -13,8 +13,17 @@ public class EEGRawMetrics {
     private Long id;
 
     @Column(name = "channel_1")
-    private Double channel1;
+    private Float channel1;
 
     @Column(name = "channel_2")
-    private Double channel2;
+    private Float channel2;
+
+    @Column(name = "individual_number")
+    private String individualNumber;
+
+    @Column(name = "timestamp")
+    private Long timestamp;
+
+    @Column(name = "session")
+    private Integer session;
 }

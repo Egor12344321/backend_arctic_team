@@ -1,11 +1,9 @@
 package com.arctic.backend_for_arctic_team.metrics.service;
 
 
-import com.arctic.backend_for_arctic_team.expedition.service.MapperService;
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.*;
 import com.arctic.backend_for_arctic_team.metrics.model.dto.response.UploadResponse;
 import com.arctic.backend_for_arctic_team.metrics.repository.*;
-import com.arctic.backend_for_arctic_team.metrics.service.metrics_upload_service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,14 +30,16 @@ public class UploadServiceImpl implements UploadService{
     @Override
     public UploadResponse uploadMetrics(UploadRequest uploadRequest) {
         log.info("Mapping from dto to entity");
+        log.info("METRICS: {}", uploadRequest);
+        log.info("EEGArtifacts: {}, EEGProceed: {}, EEGRaw: {}", uploadRequest.EEGArtifactsMetrics(), uploadRequest.EEGProceedMetrics(), uploadRequest.EEGRawMetrics());
         try {
             uploadBatch(uploadRequest.cardioMetrics(), cardioMetricsRepository, CardioMetricDto::mapToCardioEntity);
             uploadBatch(uploadRequest.emotionalMetrics(), emotionalMetricsRepository, EmotionalMetricDto::mapToEmotionalEntity);
             uploadBatch(uploadRequest.memsMetrics(), memsMetricsRepository, MemsMetricDto::mapToMemsEntity);
             uploadBatch(uploadRequest.nfbMetrics(), nfbMetricsRepository, NfbMetricDto::mapToNfbEntity);
-            uploadBatch(uploadRequest.artifactsMetricsDtos(), eegArtifactsMetricsRepository, EegArtifactsMetricsDto::mapFromRequestToEntity);
-            uploadBatch(uploadRequest.eegProceedMetricsDtos(), eegProceedMetricsRepository, EegProceedMetricsDto::mapFromRequestToEntity);
-            uploadBatch(uploadRequest.eegRawMetricsDtos(), eegRawMetricsRepository, EegRawMetricsDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.EEGArtifactsMetrics(), eegArtifactsMetricsRepository, EEGArtifactsMetricDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.EEGProceedMetrics(), eegProceedMetricsRepository, EEGProceedMetricDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.EEGRawMetrics(), eegRawMetricsRepository, EEGRawMetricDto::mapFromRequestToEntity);
             uploadBatch(uploadRequest.physiologicalMetrics(), physiologicalMetricsRepository, PhysiologicalMetricDto::mapToPhysiologicalEntity);
             uploadBatch(uploadRequest.productivityMetrics(), productivityMetricsRepository, ProductivityMetricDto::mapToProductivityEntity);
 

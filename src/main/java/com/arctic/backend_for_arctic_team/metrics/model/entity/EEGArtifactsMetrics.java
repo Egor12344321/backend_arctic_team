@@ -28,4 +28,13 @@ public class EEGArtifactsMetrics {
 
     @Column(name = "quality_channel_2")
     private Integer qualityChannel2;
+
+    @Column(name = "individual_number")
+    private String individualNumber;
+
+    @Column(name = "timestamp")
+    private Long timestamp;
+
+    @Column(name = "session")
+    private Integer session;
 }
