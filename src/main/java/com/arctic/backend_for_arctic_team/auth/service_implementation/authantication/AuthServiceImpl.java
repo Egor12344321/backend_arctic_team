@@ -44,7 +44,9 @@ public class AuthServiceImpl implements AuthService {
 
     public RegisterResponse register(RegisterRequest request){
         User user = userMapperService.mapFromRequestToEntity(request);
+
         User savedUser = userRepository.save(user);
+
         return userMapperService.mapFromEntityToResponse(savedUser);
     }
 
@@ -73,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
             String refreshToken = jwtUtil.generateRefreshToken(userDetails);
             log.info("RefreshToken generated successfully");
             cacheService.saveToCache(userDetails.getIndividualNumber(), refreshToken);
-
+            log.info("USER-DETAILS ROLES: {}", userDetails.getRoles());
             return new LoginResponse(
                     accessToken,
                     refreshToken,

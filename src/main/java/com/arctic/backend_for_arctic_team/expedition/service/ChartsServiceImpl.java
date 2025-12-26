@@ -5,11 +5,13 @@ import com.arctic.backend_for_arctic_team.auth.entity.User;
 import com.arctic.backend_for_arctic_team.expedition.exceptions.ExpeditionNotFoundException;
 import com.arctic.backend_for_arctic_team.expedition.exceptions.UserNotParticipantException;
 import com.arctic.backend_for_arctic_team.expedition.model.entity.Expedition;
+import com.arctic.backend_for_arctic_team.expedition.model.entity.Participant;
 import com.arctic.backend_for_arctic_team.expedition.repository.ExpeditionRepository;
 import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -66,7 +68,17 @@ public class ChartsServiceImpl implements ChartsService {
                 "charts", Map.of()
         );
         }
+    public Map<String, Object> getParticipantCharts(Long participantId, Long expeditionId, User currentUser) {
+        Participant participant = participantRepository.findById(participantId)
+                .orElseThrow(() -> new RuntimeException("Участник не найден"));
 
+        if (!participant.getExpedition().getLeader().getId().equals(currentUser.getId())) {
+            throw new AccessDeniedException("Доступ к метрикам участника запрещен");
+        }
+
+        String individualNumber = participant.getUser().getIndividualNumber();
+        return getUserCharts(individualNumber, expeditionId, currentUser);
+    }
     private long convertToStartOfDayTimestamp(LocalDate date) {
         return date.atStartOfDay(ZoneId.systemDefault())
                 .toInstant()

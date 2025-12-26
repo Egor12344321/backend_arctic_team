@@ -66,17 +66,16 @@ public class ExpeditionController {
 //        ExpeditionResponse details = expeditionService.getExpeditionDetails(expeditionId, currentUser);
 //        return ResponseEntity.ok(details);
 //    }
-//
-//
-//    @DeleteMapping("/{expeditionId}")
-//    public ResponseEntity<Void> deleteExpedition(
-//            @PathVariable Long expeditionId,
-//            @AuthenticationPrincipal User currentUser) {
-//
-//        log.info("Leader {} deleting expedition {}", currentUser.getId(), expeditionId);
-//        expeditionService.deleteExpedition(expeditionId, currentUser);
-//        return ResponseEntity.noContent().build();
-//    }
+
+    @DeleteMapping("/{expeditionId}")
+    public ResponseEntity<Void> deleteExpedition(
+            @PathVariable Long expeditionId,
+            @AuthenticationPrincipal User currentUser) {
+
+        log.info("Leader {} deleting expedition {}", currentUser.getId(), expeditionId);
+        expeditionService.deleteExpeditionById(expeditionId);
+        return ResponseEntity.noContent().build();
+    }
 
     @PreAuthorize("hasRole('LEADER')")
     @GetMapping("/{expeditionId}/participants")
@@ -127,6 +126,22 @@ public class ExpeditionController {
         log.debug("EXPEDITION-CONTROLLER: Getting participant: {} charts started", individualNumber);
         Map<String, Object> charts = chartsService.getUserCharts(individualNumber, expeditionId, user);
         log.debug("EXPEDITION-CONTROLLER: Getting participant: {} charts ended", individualNumber);
+
+        return ResponseEntity.ok(charts);
+    }
+
+    @GetMapping("/{expeditionId}/participants/{participantId}/charts")
+    @PreAuthorize("hasRole('LEADER')")
+    public ResponseEntity<?> getParticipantCharts(
+            @PathVariable Long expeditionId,
+            @PathVariable Long participantId,
+            @AuthenticationPrincipal User currentUser) {
+
+        log.debug("EXPEDITION-CONTROLLER: Leader {} getting charts for participant {} in expedition {}",
+                currentUser.getId(), participantId, expeditionId);
+
+        Map<String, Object> charts = chartsService.getParticipantCharts(
+                participantId, expeditionId, currentUser);
 
         return ResponseEntity.ok(charts);
     }

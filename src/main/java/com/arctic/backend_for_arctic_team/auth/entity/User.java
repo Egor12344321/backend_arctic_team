@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Entity
@@ -35,7 +36,7 @@ public class User implements UserDetails {
     @Column(name = "password_hash")
     private String password;
 
-    @Column(name = "individual_number", unique = true)
+    @Column(name = "individual_number")
     private String individualNumber;
 
     @Column(name = "created_at")
@@ -55,8 +56,8 @@ public class User implements UserDetails {
     @PrePersist
     protected void onCreate(){
         if (this.individualNumber == null) {
-            String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
-            this.individualNumber = "ARCTIC-" + uuid.toUpperCase();
+            Integer indNumber = (Integer) ThreadLocalRandom.current().nextInt(1, 1000);
+            this.individualNumber = indNumber.toString();
             this.enabled = true;
             this.accountNonExpired = true;
             this.accountNonLocked = true;

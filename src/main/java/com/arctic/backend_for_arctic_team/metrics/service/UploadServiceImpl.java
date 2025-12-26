@@ -37,13 +37,15 @@ public class UploadServiceImpl implements UploadService{
             uploadBatch(uploadRequest.emotionalMetrics(), emotionalMetricsRepository, EmotionalMetricDto::mapToEmotionalEntity);
             uploadBatch(uploadRequest.memsMetrics(), memsMetricsRepository, MemsMetricDto::mapToMemsEntity);
             uploadBatch(uploadRequest.nfbMetrics(), nfbMetricsRepository, NfbMetricDto::mapToNfbEntity);
-            uploadBatch(uploadRequest.physiologicalMetrics(), physiologicalMetricsRepository, PhysiologicalMetricDto::mapToPhysiologicalEntity);
-            uploadBatch(uploadRequest.productivityMetrics(), productivityMetricsRepository, ProductivityMetricDto::mapToProductivityEntity);
             uploadBatch(uploadRequest.artifactsMetricsDtos(), eegArtifactsMetricsRepository, EegArtifactsMetricsDto::mapFromRequestToEntity);
             uploadBatch(uploadRequest.eegProceedMetricsDtos(), eegProceedMetricsRepository, EegProceedMetricsDto::mapFromRequestToEntity);
             uploadBatch(uploadRequest.eegRawMetricsDtos(), eegRawMetricsRepository, EegRawMetricsDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.physiologicalMetrics(), physiologicalMetricsRepository, PhysiologicalMetricDto::mapToPhysiologicalEntity);
+            uploadBatch(uploadRequest.productivityMetrics(), productivityMetricsRepository, ProductivityMetricDto::mapToProductivityEntity);
+
             return new UploadResponse(true);
         } catch (Exception e){
+            log.info("UPLOADING-EXCEPTION: {}", e.getMessage());
             return new UploadResponse(false);
         }
     }

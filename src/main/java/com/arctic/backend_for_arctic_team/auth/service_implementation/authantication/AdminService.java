@@ -22,7 +22,7 @@ public class AdminService {
     public List<UserWithRolesResponse> getAllUsers(User user) {
         log.info("ADMIN-SERVICE: Admin getting all users: {}", user.getId());
 
-        List<User> users = userRepository.findAllWithRoles();
+        List<User> users = userRepository.findAll();
 
         return users.stream()
                 .map(userMapperService::mapToUserWithRolesResponse)

@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record ProductivityMetricDto(
-        @NotBlank String individualNumber,
-        @NotNull Long timestamp,
+        String individualNumber,
+        Long timestamp,
         Integer session,
         Double gravity,
         Double productivity,

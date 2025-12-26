@@ -6,4 +6,5 @@ import java.util.Map;
 
 public interface ChartsService {
     Map<String, Object> getUserCharts(String individualNumber, Long expeditionId, User user);
+    Map<String, Object> getParticipantCharts(Long participantId, Long expeditionId, User currentUser);
 }

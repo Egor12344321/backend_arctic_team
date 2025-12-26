@@ -11,7 +11,6 @@ public record LoginResponse(
         String individualNumber,
         String firstName,
         String lastName,
-        Set<UserRole> userRole
+        Set<UserRole> userRoles
 ) {
-
 }

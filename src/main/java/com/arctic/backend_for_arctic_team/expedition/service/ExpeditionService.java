@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ExpeditionService {
     private final ExpeditionRepository expeditionRepository;
-    private final UserRepository userRepository;
     private final MapperService mapperService;
     private final ParticipantRepository participantRepository;
 
@@ -42,13 +41,20 @@ public class ExpeditionService {
                 .stream()
                 .map(ExpeditionResponse::forLeader)
                 .toList();
+        log.debug("LEADER-EXPEDITIONS: {}", leaderExpeditions);
         List<ExpeditionResponse> partExpeditions = participantRepository.findParticipantExpeditionsExcludingLeader(currentUser.getId())
                 .stream()
                 .map(ExpeditionResponse::forParticipant)
                 .toList();
+        log.debug("PARTICIPANT-EXPEDITIONS: {}", partExpeditions);
         return new UserExpeditionResponse(
-                leaderExpeditions,
-                partExpeditions
+                partExpeditions,
+                leaderExpeditions
         );
+    }
+
+    public String deleteExpeditionById(Long id){
+        expeditionRepository.deleteById(id);
+        return "Экспедиция удалена";
     }
 }
