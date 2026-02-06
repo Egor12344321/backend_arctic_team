@@ -17,6 +17,9 @@ public class EEGArtifactsMetrics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "expedition_id")
+    private Long expeditionId;
+
     @Column(name = "artifacts_channel_1")
     private Integer artifactsChannel1;
 

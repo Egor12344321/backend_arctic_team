@@ -18,7 +18,6 @@ import java.util.List;
 public class AdminService {
     private final UserRepository userRepository;
     private final UserMapperService userMapperService;
-
     public List<UserWithRolesResponse> getAllUsers(User user) {
         log.info("ADMIN-SERVICE: Admin getting all users: {}", user.getId());
 

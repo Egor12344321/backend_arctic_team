@@ -16,6 +16,9 @@ public class EEGProceedMetrics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "expedition_id")
+    private Long expeditionId;
+
     @Column(name = "channel_1")
     private Float channel1;
 

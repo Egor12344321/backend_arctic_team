@@ -12,6 +12,9 @@ public class ProductivityMetrics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "expedition_id")
+    private Long expeditionId;
+
     @Column(name = "individual_number")
     private String individualNumber;
 

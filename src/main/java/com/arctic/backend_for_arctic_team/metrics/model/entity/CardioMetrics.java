@@ -3,10 +3,13 @@ package com.arctic.backend_for_arctic_team.metrics.model.entity;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "cardio_metrics")
 @Builder
+@Data
 public class CardioMetrics {
     @Id
     @Column(name = "id")
@@ -15,6 +18,9 @@ public class CardioMetrics {
 
     @Column(name = "individual_number")
     private String individualNumber;
+
+    @Column(name = "expedition_id")
+    private Long expeditionId;
 
     @Column(name = "timestamp")
     private Long timestamp;
