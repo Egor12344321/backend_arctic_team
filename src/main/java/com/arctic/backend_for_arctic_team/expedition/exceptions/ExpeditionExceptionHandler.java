@@ -13,11 +13,26 @@ public class ExpeditionExceptionHandler {
 
     @ExceptionHandler({ExpeditionNotFoundException.class, ParticipantNotFoundException.class})
     public ResponseEntity<?> handleNotFoundException(Exception e){
+        log.error("Handle not found exception");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler({UserNotParticipantException.class})
     public ResponseEntity<?> handleUserException(Exception e){
+        log.error("Handle not found user exception");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler({EditExpeditionException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleEditExpeditionException(Exception e){
+        log.error("Handle not found edit expedition");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler({ParticipantException.class})
+    public ResponseEntity<?> handleParticipantException(ParticipantException e){
+        log.error("Handle participant exception");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getError());
     }
 }

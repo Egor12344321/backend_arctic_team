@@ -5,10 +5,12 @@ import com.arctic.backend_for_arctic_team.auth.entity.User;
 import com.arctic.backend_for_arctic_team.auth.security.UserDetailsImpl;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.AddParticipantRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.CreateExpeditionRequest;
+import com.arctic.backend_for_arctic_team.expedition.model.dto.request.EditExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.UpdateExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ParticipantResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.UserExpeditionResponse;
+import com.arctic.backend_for_arctic_team.expedition.model.entity.Expedition;
 import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepository;
 import com.arctic.backend_for_arctic_team.expedition.service.ChartsService;
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
@@ -68,12 +70,14 @@ public class ExpeditionController {
 //    }
 
     @DeleteMapping("/{expeditionId}")
+    @PreAuthorize("hasRole('LEADER')")
     public ResponseEntity<Void> deleteExpedition(
             @PathVariable Long expeditionId,
             @AuthenticationPrincipal User currentUser) {
 
-        log.info("Leader {} deleting expedition {}", currentUser.getId(), expeditionId);
+        log.debug("Leader {} deleting expedition {} STARTED", currentUser.getId(), expeditionId);
         expeditionService.deleteExpeditionById(expeditionId);
+        log.debug("Leader {} deleting expedition {} ENDED", currentUser.getId(), expeditionId);
         return ResponseEntity.noContent().build();
     }
 
@@ -83,7 +87,7 @@ public class ExpeditionController {
             @PathVariable Long expeditionId,
             @AuthenticationPrincipal User currentUser) {
 
-        log.info("Leader {} viewing participants of expedition {}",
+        log.debug("Leader {} VIEWING participants of expedition {}",
                 currentUser.getId(), expeditionId);
         List<ParticipantResponse> participants = participantService.getExpeditionParticipants(
                 expeditionId);
@@ -97,10 +101,12 @@ public class ExpeditionController {
             @Valid @RequestBody AddParticipantRequest request,
             @AuthenticationPrincipal User currentUser) {
 
-        log.info("Leader {} adding participant {} to expedition {}",
+        log.debug("Leader {} ADDING participant {} to expedition {} STARTED",
                 currentUser.getId(), request.individualNumber(), expeditionId);
         ParticipantResponse participant = participantService.addParticipant(
                 expeditionId, request);
+        log.debug("Leader {} ADDING participant {} to expedition {} ENDED",
+                currentUser.getId(), request.individualNumber(), expeditionId);
         return ResponseEntity.status(HttpStatus.CREATED).body(participant);
     }
 
@@ -111,9 +117,11 @@ public class ExpeditionController {
             @PathVariable Long participantId,
             @AuthenticationPrincipal User currentUser) {
 
-        log.info("Leader {} removing participant {} from expedition {}",
+        log.debug("Leader {} removing participant {} from expedition {} STARTED",
                 currentUser.getId(), participantId, expeditionId);
         participantService.removeParticipant(expeditionId, participantId);
+        log.debug("Leader {} removing participant {} from expedition {} ENDED",
+                currentUser.getId(), participantId, expeditionId);
         return ResponseEntity.noContent().build();
     }
 
@@ -144,5 +152,16 @@ public class ExpeditionController {
                 participantId, expeditionId, currentUser);
 
         return ResponseEntity.ok(charts);
+    }
+
+    @PutMapping("/{expeditionId}")
+    @PreAuthorize("hasRole('LEADER')")
+    public ResponseEntity<?> editExpedition(@PathVariable Long expeditionId, @AuthenticationPrincipal User currentUser,
+                                            @RequestBody @Valid EditExpeditionRequest request){
+        log.debug("EXPEDITION-CONTROLLER: Started editing expedition");
+        if (!expeditionService.isLeaderOfExpedition(expeditionId, currentUser.getId())) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Пользователь не является лидером данной экспедиции");
+        Expedition expedition = expeditionService.editExpedition(expeditionId, request);
+        log.debug("EXPEDITION-CONTROLLER: Ended editing expedition");
+        return ResponseEntity.ok(ExpeditionResponse.mapFromEntityToResponse(expedition));
     }
 }

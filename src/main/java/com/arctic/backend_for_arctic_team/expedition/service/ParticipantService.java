@@ -4,6 +4,7 @@ package com.arctic.backend_for_arctic_team.expedition.service;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
 import com.arctic.backend_for_arctic_team.auth.repository.UserRepository;
 import com.arctic.backend_for_arctic_team.expedition.exceptions.ExpeditionNotFoundException;
+import com.arctic.backend_for_arctic_team.expedition.exceptions.ParticipantException;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.AddParticipantRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ParticipantResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.UserResponse;
@@ -48,9 +49,15 @@ public class ParticipantService {
 
         Expedition expedition = expeditionRepository.findById(expeditionId)
                 .orElseThrow(() -> new ExpeditionNotFoundException("Экспедиция с таким id: " + expeditionId + " не найдена"));
+
         log.info("PARTICIPANT-SERVICE: Expedition fount");
         User user = userRepository.findByIndividualNumber(request.individualNumber())
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь с таким индивидуальным номером не найден"));
+        if (checkUserInExpedition(user.getId(), expeditionId)){
+            throw new ParticipantException(ParticipantException.ParticipantError.ALREADY_EXISTS, "Пользователь " + user.getId() + "уже участник данной экспедиции " + expeditionId);
+        }
+
+
         log.info("PARTICIPANT-SERVICE: User fount");
         Participant participant = Participant.builder()
                 .user(user)
@@ -60,6 +67,10 @@ public class ParticipantService {
         log.info("PARTICIPANT-SERVICE: Participant saved");
         return ParticipantResponse.mapFromEntityToResponse(participant);
 
+    }
+
+    private boolean checkUserInExpedition(Long id, Long expeditionId){
+        return participantRepository.existsByUserIdAndExpeditionId(id, expeditionId);
     }
 
     public void removeParticipant(Long expeditionId, Long participantId) {

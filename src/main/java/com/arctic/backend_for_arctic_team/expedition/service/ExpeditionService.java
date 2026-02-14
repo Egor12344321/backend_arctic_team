@@ -1,16 +1,14 @@
 package com.arctic.backend_for_arctic_team.expedition.service;
 
 
-import com.arctic.backend_for_arctic_team.auth.custom_exceptions.UserNotFoundException;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
-import com.arctic.backend_for_arctic_team.auth.repository.UserRepository;
-import com.arctic.backend_for_arctic_team.auth.security.UserDetailsImpl;
+import com.arctic.backend_for_arctic_team.expedition.exceptions.EditExpeditionException;
+import com.arctic.backend_for_arctic_team.expedition.exceptions.ExpeditionNotFoundException;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.CreateExpeditionRequest;
-import com.arctic.backend_for_arctic_team.expedition.model.dto.request.UpdateExpeditionRequest;
+import com.arctic.backend_for_arctic_team.expedition.model.dto.request.EditExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.UserExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.entity.Expedition;
-import com.arctic.backend_for_arctic_team.expedition.model.entity.Participant;
 import com.arctic.backend_for_arctic_team.expedition.repository.ExpeditionRepository;
 import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepository;
 import jakarta.validation.Valid;
@@ -19,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,6 +27,7 @@ public class ExpeditionService {
     private final ParticipantRepository participantRepository;
 
     public ExpeditionResponse createExpedition(@Valid CreateExpeditionRequest request, User currentUser) {
+
         Expedition expedition = mapperService.mapFromRequestToEntity(request, currentUser);
         expeditionRepository.save(expedition);
         log.info("Expedition saved successfully");
@@ -53,8 +51,45 @@ public class ExpeditionService {
         );
     }
 
-    public String deleteExpeditionById(Long id){
+    public void deleteExpeditionById(Long id){
         expeditionRepository.deleteById(id);
-        return "Экспедиция удалена";
+    }
+
+    public Expedition editExpedition(Long expeditionId, EditExpeditionRequest request) {
+        Expedition expedition = expeditionRepository.findById(expeditionId)
+                .orElseThrow(() -> new ExpeditionNotFoundException("Данной экспедиции уже не существует"));
+        if (request.name() != null){
+            expedition.setName(request.name());
+        }
+        if (request.description() != null){
+            expedition.setDescription(request.description());
+        }
+        if (request.endDate() != null && request.startDate() != null){
+            if (request.endDate().isAfter(request.startDate())) {
+                expedition.setStartDate(request.startDate());
+                expedition.setEndDate(request.endDate());
+            } else {
+                throw new EditExpeditionException("Дата начала экспедиции должна быть позже даты окончания");
+            }
+        } else if (request.endDate() != null){
+            if (request.endDate().isAfter(expedition.getStartDate())) {
+                expedition.setEndDate(request.endDate());
+            } else {
+                throw new EditExpeditionException("Дата начала экспедиции должна быть позже даты окончания");
+            }
+        } else if (request.startDate() != null){
+            if (request.startDate().isBefore(expedition.getEndDate())) {
+                expedition.setStartDate(request.startDate());
+            } else {
+                throw new EditExpeditionException("Дата начала экспедиции должна быть позже даты окончания");
+            }
+        }
+        return expeditionRepository.save(expedition);
+    }
+
+    public boolean isLeaderOfExpedition(Long expeditionId, Long userId){
+        Expedition expedition = expeditionRepository.findById(expeditionId)
+                .orElseThrow(() -> new ExpeditionNotFoundException("Данной экспедиции не существует"));
+        return expedition.getLeader().getId().equals(userId);
     }
 }
