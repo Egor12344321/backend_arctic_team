@@ -16,8 +16,8 @@ public record ExpeditionResponse(
         LocalDateTime createdAt,
         String leaderLastName,
         String leaderFirstName,
-        String leaderEmail
-
+        String leaderEmail,
+        String description
 ) {
     public static ExpeditionResponse mapFromEntityToResponse(Expedition expedition){
         return new ExpeditionResponse(
@@ -29,7 +29,8 @@ public record ExpeditionResponse(
                 expedition.getCreatedAt(),
                 expedition.getLeader().getLastName(),
                 expedition.getLeader().getFirstName(),
-                expedition.getLeader().getEmail()
+                expedition.getLeader().getEmail(),
+                expedition.getDescription()
         );
     }
     public static ExpeditionResponse forLeader(Expedition expedition) {
@@ -42,7 +43,8 @@ public record ExpeditionResponse(
                 expedition.getCreatedAt(),
                 expedition.getLeader().getLastName(),
                 expedition.getLeader().getFirstName(),
-                expedition.getLeader().getEmail()
+                expedition.getLeader().getEmail(),
+                expedition.getDescription()
         );
     }
 
@@ -56,7 +58,8 @@ public record ExpeditionResponse(
                 expedition.getCreatedAt(),
                 expedition.getLeader().getLastName(),
                 expedition.getLeader().getFirstName(),
-                expedition.getLeader().getEmail()
+                expedition.getLeader().getEmail(),
+                expedition.getDescription()
         );
     }
 }
