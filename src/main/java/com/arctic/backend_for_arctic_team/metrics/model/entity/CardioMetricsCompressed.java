@@ -1,6 +1,5 @@
 package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
-import com.arctic.backend_for_arctic_team.auth.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,12 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "cardio_metrics")
+@Table(name = "cardio_metrics_compressed")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardioMetrics {
+public class CardioMetricsCompressed {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

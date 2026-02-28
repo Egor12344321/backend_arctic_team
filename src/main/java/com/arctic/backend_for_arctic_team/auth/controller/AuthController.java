@@ -8,6 +8,8 @@ import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.Registe
 import com.arctic.backend_for_arctic_team.auth.custom_exceptions.RefreshNotFoundException;
 import com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.util.CookieUtil;
 import com.arctic.backend_for_arctic_team.auth.service_interface.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +23,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
 @Slf4j
+@Tag(name = "Процесс аутентификации")
 public class AuthController {
     private final AuthService authService;
     private final CookieUtil cookieUtil;
 
     @PostMapping("/register")
+    @Operation(summary = "Регистрация пользователя")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request){
         log.debug("CONTROLLER: Started registration for user: {}", request.email());
         RegisterResponse response = authService.register(request);
@@ -34,6 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Вход систему")
     public ResponseEntity<LoginResponseWithoutRefresh> login(@Valid @RequestBody LoginRequest request){
         log.debug("CONTROLLER: Started login for user: {}", request.email());
         LoginResponse response = authService.login(request);
@@ -44,6 +49,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
+    @Operation(summary = "Обновление токенов")
     public ResponseEntity<UpdateTokensWithoutRefresh> refresh(@CookieValue(value = "refresh", required = false) String refreshToken){
         log.debug("CONTROLLER: Updating tokens started");
         if (refreshToken == null || refreshToken.isEmpty()) {
@@ -63,6 +69,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
+    @Operation(summary = "Выход из системы")
     public ResponseEntity<?> logout(@CookieValue(name = "refresh") String refreshToken, @RequestHeader(name = "Authorization") String accessWithBearer){
         log.debug("CONTROLLER: Started logout");
         String accessToken = accessWithBearer.substring(7);

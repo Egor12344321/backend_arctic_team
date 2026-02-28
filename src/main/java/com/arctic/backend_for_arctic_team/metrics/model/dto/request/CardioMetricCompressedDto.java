@@ -1,10 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.CardioMetrics;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record CardioMetricDto(
+public record CardioMetricCompressedDto(
         String individualNumber,
         Long timestamp,
         String expeditionId,
@@ -17,7 +15,7 @@ public record CardioMetricDto(
         Integer skinContact,
         Double stressIndex
 ) {
-    public static CardioMetrics mapToCardioEntity(CardioMetricDto dto) {
+    public static CardioMetrics mapToCardioEntity(CardioMetricCompressedDto dto) {
         return CardioMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())

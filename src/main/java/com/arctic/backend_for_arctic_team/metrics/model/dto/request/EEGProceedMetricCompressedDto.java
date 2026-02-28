@@ -1,8 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
-import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGRawMetrics;
+import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGProceedMetrics;
 
-public record EEGRawMetricDto(
+public record EEGProceedMetricCompressedDto(
         String individualNumber,
         String expeditionId,
         Long timestamp,
@@ -10,11 +10,11 @@ public record EEGRawMetricDto(
         Float channel1,
         Float channel2
 ) {
-    public static EEGRawMetrics mapFromRequestToEntity(EEGRawMetricDto request){
-        return EEGRawMetrics.builder()
+    public static EEGProceedMetrics mapFromRequestToEntity(EEGProceedMetricCompressedDto request){
+        return EEGProceedMetrics.builder()
+                .expeditionId(request.expeditionId)
                 .channel1(request.channel1())
                 .channel2(request.channel2())
-                .expeditionId(request.expeditionId)
                 .individualNumber(request.individualNumber())
                 .session(request.session())
                 .timestamp(request.timestamp())

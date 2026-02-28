@@ -1,18 +1,20 @@
 package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "physiological_metrics")
-@Builder
+import jakarta.persistence.*;
+import lombok.*;
+
+import javax.print.Doc;
+
+@Table(name = "productivity_baseline")
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhysiologicalMetrics {
+@Builder
+@Entity
+@Getter
+@Setter
+public class ProductivityBaseline {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -28,27 +30,23 @@ public class PhysiologicalMetrics {
     @Column(name = "session")
     private Integer session;
 
-    @Column(name = "relax")
-    private Double relax;
+    @Column(name = "gravity")
+    private Double gravity;
+
+    @Column(name = "productivity")
+    private Double productivity;
 
     @Column(name = "fatigue")
     private Double fatigue;
 
-    @Column(name = "none")
-    private Double none;
+    @Column(name = "reverse_fatigue")
+    private Double reverseFatigue;
+
+    @Column(name = "relaxation")
+    private Double relaxation;
 
     @Column(name = "concentration")
     private Double concentration;
-
-    @Column(name = "involvement")
-    private Double involvement;
-
-    @Column(name = "stress")
-    private Double stress;
-
-    @Column(name = "nfb_artifacts")
-    private Integer nfbArtifacts;
-
-    @Column(name = "cardio_artifacts")
-    private Integer cardioArtifacts;
 }
+
+

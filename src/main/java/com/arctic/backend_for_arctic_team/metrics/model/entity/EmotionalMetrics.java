@@ -1,11 +1,15 @@
 package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "emotional_metrics")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmotionalMetrics {
     @Id
     @Column(name = "id")
@@ -13,7 +17,7 @@ public class EmotionalMetrics {
     private Long id;
 
     @Column(name = "expedition_id")
-    private Long expeditionId;
+    private String expeditionId;
 
     @Column(name = "individual_number")
     private String individualNumber;

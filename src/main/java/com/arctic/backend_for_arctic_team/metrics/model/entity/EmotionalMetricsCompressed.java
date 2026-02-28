@@ -6,11 +6,11 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "physiological_metrics")
+@Table(name = "emotional_metrics_compressed")
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class PhysiologicalMetrics {
+@AllArgsConstructor
+public class EmotionalMetricsCompressed {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,27 +28,19 @@ public class PhysiologicalMetrics {
     @Column(name = "session")
     private Integer session;
 
-    @Column(name = "relax")
-    private Double relax;
+    @Column(name = "attention")
+    private Double attention;
 
-    @Column(name = "fatigue")
-    private Double fatigue;
+    @Column(name = "relaxation")
+    private Double relaxation;
 
-    @Column(name = "none")
-    private Double none;
+    @Column(name = "cognitiveLoad")
+    private Double cognitiveLoad;
 
-    @Column(name = "concentration")
-    private Double concentration;
+    @Column(name = "cognitiveControl")
+    private Double cognitiveControl;
 
-    @Column(name = "involvement")
-    private Double involvement;
+    @Column(name = "selfControl")
+    private Double selfControl;
 
-    @Column(name = "stress")
-    private Double stress;
-
-    @Column(name = "nfb_artifacts")
-    private Integer nfbArtifacts;
-
-    @Column(name = "cardio_artifacts")
-    private Integer cardioArtifacts;
 }

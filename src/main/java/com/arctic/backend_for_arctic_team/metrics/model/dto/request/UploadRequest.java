@@ -13,5 +13,15 @@ public record UploadRequest(
         @Valid List<ProductivityMetricDto> productivityMetrics,
         List<EEGArtifactsMetricDto> EEGArtifactsMetrics,
         List<EEGProceedMetricDto> EEGProceedMetrics,
-        List<EEGRawMetricDto> EEGRawMetrics
+        List<EEGRawMetricDto> EEGRawMetrics,
+        @Valid List<CardioMetricCompressedDto> cardioMetricsCompressed,
+        @Valid List<EmotionalMetricCompressedDto> emotionalMetricsCompressed,
+        @Valid List<MemsMetricCompressedDto> memsMetricsCompressed,
+        @Valid List<NfbMetricCompressedDto> nfbMetricsCompressed,
+        @Valid List<PhysiologicalMetricCompressedDto> physiologicalMetricsCompressed,
+        @Valid List<ProductivityMetricCompressedDto> productivityMetricsCompressed,
+        List<EEGArtifactsMetricCompressedDto> EEGArtifactsMetricsCompressed,
+        List<EEGProceedMetricCompressedDto> EEGProceedMetricsCompressed,
+        List<EEGRawMetricCompressedDto> EEGRawMetricsCompressed
+
 ) {}

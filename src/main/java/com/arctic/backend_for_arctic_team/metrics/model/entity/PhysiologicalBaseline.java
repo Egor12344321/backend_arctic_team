@@ -1,23 +1,14 @@
 package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "nfb_metrics")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class NfbMetrics {
+import jakarta.persistence.*;
+
+@Table(name = "physiological_baseline")
+public class PhysiologicalBaseline {
+
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "expedition_id")
-    private String expeditionId;
 
     @Column(name = "individual_number")
     private String individualNumber;
@@ -25,8 +16,12 @@ public class NfbMetrics {
     @Column(name = "timestamp")
     private Long timestamp;
 
+    @Column(name = "expedition_id")
+    private String expeditionId;
+
     @Column(name = "session")
     private Integer session;
+
 
     @Column(name = "alpha")
     private Double alpha;
@@ -34,13 +29,12 @@ public class NfbMetrics {
     @Column(name = "beta")
     private Double beta;
 
-    @Column(name = "theta")
-    private Double theta;
+    @Column(name = "alpha_gravity")
+    private Double alphaGravity;
 
-    @Column(name = "delta")
-    private Double delta;
+    @Column(name = "beta_gravity")
+    private Double betaGravity;
 
-    @Column(name = "smr")
-    private Double smr;
-
+    @Column(name = "concentration")
+    private Double concentration;
 }

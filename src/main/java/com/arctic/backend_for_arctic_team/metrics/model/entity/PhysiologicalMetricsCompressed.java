@@ -6,11 +6,11 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "physiological_metrics")
+@Table(name = "physiological_metrics_compressed")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhysiologicalMetrics {
+public class PhysiologicalMetricsCompressed {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

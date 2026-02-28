@@ -1,10 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.MemsMetrics;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record MemsMetricDto(
+public record MemsMetricCompressedDto(
         String individualNumber,
         String expeditionId,
         Long timestamp,
@@ -16,7 +14,7 @@ public record MemsMetricDto(
         Double gyroscopeY,
         Double gyroscopeZ
 ) {
-    public static MemsMetrics mapToMemsEntity(MemsMetricDto dto) {
+    public static MemsMetrics mapToMemsEntity(MemsMetricCompressedDto dto) {
         return MemsMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())

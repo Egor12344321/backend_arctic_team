@@ -1,10 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.NfbMetrics;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record NfbMetricDto(
+public record NfbMetricCompressedDto(
         String individualNumber,
         String expeditionId,
         Long timestamp,
@@ -15,7 +13,7 @@ public record NfbMetricDto(
         Double delta,
         Double smr
 ) {
-    public static NfbMetrics mapToNfbEntity(NfbMetricDto dto) {
+    public static NfbMetrics mapToNfbEntity(NfbMetricCompressedDto dto) {
         return NfbMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())

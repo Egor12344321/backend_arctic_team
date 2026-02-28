@@ -4,6 +4,7 @@ import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGProceedMetrics
 
 public record EEGProceedMetricDto(
         String individualNumber,
+        String expeditionId,
         Long timestamp,
         Integer session,
         Float channel1,
@@ -11,6 +12,7 @@ public record EEGProceedMetricDto(
 ) {
     public static EEGProceedMetrics mapFromRequestToEntity(EEGProceedMetricDto request){
         return EEGProceedMetrics.builder()
+                .expeditionId(request.expeditionId)
                 .channel1(request.channel1())
                 .channel2(request.channel2())
                 .individualNumber(request.individualNumber())

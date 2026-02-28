@@ -2,7 +2,7 @@ package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGRawMetrics;
 
-public record EEGRawMetricDto(
+public record EEGRawMetricCompressedDto(
         String individualNumber,
         String expeditionId,
         Long timestamp,
@@ -10,7 +10,7 @@ public record EEGRawMetricDto(
         Float channel1,
         Float channel2
 ) {
-    public static EEGRawMetrics mapFromRequestToEntity(EEGRawMetricDto request){
+    public static EEGRawMetrics mapFromRequestToEntity(EEGRawMetricCompressedDto request){
         return EEGRawMetrics.builder()
                 .channel1(request.channel1())
                 .channel2(request.channel2())

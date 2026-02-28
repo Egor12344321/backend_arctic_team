@@ -15,6 +15,7 @@ import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepos
 import com.arctic.backend_for_arctic_team.expedition.service.ChartsService;
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
 import com.arctic.backend_for_arctic_team.expedition.service.ParticipantService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ public class ExpeditionController {
 
     @PostMapping
     @PreAuthorize("hasRole('LEADER')")
+    @Operation(summary = "Создание экспедиции")
     public ResponseEntity<ExpeditionResponse> createExpedition(
             @Valid @RequestBody CreateExpeditionRequest request,
             @AuthenticationPrincipal User currentUser) {
@@ -50,6 +52,7 @@ public class ExpeditionController {
 
     @GetMapping("/my")
     @PreAuthorize("hasAnyRole('USER', 'LEADER', 'ADMIN')")
+    @Operation(summary = "Получить собственные экспедиции")
     public ResponseEntity<UserExpeditionResponse> getMyExpeditions(
             @AuthenticationPrincipal User currentUser) {
 
@@ -71,6 +74,7 @@ public class ExpeditionController {
 
     @DeleteMapping("/{expeditionId}")
     @PreAuthorize("hasRole('LEADER')")
+    @Operation(summary = "Удалить экспедицию по id")
     public ResponseEntity<Void> deleteExpedition(
             @PathVariable Long expeditionId,
             @AuthenticationPrincipal User currentUser) {
@@ -83,6 +87,7 @@ public class ExpeditionController {
 
     @PreAuthorize("hasRole('LEADER')")
     @GetMapping("/{expeditionId}/participants")
+    @Operation(summary = "Получить участников экспедиции по id")
     public ResponseEntity<List<ParticipantResponse>> getExpeditionParticipants(
             @PathVariable Long expeditionId,
             @AuthenticationPrincipal User currentUser) {
@@ -96,6 +101,7 @@ public class ExpeditionController {
 
     @PostMapping("/{expeditionId}/participants")
     @PreAuthorize("hasRole('LEADER')")
+    @Operation(summary = "Добавить нового участника экспедиции по индивидуальному номеру")
     public ResponseEntity<ParticipantResponse> addParticipant(
             @PathVariable Long expeditionId,
             @Valid @RequestBody AddParticipantRequest request,
@@ -112,6 +118,7 @@ public class ExpeditionController {
 
     @DeleteMapping("/{expeditionId}/participants/{participantId}")
     @PreAuthorize("hasRole('LEADER')")
+    @Operation(summary = "Удалить участника экспедиции")
     public ResponseEntity<Void> removeParticipant(
             @PathVariable Long expeditionId,
             @PathVariable Long participantId,
@@ -127,6 +134,7 @@ public class ExpeditionController {
 
     @GetMapping("/{expeditionId}/charts/my")
     @PreAuthorize("hasRole('USER')")
+    @Operation(summary = "Получить собственные графики по определенной экспедиции")
     public ResponseEntity<?> getParticipantCharts(
             @PathVariable Long expeditionId, @AuthenticationPrincipal User user){
         String individualNumber = user.getIndividualNumber();
@@ -140,6 +148,7 @@ public class ExpeditionController {
 
     @GetMapping("/{expeditionId}/participants/{participantId}/charts")
     @PreAuthorize("hasRole('LEADER')")
+    @Operation(summary = "Получить графики пользователя по id по определенной экспедиции")
     public ResponseEntity<?> getParticipantCharts(
             @PathVariable Long expeditionId,
             @PathVariable Long participantId,
@@ -156,6 +165,7 @@ public class ExpeditionController {
 
     @PutMapping("/{expeditionId}")
     @PreAuthorize("hasRole('LEADER')")
+    @Operation(summary = "Редактирование экспедиции")
     public ResponseEntity<?> editExpedition(@PathVariable Long expeditionId, @AuthenticationPrincipal User currentUser,
                                             @RequestBody @Valid EditExpeditionRequest request){
         log.debug("EXPEDITION-CONTROLLER: Started editing expedition");

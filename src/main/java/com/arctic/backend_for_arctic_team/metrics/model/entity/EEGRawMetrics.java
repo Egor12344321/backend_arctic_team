@@ -2,18 +2,22 @@ package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "eeg_raw_metrics")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class EEGRawMetrics {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "expedition_id")
-    private Long expeditionId;
+    private String expeditionId;
 
     @Column(name = "channel_1")
     private Float channel1;

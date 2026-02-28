@@ -17,7 +17,7 @@ public class EEGProceedMetrics {
     private Long id;
 
     @Column(name = "expedition_id")
-    private Long expeditionId;
+    private String expeditionId;
 
     @Column(name = "channel_1")
     private Float channel1;

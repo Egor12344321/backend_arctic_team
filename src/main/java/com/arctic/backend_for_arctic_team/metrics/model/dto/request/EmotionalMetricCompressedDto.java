@@ -1,10 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.EmotionalMetrics;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record EmotionalMetricDto(
+public record EmotionalMetricCompressedDto(
         String individualNumber,
         String expeditionId,
         Long timestamp,
@@ -15,7 +13,7 @@ public record EmotionalMetricDto(
         Double cognitiveControl,
         Double selfControl
 ) {
-    public static EmotionalMetrics mapToEmotionalEntity(EmotionalMetricDto dto) {
+    public static EmotionalMetrics mapToEmotionalEntity(EmotionalMetricCompressedDto dto) {
         return EmotionalMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())

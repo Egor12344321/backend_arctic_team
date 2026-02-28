@@ -1,10 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.PhysiologicalMetrics;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record PhysiologicalMetricDto(
+public record PhysiologicalMetricCompressedDto(
         String individualNumber,
         Long timestamp,
         String expeditionId,
@@ -18,7 +16,7 @@ public record PhysiologicalMetricDto(
         Integer nfbArtifacts,
         Integer cardioArtifacts
 ) {
-    public static PhysiologicalMetrics mapToPhysiologicalEntity(PhysiologicalMetricDto dto) {
+    public static PhysiologicalMetrics mapToPhysiologicalEntity(PhysiologicalMetricCompressedDto dto) {
         return PhysiologicalMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())

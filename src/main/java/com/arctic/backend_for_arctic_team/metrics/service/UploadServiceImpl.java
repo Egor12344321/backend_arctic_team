@@ -50,8 +50,7 @@ public class UploadServiceImpl implements UploadService{
         }
     }
 
-    @Transactional
-    private <T, D> void uploadBatch(List<D> dtos, JpaRepository<T, Long> repository, Function<D, T> mapper){
+    protected <T, D> void uploadBatch(List<D> dtos, JpaRepository<T, Long> repository, Function<D, T> mapper){
         if (dtos == null || dtos.isEmpty()) return;
 
         List<T> entities = dtos.stream()

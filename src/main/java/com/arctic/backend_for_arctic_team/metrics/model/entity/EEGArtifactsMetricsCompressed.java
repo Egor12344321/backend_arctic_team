@@ -9,9 +9,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "eeg_artifacts_metrics")
+@Table(name = "eeg_artifacts_metrics_compressed")
 @Builder
-public class EEGArtifactsMetrics {
+public class EEGArtifactsMetricsCompressed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

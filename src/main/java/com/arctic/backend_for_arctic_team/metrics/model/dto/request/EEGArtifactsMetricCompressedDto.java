@@ -2,7 +2,7 @@ package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGArtifactsMetrics;
 
-public record EEGArtifactsMetricDto(
+public record EEGArtifactsMetricCompressedDto(
         String individualNumber,
         String expeditionId,
         Long timestamp,
@@ -12,7 +12,7 @@ public record EEGArtifactsMetricDto(
         Integer qualityChannel1,
         Integer qualityChannel2
 ) {
-    public static EEGArtifactsMetrics mapFromRequestToEntity(EEGArtifactsMetricDto request){
+    public static EEGArtifactsMetrics mapFromRequestToEntity(EEGArtifactsMetricCompressedDto request){
         return EEGArtifactsMetrics.builder()
                 .artifactsChannel1(request.artifactsChannel1())
                 .artifactsChannel2(request.artifactsChannel2())

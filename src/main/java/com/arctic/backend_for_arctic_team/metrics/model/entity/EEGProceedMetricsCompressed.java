@@ -5,14 +5,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "eeg_proceed_metrics_compressed")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "eeg_artifacts_metrics")
 @Builder
-public class EEGArtifactsMetrics {
-
+public class EEGProceedMetricsCompressed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,17 +19,11 @@ public class EEGArtifactsMetrics {
     @Column(name = "expedition_id")
     private String expeditionId;
 
-    @Column(name = "artifacts_channel_1")
-    private Integer artifactsChannel1;
+    @Column(name = "channel_1")
+    private Float channel1;
 
-    @Column(name = "artifacts_channel_2")
-    private Integer artifactsChannel2;
-
-    @Column(name = "quality_channel_1")
-    private Integer qualityChannel1;
-
-    @Column(name = "quality_channel_2")
-    private Integer qualityChannel2;
+    @Column(name = "channel_2")
+    private Float channel2;
 
     @Column(name = "individual_number")
     private String individualNumber;

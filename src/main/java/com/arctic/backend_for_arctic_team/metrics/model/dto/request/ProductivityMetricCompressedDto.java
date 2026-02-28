@@ -1,10 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.ProductivityMetrics;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-public record ProductivityMetricDto(
+public record ProductivityMetricCompressedDto(
         String individualNumber,
         Long timestamp,
         String expeditionId,
@@ -16,7 +14,7 @@ public record ProductivityMetricDto(
         Double relaxation,
         Double concentration
 ) {
-    public static ProductivityMetrics mapToProductivityEntity(ProductivityMetricDto dto) {
+    public static ProductivityMetrics mapToProductivityEntity(ProductivityMetricCompressedDto dto) {
         return ProductivityMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
