@@ -1,6 +1,7 @@
 package com.arctic.backend_for_arctic_team.expedition.components;
 
 
+import com.arctic.backend_for_arctic_team.auth.entity.User;
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,16 +17,32 @@ public class ExpeditionSecurity {
 
     // проверка является ли пользователь реальным лидером экпедиции, а не просто пользователь с ролью экспедиции
     public boolean isLeaderOfExpedition(Authentication authentication, Long expeditionId) {
-        Long leaderId = getCurrentUserId(authentication);
-        return expeditionService.isLeaderOfExpedition(leaderId, expeditionId);
+        log.info("AUTHENTICATION: {}, {}", authentication, authentication.getName());
+        Long leaderId = getCurrentUser(authentication).getId();
+        log.info("ПРОВЕРКААААА: {}", expeditionService.isLeaderOfExpedition(leaderId, expeditionId));
+        return expeditionService.isLeaderOfExpedition(expeditionId, leaderId);
     }
 
     // проверка является ли пользователь участником экспедиции
     public boolean isParticipantOfExpedition(Authentication authentication, Long expeditionId){
-        Long userId = getCurrentUserId(authentication);
-        return expeditionService.isParticipantOfExpedition(userId, expeditionId);
+        Long userId = getCurrentUser(authentication).getId();
+        log.info("AUTHENTICATION: {}, {}", authentication, authentication.getName());
+        log.info("ПРОВЕРКААААА: {}", expeditionService.isParticipantOfExpedition(userId, expeditionId));
+
+        return expeditionService.isParticipantOfExpedition(expeditionId, userId);
     }
-    private Long getCurrentUserId(Authentication authentication) {
-        return Long.valueOf(authentication.getName());
+
+    private User getCurrentUser(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        }
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof User) {
+            return (User) principal;
+        }
+
+        log.error("Principal is not User object");
+        return null;
     }
 }

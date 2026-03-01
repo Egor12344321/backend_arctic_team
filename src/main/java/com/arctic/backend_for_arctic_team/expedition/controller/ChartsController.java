@@ -33,7 +33,7 @@ public class ChartsController {
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId)")
     @Operation(summary = "Получить графики участника экспедиции")
     public ResponseEntity<Map<String, Object>> getParticipantCharts(
-            @PathVariable Long expeditionId,
+            @PathVariable("expeditionId") Long expeditionId,
             @RequestParam @NotBlank String indNum,
             @RequestParam(required = false) String type) {
 
@@ -47,7 +47,7 @@ public class ChartsController {
     @PreAuthorize("@expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
     @Operation(summary = "Получить ВСЕ графики всех участников")
     public ResponseEntity<Map<String, Map<String, Object>>> getAllExpeditionCharts(
-            @PathVariable Long expeditionId) {
+            @PathVariable("expeditionId") Long expeditionId) {
 
         Map<String, Map<String, Object>> allCharts = chartsService.getAllExpeditionCharts(expeditionId);
         return ResponseEntity.ok(allCharts);

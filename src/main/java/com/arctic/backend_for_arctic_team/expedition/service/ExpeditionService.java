@@ -88,12 +88,13 @@ public class ExpeditionService {
     }
 
     public boolean isLeaderOfExpedition(Long expeditionId, Long userId) {
+        log.info("ПРОВЕРКАААА ID: {} = {}", userId, expeditionRepository.findLeaderIdByExpeditionId(expeditionId));
         return expeditionRepository.findLeaderIdByExpeditionId(expeditionId)
                 .map(leaderId -> leaderId.equals(userId))
                 .orElse(false);
     }
 
-    public boolean isParticipantOfExpedition(Long userId, Long expeditionId) {
+    public boolean isParticipantOfExpedition(Long expeditionId, Long userId) {
         return participantRepository.existsByExpeditionIdAndUserId(expeditionId, userId);
     }
 }

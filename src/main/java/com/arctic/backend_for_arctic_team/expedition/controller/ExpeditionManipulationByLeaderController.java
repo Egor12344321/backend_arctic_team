@@ -36,10 +36,9 @@ public class ExpeditionManipulationByLeaderController {
 
     private final ExpeditionService expeditionService;
     private final ParticipantService participantService;
-    private final ChartsService chartsService;
 
     @PostMapping
-    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
+    @PreAuthorize("hasRole('LEADER')")
     @Operation(summary = "Создание экспедиции")
     public ResponseEntity<ExpeditionResponse> createExpedition(
             @Valid @RequestBody CreateExpeditionRequest request,
@@ -55,7 +54,7 @@ public class ExpeditionManipulationByLeaderController {
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
     @Operation(summary = "Удалить экспедицию по id")
     public ResponseEntity<Void> deleteExpedition(
-            @PathVariable Long expeditionId,
+            @PathVariable("expeditionId") Long expeditionId,
             @AuthenticationPrincipal User currentUser) {
 
         log.debug("Leader {} deleting expedition {} STARTED", currentUser.getId(), expeditionId);
@@ -68,7 +67,7 @@ public class ExpeditionManipulationByLeaderController {
     @GetMapping("/{expeditionId}/participants")
     @Operation(summary = "Получить участников экспедиции по id")
     public ResponseEntity<List<ParticipantResponse>> getExpeditionParticipants(
-            @PathVariable Long expeditionId,
+            @PathVariable("expeditionId") Long expeditionId,
             @AuthenticationPrincipal User currentUser) {
 
         log.debug("Leader {} VIEWING participants of expedition {}",
@@ -82,7 +81,7 @@ public class ExpeditionManipulationByLeaderController {
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
     @Operation(summary = "Добавить нового участника экспедиции по индивидуальному номеру")
     public ResponseEntity<ParticipantResponse> addParticipant(
-            @PathVariable Long expeditionId,
+            @PathVariable("expeditionId") Long expeditionId,
             @Valid @RequestBody AddParticipantRequest request,
             @AuthenticationPrincipal User currentUser) {
 
@@ -100,7 +99,7 @@ public class ExpeditionManipulationByLeaderController {
     @Operation(summary = "Удалить участника экспедиции")
     public ResponseEntity<Void> removeParticipant(
             @PathVariable Long expeditionId,
-            @PathVariable Long participantId,
+            @PathVariable("expeditionId") Long participantId,
             @AuthenticationPrincipal User currentUser) {
 
         log.debug("Leader {} removing participant {} from expedition {} STARTED",
@@ -114,7 +113,7 @@ public class ExpeditionManipulationByLeaderController {
     @PutMapping("/{expeditionId}")
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
     @Operation(summary = "Редактирование экспедиции")
-    public ResponseEntity<?> editExpedition(@PathVariable Long expeditionId, @AuthenticationPrincipal User currentUser,
+    public ResponseEntity<?> editExpedition(@PathVariable("expeditionId") Long expeditionId, @AuthenticationPrincipal User currentUser,
                                             @RequestBody @Valid EditExpeditionRequest request){
         log.debug("EXPEDITION-CONTROLLER: Started editing expedition");
         if (!expeditionService.isLeaderOfExpedition(expeditionId, currentUser.getId())) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Пользователь не является лидером данной экспедиции");

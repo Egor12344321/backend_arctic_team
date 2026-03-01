@@ -2,6 +2,7 @@ package com.arctic.backend_for_arctic_team.auth.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,6 +32,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "email", unique = true)
+    @NotNull
     private String email;
 
     @Column(name = "password_hash")
