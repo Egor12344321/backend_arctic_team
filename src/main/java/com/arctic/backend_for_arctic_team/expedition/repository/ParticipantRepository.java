@@ -24,5 +24,5 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
             "ORDER BY u.lastName, u.firstName")
     List<Participant> findByExpeditionIdWithUser(@Param("expeditionId") Long expeditionId);
 
-    boolean existsByUserIdAndExpeditionId(Long userId, Long expeditionId);
+    boolean existsByExpeditionIdAndUserId(Long expeditionId, Long userId);
 }

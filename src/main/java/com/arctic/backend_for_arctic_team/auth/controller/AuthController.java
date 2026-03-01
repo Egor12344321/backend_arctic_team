@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 @Slf4j
 @Tag(name = "Процесс аутентификации")
 public class AuthController {

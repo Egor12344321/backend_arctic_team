@@ -70,7 +70,7 @@ public class ParticipantService {
     }
 
     private boolean checkUserInExpedition(Long id, Long expeditionId){
-        return participantRepository.existsByUserIdAndExpeditionId(id, expeditionId);
+        return participantRepository.existsByExpeditionIdAndUserId(id, expeditionId);
     }
 
     public void removeParticipant(Long expeditionId, Long participantId) {

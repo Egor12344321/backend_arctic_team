@@ -7,22 +7,19 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/search")
+    @GetMapping("/by-individual-number/{individual-number}")
     @Operation(summary = "Получение пользователя по индвидуальному номеру")
-    public ResponseEntity<UserSearchResponse> findUserByIndividualNumber(@RequestParam String individualNumber){
+    public ResponseEntity<UserSearchResponse> findUserByIndividualNumber(@PathVariable("individual-number") String individualNumber){
         log.debug("USER-CONTROLLER: Starting searching user with individual number: {}", individualNumber);
         UserSearchResponse userSearchResponse = userService.searchUserByIndividualNumber(individualNumber);
         log.debug("USER-CONTROLLER: Ended searching user with individual number: {}", individualNumber);

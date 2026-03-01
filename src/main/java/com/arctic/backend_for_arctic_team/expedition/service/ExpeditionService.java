@@ -26,7 +26,7 @@ public class ExpeditionService {
     private final MapperService mapperService;
     private final ParticipantRepository participantRepository;
 
-    public ExpeditionResponse createExpedition(@Valid CreateExpeditionRequest request, User currentUser) {
+    public ExpeditionResponse createExpedition(CreateExpeditionRequest request, User currentUser) {
 
         Expedition expedition = mapperService.mapFromRequestToEntity(request, currentUser);
         expeditionRepository.save(expedition);
@@ -87,9 +87,13 @@ public class ExpeditionService {
         return expeditionRepository.save(expedition);
     }
 
-    public boolean isLeaderOfExpedition(Long expeditionId, Long userId){
-        Expedition expedition = expeditionRepository.findById(expeditionId)
-                .orElseThrow(() -> new ExpeditionNotFoundException("Данной экспедиции не существует"));
-        return expedition.getLeader().getId().equals(userId);
+    public boolean isLeaderOfExpedition(Long expeditionId, Long userId) {
+        return expeditionRepository.findLeaderIdByExpeditionId(expeditionId)
+                .map(leaderId -> leaderId.equals(userId))
+                .orElse(false);
+    }
+
+    public boolean isParticipantOfExpedition(Long userId, Long expeditionId) {
+        return participantRepository.existsByExpeditionIdAndUserId(expeditionId, userId);
     }
 }

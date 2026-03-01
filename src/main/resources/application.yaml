@@ -23,7 +23,7 @@ spring:
     properties:
       hibernate:
         jdbc:
-          batch_size: 100
+          batch_size: 1000
         order_inserts: true
         order_updates: true
   redis:
@@ -39,3 +39,6 @@ logging:
     com.arctic.backend_for_arctic_team: TRACE
     org.springframework.security: DEBUG
 
+charts:
+  service:
+    url: http://localhost:8000/api/charts

@@ -35,7 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String requestPath = request.getServletPath();
         String method = request.getMethod();
         log.debug("Filtering request: {} {}", method, requestPath);
-        if ((requestPath.startsWith("/api/auth/") ||  requestPath.startsWith("/api/metrics/upload")) && !requestPath.equals("/api/auth/logout")) {
+        if ((requestPath.startsWith("/api/v1/auth/") ||  requestPath.startsWith("/api/v1/metrics/upload")) && !requestPath.equals("/api/v1/auth/logout")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -55,7 +55,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
-            if (!requestPath.equals("/api/auth/refresh") && jwtUtil.isRefresh(jwt)) {
+            if (!requestPath.equals("/api/v1/auth/refresh") && jwtUtil.isRefresh(jwt)) {
                 log.info("Отправлен refresh token, instead of access");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;

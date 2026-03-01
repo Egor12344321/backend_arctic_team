@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,11 +21,10 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api/admin/users")
+@RequestMapping("/api/v1/admin/users")
 @RequiredArgsConstructor
 @Slf4j
 @PreAuthorize("hasRole('ADMIN')")
-
 public class AdminController {
     private final AdminService adminService;
 
@@ -39,7 +39,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("/{userId}/promote-to-admin")
+    @PatchMapping("/{userId}/roles/admin")
     @Operation(summary = "Добавление роли админа пользователю")
     public ResponseEntity<UserWithRolesResponse> promoteToAdmin(
             @PathVariable Long userId,
@@ -52,7 +52,7 @@ public class AdminController {
         return ResponseEntity.ok(userWithRolesResponse);
     }
 
-    @PostMapping("/{userId}/promote-to-leader")
+    @PatchMapping("/{userId}/roles/leader")
     @Operation(summary = "Добавление роли лидера пользователю")
     public ResponseEntity<UserWithRolesResponse> promoteToLeader(
             @PathVariable Long userId,
@@ -65,6 +65,25 @@ public class AdminController {
 
         return ResponseEntity.ok(userWithRolesResponse);
     }
+
+
+    @DeleteMapping("/{userId}/roles/admin")
+    @Operation(summary = "Удаление роли админа у пользователя")
+    public ResponseEntity<UserWithRolesResponse> deleteAdminRole(@PathVariable Long userId, @AuthenticationPrincipal User currentAdmin){
+        log.debug("ADMIN-CONTROLLER: Admin {} started deleting admin role from user: {}", currentAdmin.getId(), userId);
+        UserWithRolesResponse response = adminService.deleteAdminRole(userId);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{userId}/roles/leader")
+    @Operation(summary = "Удаление роли лидера у пользователя")
+    public ResponseEntity<UserWithRolesResponse> deleteLeaderRole(@PathVariable Long userId, @AuthenticationPrincipal User currentAdmin){
+        log.debug("ADMIN-CONTROLLER: Admin {} started deleting leader role from user: {}", currentAdmin.getId(), userId);
+        UserWithRolesResponse response = adminService.deleteLeaderRole(userId);
+        return ResponseEntity.ok(response);
+    }
+
+
 
 
 

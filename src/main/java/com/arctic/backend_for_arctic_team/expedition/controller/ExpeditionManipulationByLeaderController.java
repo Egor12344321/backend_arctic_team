@@ -2,20 +2,17 @@ package com.arctic.backend_for_arctic_team.expedition.controller;
 
 
 import com.arctic.backend_for_arctic_team.auth.entity.User;
-import com.arctic.backend_for_arctic_team.auth.security.UserDetailsImpl;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.AddParticipantRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.CreateExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.EditExpeditionRequest;
-import com.arctic.backend_for_arctic_team.expedition.model.dto.request.UpdateExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ParticipantResponse;
-import com.arctic.backend_for_arctic_team.expedition.model.dto.response.UserExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.entity.Expedition;
-import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepository;
 import com.arctic.backend_for_arctic_team.expedition.service.ChartsService;
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
 import com.arctic.backend_for_arctic_team.expedition.service.ParticipantService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,16 +20,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/v1/expeditions")
-public class ExpeditionController {
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/api/v1/expeditions/leader")
+@Validated
+@Tag(name = "Фукнции для лидера по манипуляции экспедициями")
+public class ExpeditionManipulationByLeaderController {
+
     private final ExpeditionService expeditionService;
     private final ParticipantService participantService;
     private final ChartsService chartsService;
@@ -49,28 +50,6 @@ public class ExpeditionController {
         log.debug("EXPEDITION-CONTROLLER: Leader {} creating expedition: {} ENDED", currentUser.getId(), request.name());
         return ResponseEntity.status(HttpStatus.CREATED).body(expedition);
     }
-
-    @GetMapping("/my")
-    @PreAuthorize("hasAnyRole('USER', 'LEADER', 'ADMIN')")
-    @Operation(summary = "Получить собственные экспедиции")
-    public ResponseEntity<UserExpeditionResponse> getMyExpeditions(
-            @AuthenticationPrincipal User currentUser) {
-
-        log.info("User {} requesting their expeditions", currentUser.getId());
-
-        UserExpeditionResponse expeditions = expeditionService.getUserExpeditions(currentUser);
-        return ResponseEntity.ok(expeditions);
-    }
-
-//    @GetMapping("/{expeditionId}")
-//    public ResponseEntity<ExpeditionResponse> getExpeditionDetails(
-//            @PathVariable Long expeditionId,
-//            @AuthenticationPrincipal User currentUser) {
-//
-//        log.info("User {} requesting expedition {}", currentUser.getId(), expeditionId);
-//        ExpeditionResponse details = expeditionService.getExpeditionDetails(expeditionId, currentUser);
-//        return ResponseEntity.ok(details);
-//    }
 
     @DeleteMapping("/{expeditionId}")
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
@@ -132,15 +111,16 @@ public class ExpeditionController {
         return ResponseEntity.noContent().build();
     }
 
-
     @PutMapping("/{expeditionId}")
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
     @Operation(summary = "Редактирование экспедиции")
     public ResponseEntity<?> editExpedition(@PathVariable Long expeditionId, @AuthenticationPrincipal User currentUser,
                                             @RequestBody @Valid EditExpeditionRequest request){
         log.debug("EXPEDITION-CONTROLLER: Started editing expedition");
+        if (!expeditionService.isLeaderOfExpedition(expeditionId, currentUser.getId())) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Пользователь не является лидером данной экспедиции");
         Expedition expedition = expeditionService.editExpedition(expeditionId, request);
         log.debug("EXPEDITION-CONTROLLER: Ended editing expedition");
         return ResponseEntity.ok(ExpeditionResponse.mapFromEntityToResponse(expedition));
     }
+
 }

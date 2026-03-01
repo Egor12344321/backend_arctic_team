@@ -18,6 +18,9 @@ import java.util.List;
 public class AdminService {
     private final UserRepository userRepository;
     private final UserMapperService userMapperService;
+
+
+    // Получение списка всех пользователей, зарегистрированных в системе
     public List<UserWithRolesResponse> getAllUsers(User user) {
         log.info("ADMIN-SERVICE: Admin getting all users: {}", user.getId());
 
@@ -28,25 +31,49 @@ public class AdminService {
                 .toList();
     }
 
+    // Добавление роли админа пользотелю
     public UserWithRolesResponse promoteToAdmin(Long userId){
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("Пользователь " + userId + " не найден"));
-
-        user.getRoles().add(UserRole.ROLE_ADMIN);
-
-        User saved_user = userRepository.save(user);
-        return userMapperService.mapToUserWithRolesResponse(saved_user);
+        return addRole(userId, UserRole.ROLE_ADMIN);
     }
 
+
+    // Добавление роли лидера пользователю
     public UserWithRolesResponse promoteToLeader(Long userId){
+        return addRole(userId, UserRole.ROLE_ADMIN);
+    };
+
+    // Удаление роли админа у пользователя
+    public UserWithRolesResponse deleteAdminRole(Long userId) {
+        return deleteRole(userId, UserRole.ROLE_ADMIN);
+    }
+
+    // Удаление роли лидера у пользователя
+    public UserWithRolesResponse deleteLeaderRole(Long userId) {
+        return deleteRole(userId, UserRole.ROLE_LEADER);
+    }
+
+    private UserWithRolesResponse deleteRole(Long userId, UserRole role){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Пользователь " + userId + " не найден"));
 
-        if (user.getRoles().contains(UserRole.ROLE_LEADER)) {
-            throw new IllegalArgumentException("Пользователь уже имеет роль LEADER");
+        if (!user.getRoles().contains(UserRole.ROLE_ADMIN)) {
+            throw new IllegalArgumentException("Пользователь не имеет роль " + role);
         }
-        user.getRoles().add(UserRole.ROLE_LEADER);
-        User saved_user = userRepository.save(user);
-        return userMapperService.mapToUserWithRolesResponse(saved_user);
-    };
+
+        user.getRoles().remove(role);
+        User savedUser = userRepository.save(user);
+        return userMapperService.mapToUserWithRolesResponse(savedUser);
+    }
+
+    private UserWithRolesResponse addRole(Long userId, UserRole role){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь " + userId + " не найден"));
+
+        if (user.getRoles().contains(role)) {
+            throw new IllegalArgumentException("Пользователь уже имеет роль " + role);
+        }
+        user.getRoles().add(role);
+        User savedUser = userRepository.save(user);
+        return userMapperService.mapToUserWithRolesResponse(savedUser);
+    }
 }
