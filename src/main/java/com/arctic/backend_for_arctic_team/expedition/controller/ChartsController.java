@@ -2,21 +2,21 @@ package com.arctic.backend_for_arctic_team.expedition.controller;
 
 
 import com.arctic.backend_for_arctic_team.auth.entity.User;
+import com.arctic.backend_for_arctic_team.expedition.model.dto.charts.ParticipantChartsDto;
 import com.arctic.backend_for_arctic_team.expedition.service.ChartsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,32 +24,36 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "Графики API")
+@RequestMapping("/api/v1/charts")
 public class ChartsController {
 
     private final ChartsService chartsService;
 
-    @GetMapping("/expeditions/{expeditionId}")
+    @GetMapping( "/{expeditionId}/{indNum}")
     // получение графиков, если пользователь лидер запрашиваемой экспедиции или участник запрашиваемой экспедиции
+    // получение либо всех графиков, либо конкретно указанных в requestparam
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId)")
-    @Operation(summary = "Получить графики участника экспедиции")
-    public ResponseEntity<Map<String, Object>> getParticipantCharts(
-            @PathVariable("expeditionId") Long expeditionId,
-            @RequestParam @NotBlank String indNum,
-            @RequestParam(required = false) String type) {
+    @Operation(summary = "Получить все графики участника экспедиции, либо выбрать несколько")
+    public ResponseEntity<ParticipantChartsDto> getParticipantCharts(@PathVariable Long expeditionId, @PathVariable String indNum, @RequestParam(required = false) List<String> type) {
 
         log.info("Loading charts for indNum={} in expedition={}", indNum, expeditionId);
 
-        Map<String, Object> charts = chartsService.getParticipantCharts(indNum, expeditionId, type);
+        ParticipantChartsDto charts = chartsService.getParticipantCharts(indNum, expeditionId, type);
         return ResponseEntity.ok(charts);
     }
 
-    @GetMapping("/expeditions/{expeditionId}/all")
-    @PreAuthorize("@expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
-    @Operation(summary = "Получить ВСЕ графики всех участников")
-    public ResponseEntity<Map<String, Map<String, Object>>> getAllExpeditionCharts(
-            @PathVariable("expeditionId") Long expeditionId) {
-
-        Map<String, Map<String, Object>> allCharts = chartsService.getAllExpeditionCharts(expeditionId);
-        return ResponseEntity.ok(allCharts);
+    @GetMapping(value = "/expeditions/{expeditionId}/{chartType}", produces = MediaType.IMAGE_PNG_VALUE)
+    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId)")
+    @Operation(summary = "Получение конкретного графика по типу")
+    public ResponseEntity<byte[]> getChartImage(@PathVariable Long expeditionId, @PathVariable String chartType, @RequestParam @NotBlank String indNum
+    ) {
+        byte[] image = chartsService.getSingleChart(chartType, indNum, expeditionId);
+        if (image == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .contentLength(image.length)
+                .body(image);
     }
 }

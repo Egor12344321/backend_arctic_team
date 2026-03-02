@@ -14,7 +14,5 @@ import java.util.List;
 @Setter
 public class ChartsServiceProperties {
     private String url;
-    private final List<String> enabledCharts = List.of(
-            "alpha-beta-theta", "fatigue", "heart-rate", "psychological-fatigue", "gravity", "concentration", "relaxation"
-    );
+    private final List<String> enabledCharts = List.of("alpha-beta-theta", "fatigue", "heart-rate", "psychological-fatigue", "gravity", "concentration", "relaxation");
 }

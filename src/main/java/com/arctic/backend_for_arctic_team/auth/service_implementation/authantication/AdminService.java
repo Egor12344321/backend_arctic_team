@@ -39,7 +39,7 @@ public class AdminService {
 
     // Добавление роли лидера пользователю
     public UserWithRolesResponse promoteToLeader(Long userId){
-        return addRole(userId, UserRole.ROLE_ADMIN);
+        return addRole(userId, UserRole.ROLE_LEADER);
     };
 
     // Удаление роли админа у пользователя

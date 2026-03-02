@@ -17,17 +17,13 @@ public class ExpeditionSecurity {
 
     // проверка является ли пользователь реальным лидером экпедиции, а не просто пользователь с ролью экспедиции
     public boolean isLeaderOfExpedition(Authentication authentication, Long expeditionId) {
-        log.info("AUTHENTICATION: {}, {}", authentication, authentication.getName());
         Long leaderId = getCurrentUser(authentication).getId();
-        log.info("ПРОВЕРКААААА: {}", expeditionService.isLeaderOfExpedition(leaderId, expeditionId));
         return expeditionService.isLeaderOfExpedition(expeditionId, leaderId);
     }
 
     // проверка является ли пользователь участником экспедиции
     public boolean isParticipantOfExpedition(Authentication authentication, Long expeditionId){
         Long userId = getCurrentUser(authentication).getId();
-        log.info("AUTHENTICATION: {}, {}", authentication, authentication.getName());
-        log.info("ПРОВЕРКААААА: {}", expeditionService.isParticipantOfExpedition(userId, expeditionId));
 
         return expeditionService.isParticipantOfExpedition(expeditionId, userId);
     }
@@ -36,7 +32,6 @@ public class ExpeditionSecurity {
         if (authentication == null) {
             return null;
         }
-
         Object principal = authentication.getPrincipal();
         if (principal instanceof User) {
             return (User) principal;

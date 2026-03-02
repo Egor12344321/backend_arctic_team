@@ -41,4 +41,4 @@ logging:
 
 charts:
   service:
-    url: http://localhost:8000/api/charts
+    url: http://localhost:8000
