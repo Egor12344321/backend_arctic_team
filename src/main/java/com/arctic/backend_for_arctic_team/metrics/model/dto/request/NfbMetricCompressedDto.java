@@ -1,6 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.NfbMetrics;
+import com.arctic.backend_for_arctic_team.metrics.model.entity.NfbMetricsCompressed;
+import com.arctic.backend_for_arctic_team.metrics.repository.NfbMetricsCompressedRepository;
 
 public record NfbMetricCompressedDto(
         String individualNumber,
@@ -13,8 +15,8 @@ public record NfbMetricCompressedDto(
         Double delta,
         Double smr
 ) {
-    public static NfbMetrics mapToNfbEntity(NfbMetricCompressedDto dto) {
-        return NfbMetrics.builder()
+    public static NfbMetricsCompressed mapToNfbEntity(NfbMetricCompressedDto dto) {
+        return NfbMetricsCompressed.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
                 .expeditionId(dto.expeditionId)

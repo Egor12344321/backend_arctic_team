@@ -26,6 +26,18 @@ public class UploadServiceImpl implements UploadService{
     private final EegArtifactsMetricsRepository eegArtifactsMetricsRepository;
     private final EegProceedMetricsRepository eegProceedMetricsRepository;
     private final EegRawMetricsRepository eegRawMetricsRepository;
+    private final CardioMetricsCompressedRepository cardioMetricsCompressedRepository;
+    private final EmotionalMetricsCompressedRepository emotionalMetricsCompressedRepository;
+    private final MemsMetricsCompressedRepository memsMetricsCompressedRepository;
+    private final NfbMetricsCompressedRepository nfbMetricsCompressedRepository;
+    private final EegArtifactsMetricsCompressedRepository eegArtifactsMetricsCompressedRepository;
+    private final EegProceedMetricsCompressedRepository eegProceedMetricsCompressedRepository;
+    private final EegRawMetricsCompressedRepository eegRawMetricsCompressedRepository;
+    private final PhysiologicalMetricsCompressedRepository physiologicalMetricsCompressedRepository;
+    private final ProductivityMetricsCompressedRepository productivityMetricsCompressedRepository;
+    private final PhysiologicalBaselineRepository physiologicalBaselineRepository;
+    private final ProductivityBaselineRepository productivityBaselineRepository;
+    private final ProductivityIndexRepository productivityIndexRepository;
 
     @Override
     public UploadResponse uploadMetrics(UploadRequest uploadRequest) {
@@ -42,6 +54,18 @@ public class UploadServiceImpl implements UploadService{
             uploadBatch(uploadRequest.EEGRawMetrics(), eegRawMetricsRepository, EEGRawMetricDto::mapFromRequestToEntity);
             uploadBatch(uploadRequest.physiologicalMetrics(), physiologicalMetricsRepository, PhysiologicalMetricDto::mapToPhysiologicalEntity);
             uploadBatch(uploadRequest.productivityMetrics(), productivityMetricsRepository, ProductivityMetricDto::mapToProductivityEntity);
+            uploadBatch(uploadRequest.cardioMetricsCompressed(), cardioMetricsCompressedRepository, CardioMetricCompressedDto::mapToCardioEntity);
+            uploadBatch(uploadRequest.emotionalMetricsCompressed(), emotionalMetricsCompressedRepository, EmotionalMetricCompressedDto::mapToEmotionalEntity);
+            uploadBatch(uploadRequest.memsMetricsCompressed(), memsMetricsCompressedRepository, MemsMetricCompressedDto::mapToMemsEntity);
+            uploadBatch(uploadRequest.nfbMetricsCompressed(), nfbMetricsCompressedRepository, NfbMetricCompressedDto::mapToNfbEntity);
+            uploadBatch(uploadRequest.EEGArtifactsMetricsCompressed(), eegArtifactsMetricsCompressedRepository, EEGArtifactsMetricCompressedDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.EEGProceedMetricsCompressed(), eegProceedMetricsCompressedRepository, EEGProceedMetricCompressedDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.EEGRawMetricsCompressed(), eegRawMetricsCompressedRepository, EEGRawMetricCompressedDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.physiologicalMetricsCompressed(), physiologicalMetricsCompressedRepository, PhysiologicalMetricCompressedDto::mapToPhysiologicalEntity);
+            uploadBatch(uploadRequest.productivityMetricsCompressed(), productivityMetricsCompressedRepository, ProductivityMetricCompressedDto::mapToProductivityEntity);
+            uploadBatch(uploadRequest.physiologicalBaseline(), physiologicalBaselineRepository, PhysiologicalBaselineDto::toEntity);
+            uploadBatch(uploadRequest.productivityBaseline(), productivityBaselineRepository, ProductivityBaselineDto::toEntity);
+            uploadBatch(uploadRequest.productivityIndex(), productivityIndexRepository, ProductivityIndexDto::toEntity);
 
             return new UploadResponse(true);
         } catch (Exception e){
@@ -49,6 +73,8 @@ public class UploadServiceImpl implements UploadService{
             return new UploadResponse(false);
         }
     }
+
+
 
     protected <T, D> void uploadBatch(List<D> dtos, JpaRepository<T, Long> repository, Function<D, T> mapper){
         if (dtos == null || dtos.isEmpty()) return;

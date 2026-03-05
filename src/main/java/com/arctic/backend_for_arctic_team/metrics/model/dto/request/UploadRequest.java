@@ -22,6 +22,9 @@ public record UploadRequest(
         @Valid List<ProductivityMetricCompressedDto> productivityMetricsCompressed,
         List<EEGArtifactsMetricCompressedDto> EEGArtifactsMetricsCompressed,
         List<EEGProceedMetricCompressedDto> EEGProceedMetricsCompressed,
-        List<EEGRawMetricCompressedDto> EEGRawMetricsCompressed
+        List<EEGRawMetricCompressedDto> EEGRawMetricsCompressed,
+        List<PhysiologicalBaselineDto> physiologicalBaseline,
+        List<ProductivityBaselineDto> productivityBaseline,
+        List<ProductivityIndexDto> productivityIndex
 
 ) {}

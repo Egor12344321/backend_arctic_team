@@ -1,6 +1,7 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.MemsMetrics;
+import com.arctic.backend_for_arctic_team.metrics.model.entity.MemsMetricsCompressed;
 
 public record MemsMetricCompressedDto(
         String individualNumber,
@@ -14,8 +15,8 @@ public record MemsMetricCompressedDto(
         Double gyroscopeY,
         Double gyroscopeZ
 ) {
-    public static MemsMetrics mapToMemsEntity(MemsMetricCompressedDto dto) {
-        return MemsMetrics.builder()
+    public static MemsMetricsCompressed mapToMemsEntity(MemsMetricCompressedDto dto) {
+        return MemsMetricsCompressed.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
                 .expeditionId(dto.expeditionId)

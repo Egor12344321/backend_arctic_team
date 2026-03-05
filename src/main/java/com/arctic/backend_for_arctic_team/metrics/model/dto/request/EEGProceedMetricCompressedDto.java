@@ -1,6 +1,7 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGProceedMetrics;
+import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGProceedMetricsCompressed;
 
 public record EEGProceedMetricCompressedDto(
         String individualNumber,
@@ -10,8 +11,8 @@ public record EEGProceedMetricCompressedDto(
         Float channel1,
         Float channel2
 ) {
-    public static EEGProceedMetrics mapFromRequestToEntity(EEGProceedMetricCompressedDto request){
-        return EEGProceedMetrics.builder()
+    public static EEGProceedMetricsCompressed mapFromRequestToEntity(EEGProceedMetricCompressedDto request){
+        return EEGProceedMetricsCompressed.builder()
                 .expeditionId(request.expeditionId)
                 .channel1(request.channel1())
                 .channel2(request.channel2())

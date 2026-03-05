@@ -2,9 +2,16 @@ package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "productivity_index")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductivityIndex {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,4 +55,5 @@ public class ProductivityIndex {
 
     @Column(name = "has_artifacts")
     private Boolean hasArtifacts;
+
 }

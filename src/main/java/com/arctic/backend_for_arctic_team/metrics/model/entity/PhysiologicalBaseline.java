@@ -2,8 +2,15 @@ package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Table(name = "physiological_baseline")
+@Builder
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class PhysiologicalBaseline {
 
     @Id

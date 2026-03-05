@@ -1,6 +1,7 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.ProductivityMetrics;
+import com.arctic.backend_for_arctic_team.metrics.model.entity.ProductivityMetricsCompressed;
 
 public record ProductivityMetricCompressedDto(
         String individualNumber,
@@ -14,8 +15,8 @@ public record ProductivityMetricCompressedDto(
         Double relaxation,
         Double concentration
 ) {
-    public static ProductivityMetrics mapToProductivityEntity(ProductivityMetricCompressedDto dto) {
-        return ProductivityMetrics.builder()
+    public static ProductivityMetricsCompressed mapToProductivityEntity(ProductivityMetricCompressedDto dto) {
+        return ProductivityMetricsCompressed.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
                 .expeditionId(dto.expeditionId)
