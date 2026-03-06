@@ -6,6 +6,7 @@ target/
 
 .env
 *.env
+
 ### STS ###
 .apt_generated
 .classpath
@@ -33,3 +34,75 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Добавленные записи ###
+
+# Логи
+logs/
+*.log
+
+# Временные файлы
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Файлы зависимостей
+dependency-reduced-pom.xml
+
+# Директории сборки
+/build/
+/dist/
+/out/
+
+# Файлы базы данных
+*.db
+*.sqlite
+*.h2.db
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Файлы конфигурации, содержащие чувствительные данные
+application-local.properties
+application-local.yml
+application-dev.properties
+application-dev.yml
+secrets.properties
+
+# Резервные копии
+*.bak
+*.backup
+
+# Файлы тестовых покрытий
+*.gcda
+*.gcno
+*.gcov
+jacoco.exec
+
+# Результаты тестов
+test-output/
+surefire-reports/
+failsafe-reports/
+
+# Файлы IDE (дополнительно)
+*.orig
+*.to_delete
+*.patch
+
+# Проектные файлы
+.project
+.classpath
+.settings/
+.factorypath
+
+# Файлы метрик и отчетов
+metrics/
+reports/

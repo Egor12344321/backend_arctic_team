@@ -42,7 +42,32 @@ public class UploadServiceImpl implements UploadService{
     @Override
     public UploadResponse uploadMetrics(UploadRequest uploadRequest) {
         log.info("Mapping from dto to entity");
-        log.info("METRICS: {}", uploadRequest);
+        log.info("Cardio Metrics: {} записей", sizeOrZero(uploadRequest.cardioMetrics()));
+        log.info("Emotional Metrics: {} записей", sizeOrZero(uploadRequest.emotionalMetrics()));
+        log.info("MEMS Metrics: {} записей", sizeOrZero(uploadRequest.memsMetrics()));
+        log.info("NFB Metrics: {} записей", sizeOrZero(uploadRequest.nfbMetrics()));
+        log.info("EEG Artifacts Metrics: {} записей", sizeOrZero(uploadRequest.EEGArtifactsMetrics()));
+        log.info("EEG Proceed Metrics: {} записей", sizeOrZero(uploadRequest.EEGProceedMetrics()));
+        log.info("EEG Raw Metrics: {} записей", sizeOrZero(uploadRequest.EEGRawMetrics()));
+        log.info("Physiological Metrics: {} записей", sizeOrZero(uploadRequest.physiologicalMetrics()));
+        log.info("Productivity Metrics: {} записей", sizeOrZero(uploadRequest.productivityMetrics()));
+
+        log.info("===== СЖАТЫЕ МЕТРИКИ =====");
+        log.info("Cardio Metrics Compressed: {} записей", sizeOrZero(uploadRequest.cardioMetricsCompressed()));
+        log.info("Emotional Metrics Compressed: {} записей", sizeOrZero(uploadRequest.emotionalMetricsCompressed()));
+        log.info("MEMS Metrics Compressed: {} записей", sizeOrZero(uploadRequest.memsMetricsCompressed()));
+        log.info("NFB Metrics Compressed: {} записей", sizeOrZero(uploadRequest.nfbMetricsCompressed()));
+        log.info("EEG Artifacts Metrics Compressed: {} записей", sizeOrZero(uploadRequest.EEGArtifactsMetricsCompressed()));
+        log.info("EEG Proceed Metrics Compressed: {} записей", sizeOrZero(uploadRequest.EEGProceedMetricsCompressed()));
+        log.info("EEG Raw Metrics Compressed: {} записей", sizeOrZero(uploadRequest.EEGRawMetricsCompressed()));
+        log.info("Physiological Metrics Compressed: {} записей", sizeOrZero(uploadRequest.physiologicalMetricsCompressed()));
+        log.info("Productivity Metrics Compressed: {} записей", sizeOrZero(uploadRequest.productivityMetricsCompressed()));
+
+        log.info("===== БАЗОВЫЕ ПОКАЗАТЕЛИ =====");
+        log.info("Physiological Baseline: {} записей", sizeOrZero(uploadRequest.physiologicalBaseline()));
+        log.info("Productivity Baseline: {} записей", sizeOrZero(uploadRequest.productivityBaseline()));
+        log.info("Productivity Index: {} записей", sizeOrZero(uploadRequest.productivityIndex()));
+
         log.info("EEGArtifacts: {}, EEGProceed: {}, EEGRaw: {}", uploadRequest.EEGArtifactsMetrics(), uploadRequest.EEGProceedMetrics(), uploadRequest.EEGRawMetrics());
         try {
             uploadBatch(uploadRequest.cardioMetrics(), cardioMetricsRepository, CardioMetricDto::mapToCardioEntity);
@@ -84,5 +109,8 @@ public class UploadServiceImpl implements UploadService{
                 .toList();
 
         repository.saveAll(entities);
+    }
+    private int sizeOrZero(List<?> list) {
+        return list != null ? list.size() : 0;
     }
 }

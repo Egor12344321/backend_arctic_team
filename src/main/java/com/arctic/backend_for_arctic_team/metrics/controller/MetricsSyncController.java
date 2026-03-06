@@ -29,7 +29,7 @@ public class MetricsSyncController {
 
     @PostMapping("/upload")
     @Operation(summary = "Выгрузка метрик")
-    public ResponseEntity<UploadResponse> uploadMetrics(@Valid @RequestBody UploadRequest uploadRequest){
+    public ResponseEntity<UploadResponse> uploadMetrics(@RequestBody UploadRequest uploadRequest){
         log.debug("METRICS-UPLOAD-CONTROLLER: Uploading metrics starting");
 
         UploadResponse response = uploadService.uploadMetrics(uploadRequest);
