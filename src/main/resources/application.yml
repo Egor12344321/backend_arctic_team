@@ -2,13 +2,14 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+    schemas: public
     baseline-on-migrate: true
     validate-on-migrate: true
   application:
     name: backend_for_arctic_team
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/arctic_team
+    url: jdbc:postgresql://postgres:5432/arctic_team?currentSchema=public
     username: postgres
     password: egor
 
@@ -18,7 +19,7 @@ spring:
       port: 6379
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
@@ -30,7 +31,7 @@ spring:
     host: redis-cache
     port: 6379
 jwt:
-  secret: JDPtGGTXFa92yrEMHEOnNNJvfkWern2d9CFudAdPgTk
+  secret: ${JWT_SECRET}
   access-token-expiration: 900000
   refresh-token-expiration: 604800000
 
@@ -38,7 +39,11 @@ logging:
   level:
     com.arctic.backend_for_arctic_team: TRACE
     org.springframework.security: DEBUG
+    org.flywaydb: DEBUG
 
 charts:
   service:
     url: http://localhost:8000
+
+
+

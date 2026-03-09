@@ -1,30 +1,17 @@
 services:
-  postgres:
-    image: postgres:13
-    container_name: postgres
-    environment:
-      POSTGRES_DB: arctic_team
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: egor
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - arctic-net
-
   backend:
     build: .
     container_name: backend-arctic
     ports:
       - "8080:8080"
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_IP}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       SPRING_REDIS_HOST: redis-cache
       SPRING_REDIS_PORT: 6379
-      SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
-      JWT_SECRET: ${JWT_SECRET}
+      SPRING_FLYWAY_ENABLED: "true"
     depends_on:
-      - postgres
       - redis
     networks:
       - arctic-net
@@ -40,7 +27,6 @@ services:
       - arctic-net
 
 volumes:
-  postgres_data:
   redis_data:
 
 networks:
