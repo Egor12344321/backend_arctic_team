@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
@@ -12,13 +12,13 @@ CREATE TABLE users (
     credentials_non_expired BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE user_roles (
+CREATE TABLE IF NOT EXISTS user_roles (
     user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     role VARCHAR(50) NOT NULL,
     PRIMARY KEY (user_id, role)
 );
 
-CREATE TABLE expeditions (
+CREATE TABLE IF NOT EXISTS expeditions (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -28,7 +28,7 @@ CREATE TABLE expeditions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE participants (
+CREATE TABLE IF NOT EXISTS participants (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL REFERENCES users(id),
     expedition_id BIGINT NOT NULL REFERENCES expeditions(id) ON DELETE CASCADE,
@@ -36,7 +36,7 @@ CREATE TABLE participants (
     UNIQUE(user_id, expedition_id)
 );
 
-CREATE TABLE cardio_metrics (
+CREATE TABLE IF NOT EXISTS cardio_metrics (
     id BIGSERIAL PRIMARY KEY,
     individual_number VARCHAR(255) NOT NULL,
     expedition_id BIGSERIAL,
@@ -51,7 +51,7 @@ CREATE TABLE cardio_metrics (
     stress_index DOUBLE PRECISION
 );
 
-CREATE TABLE eeg_artifacts_metrics (
+CREATE TABLE IF NOT EXISTS eeg_artifacts_metrics (
     id BIGSERIAL PRIMARY KEY,
     expedition_id BIGSERIAL,
     artifacts_channel_1 INTEGER,
@@ -63,7 +63,7 @@ CREATE TABLE eeg_artifacts_metrics (
     session INTEGER
 );
 
-CREATE TABLE eeg_proceed_metrics (
+CREATE TABLE IF NOT EXISTS eeg_proceed_metrics (
     id BIGSERIAL PRIMARY KEY,
     expedition_id BIGSERIAL,
     channel_1 REAL,
@@ -73,7 +73,7 @@ CREATE TABLE eeg_proceed_metrics (
     session INTEGER
 );
 
-CREATE TABLE eeg_raw_metrics (
+CREATE TABLE IF NOT EXISTS eeg_raw_metrics (
     id BIGSERIAL PRIMARY KEY,
     expedition_id BIGSERIAL,
     channel_1 REAL,
@@ -83,7 +83,7 @@ CREATE TABLE eeg_raw_metrics (
     session INTEGER
 );
 
-CREATE TABLE emotional_metrics (
+CREATE TABLE IF NOT EXISTS emotional_metrics (
     id BIGSERIAL PRIMARY KEY,
     expedition_id BIGSERIAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE emotional_metrics (
     self_control DOUBLE PRECISION
 );
 
-CREATE TABLE mems_metrics (
+CREATE TABLE IF NOT EXISTS mems_metrics (
     id BIGSERIAL PRIMARY KEY,
     expedition_id BIGSERIAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -110,7 +110,7 @@ CREATE TABLE mems_metrics (
     gyroscope_z DOUBLE PRECISION
 );
 
-CREATE TABLE nfb_metrics (
+CREATE TABLE IF NOT EXISTS nfb_metrics (
     id BIGSERIAL PRIMARY KEY,
     expedition_id BIGSERIAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE nfb_metrics (
     smr DOUBLE PRECISION
 );
 
-CREATE TABLE physiological_metrics (
+CREATE TABLE IF NOT EXISTS physiological_metrics (
     id BIGSERIAL PRIMARY KEY,
     expedition_id BIGSERIAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE physiological_metrics (
     cardio_artifacts INTEGER
 );
 
-CREATE TABLE productivity_metrics (
+CREATE TABLE IF NOT EXISTS productivity_metrics (
     id BIGSERIAL PRIMARY KEY,
     expedition_id BIGSERIAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -153,7 +153,7 @@ CREATE TABLE productivity_metrics (
     concentration DOUBLE PRECISION
 );
 
-CREATE TABLE cardio_metrics_compressed (
+CREATE TABLE IF NOT EXISTS cardio_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     individual_number VARCHAR(255) NOT NULL,
     expedition_id VARCHAR(255),
@@ -168,7 +168,7 @@ CREATE TABLE cardio_metrics_compressed (
     stress_index DOUBLE PRECISION
 );
 
-CREATE TABLE eeg_artifacts_metrics_compressed (
+CREATE TABLE IF NOT EXISTS eeg_artifacts_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     artifacts_channel_1 INTEGER,
@@ -180,7 +180,7 @@ CREATE TABLE eeg_artifacts_metrics_compressed (
     session INTEGER
 );
 
-CREATE TABLE eeg_proceed_metrics_compressed (
+CREATE TABLE IF NOT EXISTS eeg_proceed_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     channel_1 REAL,
@@ -190,7 +190,7 @@ CREATE TABLE eeg_proceed_metrics_compressed (
     session INTEGER
 );
 
-CREATE TABLE eeg_raw_metrics_compressed (
+CREATE TABLE IF NOT EXISTS eeg_raw_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     channel_1 REAL,
@@ -200,7 +200,7 @@ CREATE TABLE eeg_raw_metrics_compressed (
     session INTEGER
 );
 
-CREATE TABLE emotional_metrics_compressed (
+CREATE TABLE IF NOT EXISTS emotional_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     individual_number VARCHAR(255) NOT NULL,
@@ -213,7 +213,7 @@ CREATE TABLE emotional_metrics_compressed (
     self_control DOUBLE PRECISION
 );
 
-CREATE TABLE mems_metrics_compressed (
+CREATE TABLE IF NOT EXISTS mems_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     individual_number VARCHAR(255) NOT NULL,
@@ -227,7 +227,7 @@ CREATE TABLE mems_metrics_compressed (
     gyroscope_z DOUBLE PRECISION
 );
 
-CREATE TABLE nfb_metrics_compressed (
+CREATE TABLE IF NOT EXISTS nfb_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     individual_number VARCHAR(255) NOT NULL,
@@ -240,7 +240,7 @@ CREATE TABLE nfb_metrics_compressed (
     smr DOUBLE PRECISION
 );
 
-CREATE TABLE physiological_metrics_compressed (
+CREATE TABLE IF NOT EXISTS physiological_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     individual_number VARCHAR(255) NOT NULL,
@@ -256,7 +256,7 @@ CREATE TABLE physiological_metrics_compressed (
     cardio_artifacts INTEGER
 );
 
-CREATE TABLE productivity_metrics_compressed (
+CREATE TABLE IF NOT EXISTS productivity_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     individual_number VARCHAR(255) NOT NULL,
@@ -270,7 +270,7 @@ CREATE TABLE productivity_metrics_compressed (
     concentration DOUBLE PRECISION
 );
 
-CREATE TABLE physiological_baseline (
+CREATE TABLE IF NOT EXISTS physiological_baseline (
     id BIGSERIAL PRIMARY KEY,
     individual_number VARCHAR(255),
     timestamp BIGINT NOT NULL,
@@ -283,7 +283,7 @@ CREATE TABLE physiological_baseline (
     concentration DOUBLE PRECISION
 );
 
-CREATE TABLE productivity_baseline (
+CREATE TABLE IF NOT EXISTS productivity_baseline (
     id BIGSERIAL PRIMARY KEY,
     expedition_id VARCHAR(255),
     individual_number VARCHAR(255),
@@ -297,7 +297,7 @@ CREATE TABLE productivity_baseline (
     concentration DOUBLE PRECISION
 );
 
-CREATE TABLE productivity_index (
+CREATE TABLE IF NOT EXISTS productivity_index (
    id BIGSERIAL PRIMARY KEY,
    expedition_id VARCHAR(255),
    individual_number VARCHAR(255),

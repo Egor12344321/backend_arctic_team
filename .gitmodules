@@ -1,0 +1,3 @@
+[submodule "acrt2"]
+	path = acrt2
+	url = https://github.com/agentemy/acrt2.git
