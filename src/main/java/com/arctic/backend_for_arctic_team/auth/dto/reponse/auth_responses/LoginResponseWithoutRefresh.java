@@ -15,10 +15,10 @@ public record LoginResponseWithoutRefresh(
     public LoginResponseWithoutRefresh(LoginResponse response){
         this(
                 response.accessToken(),
+                response.username(),
+                response.individualNumber(),
                 response.firstName(),
                 response.lastName(),
-                response.individualNumber(),
-                response.username(),
                 response.userRoles()
         );
     }
