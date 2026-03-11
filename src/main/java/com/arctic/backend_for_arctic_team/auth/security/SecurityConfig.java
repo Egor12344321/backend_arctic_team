@@ -41,7 +41,17 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/v1/auth/**", "/v1/auth/**", "/api/metrics/upload/**", "/api/v1/metrics/upload/**").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers(
+                        "/api/v1/auth/**",
+                                "/v1/auth/**",
+                                "/api/metrics/upload/**",
+                                "/api/v1/metrics/upload/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/webjars/swagger-ui/**",
+                                "/actuator/**"
+                                ).permitAll()
                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )

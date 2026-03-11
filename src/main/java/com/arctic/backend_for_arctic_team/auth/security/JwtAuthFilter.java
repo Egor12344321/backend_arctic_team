@@ -35,7 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String requestPath = request.getServletPath();
         String method = request.getMethod();
         log.debug("Filtering request: {} {}", method, requestPath);
-        if ((requestPath.startsWith("/api/v1/auth/") ||  requestPath.startsWith("/api/metrics/upload")) && !requestPath.equals("/api/v1/auth/logout") ||  requestPath.startsWith("/api/metrics/upload") ||  requestPath.startsWith("/api/v1/metrics/upload")) {
+        if ((requestPath.startsWith("/api/v1/auth/") ||  requestPath.startsWith("/api/metrics/upload")) && !requestPath.equals("/api/v1/auth/logout") ||  requestPath.startsWith("/api/metrics/upload") ||  requestPath.startsWith("/api/v1/metrics/upload") ||  requestPath.startsWith("/swagger") ||  requestPath.startsWith("/v3/api-docs")) {
             log.info("Пропускаю проверку токена для запроса: {} {}", method, requestPath);
             filterChain.doFilter(request, response);
             return;

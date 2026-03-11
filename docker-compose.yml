@@ -22,7 +22,7 @@ services:
       SPRING_REDIS_HOST: redis-cache
       SPRING_REDIS_PORT: 6379
       SPRING_FLYWAY_BASELINE_ON_MIGRATE: "false"
-      JWT_SECRET: ${JWT_SECRET:psuHBzx3olFu5dMUhQ7mMYQiKBD1F36M8s0xKs830n4}
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       - postgres
       - redis
