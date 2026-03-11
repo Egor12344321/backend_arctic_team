@@ -59,8 +59,8 @@ public class TestUserInit {
                 User user = User.builder()
                         .email("user@mail.ru")
                         .password(passwordEncoder.encode("111111"))
-                        .firstName("Leader")
-                        .lastName("Leader")
+                        .firstName("User")
+                        .lastName("User")
                         .roles(Set.of(
                                 UserRole.ROLE_USER
                         ))
