@@ -55,6 +55,19 @@ public class TestUserInit {
                         .build();
                 userRepository.save(leader);
             }
+            if (!userRepository.existsByEmail("user@mail.ru")){
+                User user = User.builder()
+                        .email("user@mail.ru")
+                        .password(passwordEncoder.encode("111111"))
+                        .firstName("Leader")
+                        .lastName("Leader")
+                        .roles(Set.of(
+                                UserRole.ROLE_USER
+                        ))
+                        .build();
+                userRepository.save(user);
+            }
+
         };
     }
 
