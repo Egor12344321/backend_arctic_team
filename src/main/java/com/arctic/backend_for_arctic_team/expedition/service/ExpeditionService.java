@@ -29,9 +29,9 @@ public class ExpeditionService {
     public ExpeditionResponse createExpedition(CreateExpeditionRequest request, User currentUser) {
 
         Expedition expedition = mapperService.mapFromRequestToEntity(request, currentUser);
-        expeditionRepository.save(expedition);
+        Expedition savedExpedition = expeditionRepository.save(expedition);
         log.info("Expedition saved successfully");
-        return ExpeditionResponse.mapFromEntityToResponse(expedition);
+        return ExpeditionResponse.mapFromEntityToResponse(savedExpedition);
     }
 
     public UserExpeditionResponse getUserExpeditions(User currentUser) {
