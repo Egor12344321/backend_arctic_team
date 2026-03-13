@@ -2,6 +2,7 @@ package com.arctic.backend_for_arctic_team.expedition;
 
 
 import com.arctic.backend_for_arctic_team.auth.entity.User;
+import com.arctic.backend_for_arctic_team.expedition.exceptions.EditExpeditionException;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.CreateExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.EditExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ExpeditionResponse;
@@ -11,6 +12,7 @@ import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepos
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
 import com.arctic.backend_for_arctic_team.expedition.service.MapperService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -26,6 +28,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +45,7 @@ public class ExpeditionServiceTests {
     private ArgumentCaptor<Expedition> expeditionCaptor;
 
     private Expedition expedition;
+    private Long expId;
 
     private Expedition savedExpedition;
     private User user;
@@ -99,37 +103,68 @@ public class ExpeditionServiceTests {
         verify(expeditionRepository).save(expedition);
     }
 
-    @Test void editExpeditionTest(){
-        //arrange
-        EditExpeditionRequest expeditionRequest = new EditExpeditionRequest(
-                "otherName",
-                "otherDesc",
-                LocalDate.of(2025, 12,14),
-                LocalDate.of(2025, 12, 16));
 
-        Expedition editExpedition = Expedition.builder()
-                .name("otherName")
-                .description("otherDesc")
-                .startDate(LocalDate.of(2025, 12, 14))
-                .endDate(LocalDate.of(2025, 12, 16))
-                .participants(Collections.emptyList())
-                .createdAt(LocalDateTime.of(2025, 12, 12, 12, 12, 12))
-                .build();
-        Long expId = 1L;
-        when(expeditionRepository.findById(expId)).thenReturn(Optional.of(savedExpedition));
-        when(expeditionRepository.save(expeditionCaptor.capture())).thenReturn(editExpedition);
+    @Nested
+    class EditExpeditionTests {
 
-        //act
-        expeditionService.editExpedition(expId, expeditionRequest);
+        @BeforeEach
+        public void setUp(){
+            expId = 1L;
+        }
 
-        //assert
-        verify(expeditionRepository).save(expeditionCaptor.capture());
+        @Test
+        void shouldReturnFullEditedExpedition() {
+            //arrange
+            EditExpeditionRequest expeditionRequest = new EditExpeditionRequest(
+                    "otherName",
+                    "otherDesc",
+                    LocalDate.of(2025, 12, 14),
+                    LocalDate.of(2025, 12, 16));
 
-        Expedition arg = expeditionCaptor.getValue();
-        assertEquals("otherName", arg.getName());
-        assertEquals("otherDesc", arg.getDescription());
-        assertEquals(LocalDate.of(2025, 12,14), arg.getStartDate());
-        assertEquals(LocalDate.of(2025, 12,16), arg.getEndDate());
+            Expedition editExpedition = Expedition.builder()
+                    .name("otherName")
+                    .description("otherDesc")
+                    .startDate(LocalDate.of(2025, 12, 14))
+                    .endDate(LocalDate.of(2025, 12, 16))
+                    .participants(Collections.emptyList())
+                    .createdAt(LocalDateTime.of(2025, 12, 12, 12, 12, 12))
+                    .build();
+            Long expId = 1L;
+            when(expeditionRepository.findById(expId)).thenReturn(Optional.of(savedExpedition));
+            when(expeditionRepository.save(expeditionCaptor.capture())).thenReturn(editExpedition);
+
+            //act
+            expeditionService.editExpedition(expId, expeditionRequest);
+
+            //assert
+            verify(expeditionRepository).save(expeditionCaptor.capture());
+
+            Expedition arg = expeditionCaptor.getValue();
+            assertEquals("otherName", arg.getName());
+            assertEquals("otherDesc", arg.getDescription());
+            assertEquals(LocalDate.of(2025, 12, 14), arg.getStartDate());
+            assertEquals(LocalDate.of(2025, 12, 16), arg.getEndDate());
+
+        }
+
+        @Test
+        void shouldThrowEditExpeditionExceptionWhenEndDateLowerThanStartDateOfSavedExpedition(){
+            //arrange
+            EditExpeditionRequest expeditionRequest = new EditExpeditionRequest(
+                    null,
+                    null,
+                    null,
+                    LocalDate.of(2025, 12, 1)); // В сохраненной экспедиции день = 14
+
+            when(expeditionRepository.findById(expId)).thenReturn(Optional.of(savedExpedition));
+
+            //act + assert
+            EditExpeditionException editExpeditionException = assertThrows(EditExpeditionException.class, () -> expeditionService.editExpedition(expId, expeditionRequest));
+
+            assertEquals("Дата начала экспедиции должна быть позже даты окончания", editExpeditionException.getMessage());
+        }
+
+
 
     }
 }
