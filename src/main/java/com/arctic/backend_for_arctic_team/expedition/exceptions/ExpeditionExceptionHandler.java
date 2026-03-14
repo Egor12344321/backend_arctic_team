@@ -35,4 +35,9 @@ public class ExpeditionExceptionHandler {
         log.error("Handle participant exception");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getError());
     }
+    
+    @ExceptionHandler({PythonClientException.class})
+    public ResponseEntity<?> handlePythonClientException(PythonClientException e){
+        return ResponseEntity.status(e.getErrorCode()).body(e.getMessage());
+    }
 }

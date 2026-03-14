@@ -13,6 +13,22 @@ services:
     networks:
       - arctic-net
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: arctic_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@arctic.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - arctic-net
+
   backend:
     build: .
     container_name: backend-arctic
@@ -29,6 +45,21 @@ services:
     networks:
       - arctic-net
 
+  python-service:
+    build: ./python-service/api
+    container_name: python-service
+    environment:
+      POSTGRES_DB: arctic_team
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: egor
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      AUTHORIZATION_KEY: 1234567
+    ports:
+      - "8000:8000"
+    networks:
+      - arctic-net
+
   redis:
     image: redis:7-alpine
     container_name: redis-cache
@@ -42,6 +73,7 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  pgadmin_data:
 
 networks:
   arctic-net:
