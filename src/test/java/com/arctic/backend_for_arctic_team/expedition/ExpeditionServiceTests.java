@@ -12,6 +12,7 @@ import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepos
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
 import com.arctic.backend_for_arctic_team.expedition.service.MapperService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -148,6 +149,7 @@ public class ExpeditionServiceTests {
         }
 
         @Test
+        @DisplayName("Проверка выброса исключения при редактировании конца экспедиции, который меньше существующего начала")
         void shouldThrowEditExpeditionExceptionWhenEndDateLowerThanStartDateOfSavedExpedition(){
             //arrange
             EditExpeditionRequest expeditionRequest = new EditExpeditionRequest(
@@ -163,7 +165,6 @@ public class ExpeditionServiceTests {
 
             assertEquals("Дата начала экспедиции должна быть позже даты окончания", editExpeditionException.getMessage());
         }
-
 
 
     }

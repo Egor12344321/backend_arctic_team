@@ -58,12 +58,15 @@ public class ExpeditionService {
     public Expedition editExpedition(Long expeditionId, EditExpeditionRequest request) {
         Expedition expedition = expeditionRepository.findById(expeditionId)
                 .orElseThrow(() -> new ExpeditionNotFoundException("Данной экспедиции уже не существует"));
+        // изменение имени
         if (request.name() != null){
             expedition.setName(request.name());
         }
+        // изменение описания
         if (request.description() != null){
             expedition.setDescription(request.description());
         }
+        // проверка startDate < endDate, указанных в запросе
         if (request.endDate() != null && request.startDate() != null){
             if (request.endDate().isAfter(request.startDate())) {
                 expedition.setStartDate(request.startDate());
@@ -71,13 +74,13 @@ public class ExpeditionService {
             } else {
                 throw new EditExpeditionException("Дата начала экспедиции должна быть позже даты окончания");
             }
-        } else if (request.endDate() != null){
+        } else if (request.endDate() != null){ // проверка, что endDate в запросе больше, чем уже существующий startDate
             if (request.endDate().isAfter(expedition.getStartDate())) {
                 expedition.setEndDate(request.endDate());
             } else {
                 throw new EditExpeditionException("Дата начала экспедиции должна быть позже даты окончания");
             }
-        } else if (request.startDate() != null){
+        } else if (request.startDate() != null){ // проверка, что startDate в запросе меньше, чем уже существующий endDate
             if (request.startDate().isBefore(expedition.getEndDate())) {
                 expedition.setStartDate(request.startDate());
             } else {
