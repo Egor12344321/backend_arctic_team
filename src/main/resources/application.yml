@@ -41,9 +41,17 @@ logging:
     org.springframework.security: DEBUG
     org.flywaydb: DEBUG
 
+
 charts:
   service:
     url: http://python-service:8000
 
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+        exclude: env,beans,mappings
 
 

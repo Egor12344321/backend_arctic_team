@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 
-@Component
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -35,7 +34,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String requestPath = request.getServletPath();
         String method = request.getMethod();
         log.debug("Filtering request: {} {}", method, requestPath);
-        if ((requestPath.startsWith("/api/v1/auth/") ||  requestPath.startsWith("/api/metrics/upload")) && !requestPath.equals("/api/v1/auth/logout") ||  requestPath.startsWith("/api/metrics/upload") ||  requestPath.startsWith("/api/v1/metrics/upload") ||  requestPath.startsWith("/swagger") ||  requestPath.startsWith("/v3/api-docs")) {
+        if ((requestPath.startsWith("/api/v1/auth/") ||  requestPath.startsWith("/api/metrics/upload")) && !requestPath.equals("/api/v1/auth/logout") ||  requestPath.startsWith("/api/metrics/upload") ||  requestPath.startsWith("/api/v1/metrics/upload") ||  requestPath.startsWith("/swagger") ||  requestPath.startsWith("/v3/api-docs") || requestPath.startsWith("/actuator")) {
             log.info("Пропускаю проверку токена для запроса: {} {}", method, requestPath);
             filterChain.doFilter(request, response);
             return;
