@@ -1,7 +1,7 @@
 package com.arctic.backend_for_arctic_team.auth.controller;
 
 
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.user_responses.UserSearchResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.user_responses.UserSearchResponse;
 import com.arctic.backend_for_arctic_team.auth.service_interface.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

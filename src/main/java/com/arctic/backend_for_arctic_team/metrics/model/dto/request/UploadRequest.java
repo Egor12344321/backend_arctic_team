@@ -26,5 +26,4 @@ public record UploadRequest(
         List<PhysiologicalBaselineDto> physiologicalBaseline,
         List<ProductivityBaselineDto> productivityBaseline,
         List<ProductivityIndexDto> productivityIndex
-
 ) {}

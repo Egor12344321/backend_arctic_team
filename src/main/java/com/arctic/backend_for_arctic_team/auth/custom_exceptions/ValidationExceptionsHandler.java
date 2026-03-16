@@ -1,7 +1,7 @@
 package com.arctic.backend_for_arctic_team.auth.custom_exceptions;
 
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.error_responces.ErrorResponse;
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.error_responces.ValidationError;
+import com.arctic.backend_for_arctic_team.auth.dto.response.error_responces.ErrorResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.error_responces.ValidationError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

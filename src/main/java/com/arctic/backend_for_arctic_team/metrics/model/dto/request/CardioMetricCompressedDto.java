@@ -20,6 +20,7 @@ public record CardioMetricCompressedDto(
         return CardioMetricsCompressed.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
+                .expeditionId(dto.expeditionId())
                 .session(dto.session())
                 .heartRate(dto.heartRate())
                 .hasArtifacts(dto.hasArtifacts())

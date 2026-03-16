@@ -1,24 +1,17 @@
 package com.arctic.backend_for_arctic_team.auth.controller;
 
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.admin_responses.UserWithRolesResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.admin_responses.UserWithRolesResponse;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
-import com.arctic.backend_for_arctic_team.auth.entity.UserRole;
-import com.arctic.backend_for_arctic_team.auth.repository.UserRepository;
-import com.arctic.backend_for_arctic_team.auth.custom_exceptions.UserNotFoundException;
 import com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/admin/users")

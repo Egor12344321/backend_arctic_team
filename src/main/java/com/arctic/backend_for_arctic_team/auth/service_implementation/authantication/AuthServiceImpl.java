@@ -1,8 +1,8 @@
 package com.arctic.backend_for_arctic_team.auth.service_implementation.authantication;
 
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.auth_responses.LoginResponse;
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.auth_responses.RegisterResponse;
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.auth_responses.UpdateTokensResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.auth_responses.LoginResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.auth_responses.RegisterResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.auth_responses.UpdateTokensResponse;
 import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.LoginRequest;
 import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.RegisterRequest;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
@@ -12,7 +12,6 @@ import com.arctic.backend_for_arctic_team.auth.custom_exceptions.RefreshNotFound
 import com.arctic.backend_for_arctic_team.auth.custom_exceptions.UserNotFoundException;
 import com.arctic.backend_for_arctic_team.auth.repository.UserRepository;
 import com.arctic.backend_for_arctic_team.auth.security.JwtUtil;
-import com.arctic.backend_for_arctic_team.auth.security.UserDetailsImpl;
 import com.arctic.backend_for_arctic_team.auth.service_interface.CacheService;
 import com.arctic.backend_for_arctic_team.auth.service_interface.AuthService;
 import lombok.RequiredArgsConstructor;

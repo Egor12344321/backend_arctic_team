@@ -1,8 +1,8 @@
 package com.arctic.backend_for_arctic_team.auth.service_implementation.authantication;
 
 
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.admin_responses.UserWithRolesResponse;
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.auth_responses.RegisterResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.admin_responses.UserWithRolesResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.auth_responses.RegisterResponse;
 import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.RegisterRequest;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
 import com.arctic.backend_for_arctic_team.auth.entity.UserRole;

@@ -1,7 +1,7 @@
 package com.arctic.backend_for_arctic_team.auth.controller;
 
 
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.auth_responses.*;
+import com.arctic.backend_for_arctic_team.auth.dto.response.auth_responses.*;
 import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.LoginRequest;
 import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.RegisterRequest;
 

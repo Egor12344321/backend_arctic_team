@@ -1,7 +1,7 @@
 package com.arctic.backend_for_arctic_team.auth.service_implementation.authantication;
 
 
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.user_responses.UserSearchResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.user_responses.UserSearchResponse;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
 import com.arctic.backend_for_arctic_team.auth.repository.UserRepository;
 import com.arctic.backend_for_arctic_team.auth.service_interface.UserService;

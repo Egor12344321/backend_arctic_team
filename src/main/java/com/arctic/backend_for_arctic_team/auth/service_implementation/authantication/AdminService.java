@@ -1,7 +1,7 @@
 package com.arctic.backend_for_arctic_team.auth.service_implementation.authantication;
 
 import com.arctic.backend_for_arctic_team.auth.custom_exceptions.UserNotFoundException;
-import com.arctic.backend_for_arctic_team.auth.dto.reponse.admin_responses.UserWithRolesResponse;
+import com.arctic.backend_for_arctic_team.auth.dto.response.admin_responses.UserWithRolesResponse;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
 import com.arctic.backend_for_arctic_team.auth.entity.UserRole;
 import com.arctic.backend_for_arctic_team.auth.repository.UserRepository;

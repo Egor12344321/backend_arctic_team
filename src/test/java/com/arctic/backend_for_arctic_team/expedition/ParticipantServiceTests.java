@@ -4,7 +4,9 @@ import com.arctic.backend_for_arctic_team.auth.repository.UserRepository;
 import com.arctic.backend_for_arctic_team.expedition.exceptions.ExpeditionNotFoundException;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ParticipantResponse;
+import com.arctic.backend_for_arctic_team.expedition.model.dto.response.UserResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.entity.Expedition;
+import com.arctic.backend_for_arctic_team.expedition.model.entity.Participant;
 import com.arctic.backend_for_arctic_team.expedition.repository.ExpeditionRepository;
 import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepository;
 import com.arctic.backend_for_arctic_team.expedition.service.ParticipantService;
@@ -34,6 +36,7 @@ public class ParticipantServiceTests {
     @Mock
     private UserRepository userRepository;
 
+    private User leader;
     private Expedition expedition;
     private final LocalDateTime now = LocalDateTime.now();
     private final LocalDate startDate = LocalDate.now().plusMonths(1);
@@ -54,6 +57,7 @@ public class ParticipantServiceTests {
 
     }
 
+
     @Nested
     class MappingResponsesTests{
         @Nested
@@ -61,11 +65,12 @@ public class ParticipantServiceTests {
         class ExpeditionResponseTest {
             @BeforeEach
             void setUp() {
-                User leader = User.builder()
+                 leader = User.builder()
                         .id(1L)
                         .lastName("Иванов")
                         .firstName("Иван")
                         .email("ivanov@example.com")
+                        .individualNumber("ARCTIC")
                         .build();
 
                 expedition = Expedition.builder()
@@ -176,7 +181,7 @@ public class ParticipantServiceTests {
                 }
 
             }
-
+        
             @Nested
             @DisplayName("Совместная проверка")
             class CommonBehavior {
@@ -211,6 +216,62 @@ public class ParticipantServiceTests {
                     assertThat(participantResponse.role()).isEqualTo("PARTICIPANT");
                 }
             }
+            @Test
+            @DisplayName("Проверка маппинга user в userResponse")
+            void mapFromEntityToResponse(){
+                // arrange
+                UserResponse trueResponse = new UserResponse(
+                        1L,
+                        "ivanov@example.com",
+                        "Иван",
+                        "Иванов",
+                        "ARCTIC"
+                );
+
+                // act
+                UserResponse resultOfMethod = UserResponse.mapFromEntityToResponse(leader);
+
+                // assert
+                assertThat(resultOfMethod)
+                        .usingRecursiveComparison()
+                        .isEqualTo(trueResponse);
+            }
+
+            @Test
+            @DisplayName("Проверка маппинга participant в participantResponse")
+            void mapFromParticipantEntityToParticipantResponse(){
+                // arrange
+                UserResponse userResponse = new UserResponse(
+                        1L,
+                        "ivanov@example.com",
+                        "Иван",
+                        "Иванов",
+                        "ARCTIC"
+                );
+                ParticipantResponse trueResponse = new ParticipantResponse(
+                        1L,
+                        userResponse,
+                        now,
+                        1L
+                );
+                Participant participant = Participant.builder()
+                        .id(1L)
+                        .user(leader)
+                        .joinedAt(now)
+                        .expedition(expedition)
+                        .build();
+
+                // act
+                ParticipantResponse resultOfMethod = ParticipantResponse.mapFromEntityToResponse(participant);
+
+                // assert
+                assertThat(resultOfMethod)
+                        .usingRecursiveComparison()
+                        .isEqualTo(trueResponse);
+
+            }
         }
+
+
     }
 }
