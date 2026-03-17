@@ -31,7 +31,7 @@ spring:
     host: redis-cache
     port: 6379
 jwt:
-  secret: ${JWT_SECRET:X7k9p2mN4rT8vB5wQ1yL6cJ3hF0aD8gE5sW2zU7oR4tY1iP9}
+  secret: ${JWT_SECRET:HZIKG4GAOn9AeozDachZGyMZkDSoX8nJEkCCvFMva4h}
   access-token-expiration: 900000
   refresh-token-expiration: 604800000
 
