@@ -17,7 +17,7 @@ public class MemsMetrics {
     private Long id;
 
     @Column(name = "expedition_id")
-    private String expeditionId;
+    private Long expeditionId;
 
     @Column(name = "individual_number")
     private String individualNumber;
@@ -28,22 +28,22 @@ public class MemsMetrics {
     @Column(name = "session")
     private Integer session;
 
-    @Column(name = "accelerometerX")
+    @Column(name = "accelerometer_x")
     private Double accelerometerX;
 
-    @Column(name = "accelerometerY")
+    @Column(name = "accelerometer_y")
     private Double accelerometerY;
 
-    @Column(name = "accelerometerZ")
+    @Column(name = "accelerometer_z")
     private Double accelerometerZ;
 
-    @Column(name = "gyroscopeX")
+    @Column(name = "gyroscope_x")
     private Double gyroscopeX;
 
-    @Column(name = "gyroscopeY")
+    @Column(name = "gyroscope_y")
     private Double gyroscopeY;
 
-    @Column(name = "gyroscopeZ")
+    @Column(name = "gyroscope_z")
     private Double gyroscopeZ;
 
 }

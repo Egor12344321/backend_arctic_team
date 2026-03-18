@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.auth.service_implementation.authantication;
+package com.arctic.backend_for_arctic_team.auth.service_implementation.authentication;
 
 import com.arctic.backend_for_arctic_team.auth.custom_exceptions.UserNotFoundException;
 import com.arctic.backend_for_arctic_team.auth.dto.response.admin_responses.UserWithRolesResponse;

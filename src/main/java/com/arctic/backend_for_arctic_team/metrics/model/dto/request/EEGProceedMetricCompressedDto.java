@@ -13,7 +13,7 @@ public record EEGProceedMetricCompressedDto(
 ) {
     public static EEGProceedMetricsCompressed mapFromRequestToEntity(EEGProceedMetricCompressedDto request){
         return EEGProceedMetricsCompressed.builder()
-                .expeditionId(request.expeditionId)
+                .expeditionId(Long.valueOf(request.expeditionId))
                 .channel1(request.channel1())
                 .channel2(request.channel2())
                 .individualNumber(request.individualNumber())

@@ -2,7 +2,7 @@ package com.arctic.backend_for_arctic_team.auth.controller;
 
 import com.arctic.backend_for_arctic_team.auth.dto.response.admin_responses.UserWithRolesResponse;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
-import com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.AdminService;
+import com.arctic.backend_for_arctic_team.auth.service_implementation.authentication.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

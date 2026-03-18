@@ -20,7 +20,7 @@ public record MemsMetricDto(
         return MemsMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
-                .expeditionId(dto.expeditionId)
+                .expeditionId(Long.valueOf(dto.expeditionId))
                 .session(dto.session())
                 .accelerometerX(dto.accelerometerX())
                 .accelerometerY(dto.accelerometerY())

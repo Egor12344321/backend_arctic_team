@@ -1,8 +1,7 @@
 package com.arctic.backend_for_arctic_team.auth.security;
 
 
-import com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.TokenBlackListedService;
-import com.arctic.backend_for_arctic_team.config.CorsConfig;
+import com.arctic.backend_for_arctic_team.auth.service_implementation.authentication.TokenBlackListedService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

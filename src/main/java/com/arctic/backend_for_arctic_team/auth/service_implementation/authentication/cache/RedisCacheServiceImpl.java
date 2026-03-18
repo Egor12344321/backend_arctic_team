@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.cache;
+package com.arctic.backend_for_arctic_team.auth.service_implementation.authentication.cache;
 
 import com.arctic.backend_for_arctic_team.auth.service_interface.CacheService;
 import lombok.RequiredArgsConstructor;

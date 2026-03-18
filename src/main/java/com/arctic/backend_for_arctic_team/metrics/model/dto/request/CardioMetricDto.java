@@ -22,7 +22,7 @@ public record CardioMetricDto(
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
                 .session(dto.session())
-                .expeditionId(dto.expeditionId())
+                .expeditionId(Long.valueOf(dto.expeditionId()))
                 .heartRate(dto.heartRate())
                 .hasArtifacts(dto.hasArtifacts())
                 .kaplanIndex(dto.kaplanIndex())

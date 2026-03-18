@@ -20,7 +20,7 @@ public record ProductivityMetricDto(
         return ProductivityMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
-                .expeditionId(dto.expeditionId)
+                .expeditionId(Long.valueOf(dto.expeditionId))
                 .session(dto.session())
                 .gravity(dto.gravity())
                 .productivity(dto.productivity())

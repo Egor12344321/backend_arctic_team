@@ -18,7 +18,7 @@ public record EmotionalMetricCompressedDto(
         return EmotionalMetricsCompressed.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
-                .expeditionId(dto.expeditionId)
+                .expeditionId(Long.valueOf(dto.expeditionId))
                 .session(dto.session())
                 .attention(dto.attention())
                 .relaxation(dto.relaxation())

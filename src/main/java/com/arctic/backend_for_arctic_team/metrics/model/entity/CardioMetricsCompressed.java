@@ -22,7 +22,7 @@ public class CardioMetricsCompressed {
     private String individualNumber;
 
     @Column(name = "expedition_id")
-    private String expeditionId;
+    private Long expeditionId;
 
     @Column(name = "timestamp")
     private Long timestamp;

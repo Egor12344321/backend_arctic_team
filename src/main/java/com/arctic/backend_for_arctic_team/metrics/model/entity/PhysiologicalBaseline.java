@@ -24,7 +24,7 @@ public class PhysiologicalBaseline {
     private Long timestamp;
 
     @Column(name = "expedition_id")
-    private String expeditionId;
+    private Long expeditionId;
 
     @Column(name = "session")
     private Integer session;

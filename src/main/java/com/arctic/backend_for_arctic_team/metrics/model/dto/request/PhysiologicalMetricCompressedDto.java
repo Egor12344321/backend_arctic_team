@@ -20,7 +20,7 @@ public record PhysiologicalMetricCompressedDto(
         return PhysiologicalMetricsCompressed.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
-                .expeditionId(dto.expeditionId)
+                .expeditionId(Long.valueOf(dto.expeditionId))
                 .session(dto.session())
                 .relax(dto.relax())
                 .fatigue(dto.fatigue())

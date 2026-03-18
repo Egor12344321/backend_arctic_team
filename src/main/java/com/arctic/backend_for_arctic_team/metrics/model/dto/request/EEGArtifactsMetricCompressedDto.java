@@ -17,7 +17,7 @@ public record EEGArtifactsMetricCompressedDto(
         return EEGArtifactsMetricsCompressed.builder()
                 .artifactsChannel1(request.artifactsChannel1())
                 .artifactsChannel2(request.artifactsChannel2())
-                .expeditionId(request.expeditionId)
+                .expeditionId(Long.valueOf(request.expeditionId))
                 .qualityChannel1(request.qualityChannel1())
                 .qualityChannel2(request.qualityChannel2())
                 .individualNumber(request.individualNumber())

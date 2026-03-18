@@ -18,7 +18,7 @@ public class EEGArtifactsMetricsCompressed {
     private Long id;
 
     @Column(name = "expedition_id")
-    private String expeditionId;
+    private Long expeditionId;
 
     @Column(name = "artifacts_channel_1")
     private Integer artifactsChannel1;

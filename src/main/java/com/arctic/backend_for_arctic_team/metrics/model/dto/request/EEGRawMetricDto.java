@@ -14,7 +14,7 @@ public record EEGRawMetricDto(
         return EEGRawMetrics.builder()
                 .channel1(request.channel1())
                 .channel2(request.channel2())
-                .expeditionId(request.expeditionId)
+                .expeditionId(Long.valueOf(request.expeditionId))
                 .individualNumber(request.individualNumber())
                 .session(request.session())
                 .timestamp(request.timestamp())

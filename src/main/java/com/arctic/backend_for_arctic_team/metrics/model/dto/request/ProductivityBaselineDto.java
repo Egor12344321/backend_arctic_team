@@ -16,7 +16,7 @@ public record ProductivityBaselineDto(
 ) {
     public ProductivityBaseline toEntity() {
         return ProductivityBaseline.builder()
-                .expeditionId(this.expeditionId())
+                .expeditionId(Long.valueOf(this.expeditionId()))
                 .individualNumber(this.individualNumber())
                 .timestamp(this.timestamp())
                 .session(this.session())

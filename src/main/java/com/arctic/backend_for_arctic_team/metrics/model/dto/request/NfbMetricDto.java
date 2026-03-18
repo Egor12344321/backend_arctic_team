@@ -19,7 +19,7 @@ public record NfbMetricDto(
         return NfbMetrics.builder()
                 .individualNumber(dto.individualNumber())
                 .timestamp(dto.timestamp())
-                .expeditionId(dto.expeditionId)
+                .expeditionId(Long.valueOf(dto.expeditionId))
                 .session(dto.session())
                 .alpha(dto.alpha())
                 .beta(dto.beta())

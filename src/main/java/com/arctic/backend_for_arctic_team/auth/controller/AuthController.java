@@ -6,7 +6,7 @@ import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.LoginRe
 import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.RegisterRequest;
 
 import com.arctic.backend_for_arctic_team.auth.custom_exceptions.RefreshNotFoundException;
-import com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.util.CookieUtil;
+import com.arctic.backend_for_arctic_team.auth.service_implementation.authentication.util.CookieUtil;
 import com.arctic.backend_for_arctic_team.auth.service_interface.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

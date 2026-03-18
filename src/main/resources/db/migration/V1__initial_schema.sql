@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS participants (
 CREATE TABLE IF NOT EXISTS cardio_metrics (
     id BIGSERIAL PRIMARY KEY,
     individual_number VARCHAR(255) NOT NULL,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     timestamp BIGINT NOT NULL,
     session INTEGER,
     heart_rate DOUBLE PRECISION,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS cardio_metrics (
 
 CREATE TABLE IF NOT EXISTS eeg_artifacts_metrics (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     artifacts_channel_1 INTEGER,
     artifacts_channel_2 INTEGER,
     quality_channel_1 INTEGER,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS eeg_artifacts_metrics (
 
 CREATE TABLE IF NOT EXISTS eeg_proceed_metrics (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     channel_1 REAL,
     channel_2 REAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS eeg_proceed_metrics (
 
 CREATE TABLE IF NOT EXISTS eeg_raw_metrics (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     channel_1 REAL,
     channel_2 REAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS eeg_raw_metrics (
 
 CREATE TABLE IF NOT EXISTS emotional_metrics (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS emotional_metrics (
 
 CREATE TABLE IF NOT EXISTS mems_metrics (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS mems_metrics (
 
 CREATE TABLE IF NOT EXISTS nfb_metrics (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS nfb_metrics (
 
 CREATE TABLE IF NOT EXISTS physiological_metrics (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS physiological_metrics (
 
 CREATE TABLE IF NOT EXISTS productivity_metrics (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id BIGSERIAL,
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS productivity_metrics (
 CREATE TABLE IF NOT EXISTS cardio_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
     individual_number VARCHAR(255) NOT NULL,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     timestamp BIGINT NOT NULL,
     session INTEGER,
     heart_rate DOUBLE PRECISION,
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS cardio_metrics_compressed (
 
 CREATE TABLE IF NOT EXISTS eeg_artifacts_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     artifacts_channel_1 INTEGER,
     artifacts_channel_2 INTEGER,
     quality_channel_1 INTEGER,
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS eeg_artifacts_metrics_compressed (
 
 CREATE TABLE IF NOT EXISTS eeg_proceed_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     channel_1 REAL,
     channel_2 REAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS eeg_proceed_metrics_compressed (
 
 CREATE TABLE IF NOT EXISTS eeg_raw_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     channel_1 REAL,
     channel_2 REAL,
     individual_number VARCHAR(255) NOT NULL,
@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS eeg_raw_metrics_compressed (
 
 CREATE TABLE IF NOT EXISTS emotional_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS emotional_metrics_compressed (
 
 CREATE TABLE IF NOT EXISTS mems_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -229,7 +229,7 @@ CREATE TABLE IF NOT EXISTS mems_metrics_compressed (
 
 CREATE TABLE IF NOT EXISTS nfb_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -242,7 +242,7 @@ CREATE TABLE IF NOT EXISTS nfb_metrics_compressed (
 
 CREATE TABLE IF NOT EXISTS physiological_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS physiological_metrics_compressed (
 
 CREATE TABLE IF NOT EXISTS productivity_metrics_compressed (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     individual_number VARCHAR(255) NOT NULL,
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -274,7 +274,7 @@ CREATE TABLE IF NOT EXISTS physiological_baseline (
     id BIGSERIAL PRIMARY KEY,
     individual_number VARCHAR(255),
     timestamp BIGINT NOT NULL,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     session INTEGER,
     alpha DOUBLE PRECISION,
     beta DOUBLE PRECISION,
@@ -285,7 +285,7 @@ CREATE TABLE IF NOT EXISTS physiological_baseline (
 
 CREATE TABLE IF NOT EXISTS productivity_baseline (
     id BIGSERIAL PRIMARY KEY,
-    expedition_id VARCHAR(255),
+    expedition_id BIGINT,
     individual_number VARCHAR(255),
     timestamp BIGINT NOT NULL,
     session INTEGER,
@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS productivity_baseline (
 
 CREATE TABLE IF NOT EXISTS productivity_index (
    id BIGSERIAL PRIMARY KEY,
-   expedition_id VARCHAR(255),
+   expedition_id BIGINT,
    individual_number VARCHAR(255),
    timestamp BIGINT NOT NULL,
    session INTEGER,

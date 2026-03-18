@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.util;
+package com.arctic.backend_for_arctic_team.auth.service_implementation.authentication.util;
 
 
 import org.springframework.http.ResponseCookie;

@@ -19,7 +19,7 @@ public record PhysiologicalBaselineDto(
                 .id(this.id())
                 .individualNumber(this.individualNumber())
                 .timestamp(this.timestamp())
-                .expeditionId(this.expeditionId())
+                .expeditionId(Long.valueOf(this.expeditionId()))
                 .session(this.session())
                 .alpha(this.alpha())
                 .beta(this.beta())

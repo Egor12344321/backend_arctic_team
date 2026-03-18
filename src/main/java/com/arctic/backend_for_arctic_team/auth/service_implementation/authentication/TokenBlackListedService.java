@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.auth.service_implementation.authantication;
+package com.arctic.backend_for_arctic_team.auth.service_implementation.authentication;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,7 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import static com.arctic.backend_for_arctic_team.auth.service_implementation.authantication.AuthServiceImpl.ACCESS_PREFIX;
+import static com.arctic.backend_for_arctic_team.auth.service_implementation.authentication.AuthServiceImpl.ACCESS_PREFIX;
 
 
 @RequiredArgsConstructor

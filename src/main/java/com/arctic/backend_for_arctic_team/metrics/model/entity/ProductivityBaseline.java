@@ -19,7 +19,7 @@ public class ProductivityBaseline {
     private Long id;
 
     @Column(name = "expedition_id")
-    private String expeditionId;
+    private Long expeditionId;
 
     @Column(name = "individual_number")
     private String individualNumber;
