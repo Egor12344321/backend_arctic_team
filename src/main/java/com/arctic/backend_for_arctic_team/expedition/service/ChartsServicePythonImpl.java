@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class    ChartsServicePythonImpl implements ChartsService {
+public class ChartsServicePythonImpl implements ChartsService {
 
     private final RestClient pythonRestClient;
 
