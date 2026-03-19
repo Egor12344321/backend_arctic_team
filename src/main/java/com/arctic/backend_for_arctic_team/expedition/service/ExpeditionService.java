@@ -51,6 +51,13 @@ public class ExpeditionService {
         );
     }
 
+    public ExpeditionResponse getExpeditionById(Long expeditionId){
+        Expedition expedition = expeditionRepository.findById(expeditionId)
+                .orElseThrow(() -> new ExpeditionNotFoundException("Данной экспедиции уже не существует"));
+
+        return ExpeditionResponse.mapFromEntityToResponse(expedition);
+    }
+
     public void deleteExpeditionById(Long id){
         expeditionRepository.deleteById(id);
     }

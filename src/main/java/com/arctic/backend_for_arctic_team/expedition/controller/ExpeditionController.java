@@ -49,6 +49,16 @@ public class ExpeditionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(expedition);
     }
 
+    @GetMapping("/{expeditionId}")
+    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId)")
+    @Operation(summary = "Получение данных по экспедиции")
+    public ResponseEntity<ExpeditionResponse> getExpedition(@PathVariable Long expeditionId){
+        log.debug("EXPEDITION-CONTROLLER: Получение данных по экспедиции expeditionId: {}", expeditionId);
+        ExpeditionResponse expeditionResponse = expeditionService.getExpeditionById(expeditionId);
+        return ResponseEntity.ok().body(expeditionResponse);
+    }
+
+
     @GetMapping("/my")
     @PreAuthorize("hasAnyRole('USER', 'LEADER', 'ADMIN')")
     @Operation(summary = "Получить собственные экспедиции")
@@ -65,7 +75,7 @@ public class ExpeditionController {
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
     @Operation(summary = "Удалить экспедицию по id")
     public ResponseEntity<Void> deleteExpedition(
-            @PathVariable("expeditionId") Long expeditionId,
+            @PathVariable Long expeditionId,
             @AuthenticationPrincipal User currentUser) {
 
         log.debug("Leader {} deleting expedition {} STARTED", currentUser.getId(), expeditionId);
