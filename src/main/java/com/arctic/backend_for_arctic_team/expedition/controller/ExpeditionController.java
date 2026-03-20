@@ -88,7 +88,7 @@ public class ExpeditionController {
     @GetMapping("/{expeditionId}/participants")
     @Operation(summary = "Получить участников экспедиции по id")
     public ResponseEntity<List<ParticipantResponse>> getExpeditionParticipants(
-            @PathVariable("expeditionId") Long expeditionId,
+            @PathVariable Long expeditionId,
             @AuthenticationPrincipal User currentUser) {
 
         log.debug("Leader {} VIEWING participants of expedition {}",

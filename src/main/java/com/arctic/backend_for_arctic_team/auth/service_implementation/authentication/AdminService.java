@@ -56,7 +56,7 @@ public class AdminService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Пользователь " + userId + " не найден"));
 
-        if (!user.getRoles().contains(UserRole.ROLE_ADMIN)) {
+        if (!user.getRoles().contains(role)) {
             throw new IllegalArgumentException("Пользователь не имеет роль " + role);
         }
 
