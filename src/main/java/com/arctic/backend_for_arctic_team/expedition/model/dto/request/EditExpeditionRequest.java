@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public record EditExpeditionRequest(
         String name,
         @Size(max = 500) String description,
-        @FutureOrPresent LocalDate startDate,
-        @Future LocalDate endDate
+        LocalDate startDate,
+        LocalDate endDate
 ) {
 }

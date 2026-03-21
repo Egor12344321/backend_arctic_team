@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
                 .maxAge(0)
                 .path("/")
                 .build();
-
+        log.error("User not found");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
                 .body(e.getMessage());
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
                 .maxAge(0)
                 .path("/")
                 .build();
-
+        log.error("Unauthorized exception");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
                 .body(e.getMessage());

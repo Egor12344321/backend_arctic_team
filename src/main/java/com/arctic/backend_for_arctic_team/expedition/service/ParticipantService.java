@@ -53,7 +53,7 @@ public class ParticipantService {
         log.info("PARTICIPANT-SERVICE: Expedition fount");
         User user = userRepository.findByIndividualNumber(request.individualNumber())
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь с таким индивидуальным номером не найден"));
-        if (checkUserInExpedition(user.getId(), expeditionId)){
+        if (checkUserInExpedition(expeditionId, user.getId())){
             throw new ParticipantException(ParticipantException.ParticipantError.ALREADY_EXISTS, "Пользователь " + user.getId() + "уже участник данной экспедиции " + expeditionId);
         }
 
@@ -69,8 +69,8 @@ public class ParticipantService {
 
     }
 
-    private boolean checkUserInExpedition(Long id, Long expeditionId){
-        return participantRepository.existsByExpeditionIdAndUserId(id, expeditionId);
+    private boolean checkUserInExpedition(Long expeditionId, Long id){
+        return participantRepository.existsByExpeditionIdAndUserId(expeditionId, id);
     }
 
     public void removeParticipant(Long expeditionId, Long participantId) {

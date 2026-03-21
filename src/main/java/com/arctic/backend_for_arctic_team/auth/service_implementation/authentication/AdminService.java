@@ -57,6 +57,7 @@ public class AdminService {
                 .orElseThrow(() -> new UserNotFoundException("Пользователь " + userId + " не найден"));
 
         if (!user.getRoles().contains(role)) {
+            log.error("Пользователь не имеет роль {}", role);
             throw new IllegalArgumentException("Пользователь не имеет роль " + role);
         }
 
