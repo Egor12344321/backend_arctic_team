@@ -3,20 +3,15 @@ package com.arctic.backend_for_arctic_team.metrics.controller;
 
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.UploadRequest;
 import com.arctic.backend_for_arctic_team.metrics.model.dto.response.UploadResponse;
-import com.arctic.backend_for_arctic_team.metrics.service.UploadService;
+import com.arctic.backend_for_arctic_team.metrics.service.upload.UploadService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.ExecutorService;
 
 @RestController
 @Slf4j

@@ -1,8 +1,8 @@
-package com.arctic.backend_for_arctic_team.expedition.controller;
+package com.arctic.backend_for_arctic_team.metrics.controller;
 
 
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.AnalyticsAdviceResponse;
-import com.arctic.backend_for_arctic_team.expedition.service.AnalyticsService;
+import com.arctic.backend_for_arctic_team.metrics.service.analytics.AnalyticsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

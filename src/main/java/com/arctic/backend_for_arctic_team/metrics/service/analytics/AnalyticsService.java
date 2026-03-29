@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.expedition.service;
+package com.arctic.backend_for_arctic_team.metrics.service.analytics;
 
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.AnalyticsAdviceResponse;
 

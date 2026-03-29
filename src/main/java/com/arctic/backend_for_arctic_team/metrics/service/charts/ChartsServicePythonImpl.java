@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.expedition.service;
+package com.arctic.backend_for_arctic_team.metrics.service.charts;
 
 import com.arctic.backend_for_arctic_team.expedition.exceptions.PythonClientException;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.charts.ChartDto;

@@ -2,7 +2,7 @@ package com.arctic.backend_for_arctic_team.metrics.controller;
 
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.UploadRequest;
 import com.arctic.backend_for_arctic_team.metrics.model.dto.response.UploadResponse;
-import com.arctic.backend_for_arctic_team.metrics.service.UploadService;
+import com.arctic.backend_for_arctic_team.metrics.service.upload.UploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

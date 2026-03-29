@@ -2,17 +2,13 @@ package com.arctic.backend_for_arctic_team.expedition.controller;
 
 
 import com.arctic.backend_for_arctic_team.auth.entity.User;
-import com.arctic.backend_for_arctic_team.auth.security.UserDetailsImpl;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.AddParticipantRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.CreateExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.request.EditExpeditionRequest;
-import com.arctic.backend_for_arctic_team.expedition.model.dto.request.UpdateExpeditionRequest;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ParticipantResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.UserExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.entity.Expedition;
-import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepository;
-import com.arctic.backend_for_arctic_team.expedition.service.ChartsService;
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
 import com.arctic.backend_for_arctic_team.expedition.service.ParticipantService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +22,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

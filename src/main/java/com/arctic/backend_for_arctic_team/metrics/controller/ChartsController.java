@@ -1,9 +1,8 @@
-package com.arctic.backend_for_arctic_team.expedition.controller;
+package com.arctic.backend_for_arctic_team.metrics.controller;
 
 
-import com.arctic.backend_for_arctic_team.auth.entity.User;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.charts.ParticipantChartsDto;
-import com.arctic.backend_for_arctic_team.expedition.service.ChartsService;
+import com.arctic.backend_for_arctic_team.metrics.service.charts.ChartsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
@@ -12,12 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j

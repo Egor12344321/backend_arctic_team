@@ -8,7 +8,6 @@ import com.arctic.backend_for_arctic_team.expedition.model.dto.request.EditExped
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ExpeditionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.ParticipantResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.entity.Expedition;
-import com.arctic.backend_for_arctic_team.expedition.service.ChartsService;
 import com.arctic.backend_for_arctic_team.expedition.service.ExpeditionService;
 import com.arctic.backend_for_arctic_team.expedition.service.ParticipantService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +23,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor

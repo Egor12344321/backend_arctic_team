@@ -45,6 +45,8 @@ services:
       SPRING_REDIS_PORT: 6379
       SPRING_FLYWAY_BASELINE_ON_MIGRATE: "false"
       JWT_SECRET: ${JWT_SECRET}
+      GIGACHAT_KEY: ${GIGACHAT_KEY:-key}
+      ANALYTICS_PROVIDER: ${ANALYTICS_PROVIDER:-gigachat}
     networks:
       - arctic-net
     depends_on:
@@ -52,6 +54,9 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    profiles:
+      - with-python
+      - without-python
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
       interval: 30s
@@ -69,6 +74,8 @@ services:
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
       AUTHORIZATION_KEY: 1234567
+    profiles:
+      - with-python
     ports:
       - "8000:8000"
     networks:
