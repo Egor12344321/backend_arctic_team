@@ -41,11 +41,12 @@
 2) мобильное приложение пользователя, находящегося в экспедиции в условиях нестабильного интернет-соединения, при появлении соединения отправляет накопленные метрики на сервер
 
 ### 🌟 Архитектурная диаграммы в зависимости от настроек docker-compose
-![img.png](src/main/resources/images/диаграмма с python.png)
+
+![img.png](src/main/resources/images/python.png)
 
 #### Рисунок 1 - архитектурная диаграмма системы с использованием Python-service
 
-![img_1.png](src/main/resources/images/прямой запрос.png)
+![img_1.png](src/main/resources/images/giga.png)
 
 #### Рисунок 2 - архитектурная диаграмма системы с прямым запросом в GigaChat из Java-service
 
