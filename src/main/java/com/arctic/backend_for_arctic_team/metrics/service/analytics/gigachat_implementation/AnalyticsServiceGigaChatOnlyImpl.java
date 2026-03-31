@@ -14,6 +14,8 @@ import chat.giga.model.completion.CompletionRequest;
 import chat.giga.model.completion.CompletionResponse;
 import com.arctic.backend_for_arctic_team.expedition.model.dto.response.AnalyticsAdviceResponse;
 import com.arctic.backend_for_arctic_team.metrics.service.analytics.AnalyticsService;
+import com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation.exceptions.GigaChatClientException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,23 +34,12 @@ public class AnalyticsServiceGigaChatOnlyImpl implements AnalyticsService {
     private String gigaChatKey;
 
     private final Prompt prompt;
+    private final GigaChatClient gigaChatClient;
 
     @Override
     public AnalyticsAdviceResponse getAnalyticsAdvice(String indNum, Long expeditionId) {
-        GigaChatClient client = GigaChatClientImpl.builder()
-                .verifySslCerts(false)
-                .authClient(AuthClient.builder()
-                        .withOAuth(
-                                AuthClientBuilder.OAuthBuilder.builder()
-                                        .verifySslCerts(false) //изменить на true в проде
-                                        .scope(Scope.GIGACHAT_API_PERS)
-                                        .authKey(gigaChatKey)
-                                        .build())
-                        .build())
-                .build();
-
         try {
-            CompletionResponse response = client.completions(CompletionRequest.builder()
+            CompletionResponse response = gigaChatClient.completions(CompletionRequest.builder()
                     .model(ModelName.GIGA_CHAT)
                     .message(ChatMessage.builder()
                             .content(prompt.getText(indNum, expeditionId))
@@ -58,8 +49,11 @@ public class AnalyticsServiceGigaChatOnlyImpl implements AnalyticsService {
             String advice = response.choices().getFirst().message().content();
             return new AnalyticsAdviceResponse(advice);
         } catch (HttpClientException ex) {
-            log.error("GIGACHAT выбросил исключение, status: {}, message: {}", ex.statusCode(), ex.getMessage());
+            log.error("GIGACHAT выбросил исключение, status: {}, message: {} for indNum: {}", ex.statusCode(), ex.getMessage(), indNum);
             throw new GigaChatClientException(ex.getMessage(), HttpStatus.resolve(ex.statusCode()));
+        } catch (JsonProcessingException ex){
+            log.error("JsonProcessingException for indNum: {}", indNum);
+            throw new GigaChatClientException("Ошибка преобразования метрик в JSON", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

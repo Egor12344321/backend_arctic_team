@@ -1,6 +1,7 @@
 package com.arctic.backend_for_arctic_team.expedition.exceptions;
 
-import com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation.GigaChatClientException;
+import com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation.exceptions.GigaChatClientException;
+import com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation.exceptions.MetricsForAnalyticsNotFountException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +38,9 @@ public class ExpeditionExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getError());
     }
     
-    @ExceptionHandler({PythonClientException.class, GigaChatClientException.class})
+    @ExceptionHandler({PythonClientException.class, GigaChatClientException.class, MetricsForAnalyticsNotFountException.class})
     public ResponseEntity<?> handlePythonClientException(PythonClientException e){
-        return ResponseEntity.status(e.getErrorCode()).body(e.getMessage());
+        return ResponseEntity.status(e.getErrorCode().value()).body(e.getMessage());
     }
 
 }

@@ -1,8 +1,12 @@
 package com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation;
 
 
+import com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation.exceptions.MetricsForAnalyticsNotFountException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,9 +15,13 @@ import org.springframework.stereotype.Component;
 public class Prompt {
 
     private final FetchingMetricsService fetchingMetricsService;
+    private final ObjectMapper objectMapper;
 
-    public String getText(String indNum, Long expeditionId){
+    public String getText(String indNum, Long expeditionId) throws JsonProcessingException {
         MetricsForAnalyticsDto metrics = fetchingMetricsService.getMetricsForAnalytics(indNum, expeditionId);
+//        if (metrics.cardioMetrics().isEmpty() || metrics.physiologicalMetrics().isEmpty() || metrics.productivityMetrics().isEmpty() || metrics.nfbMetrics().isEmpty()){
+//            throw new MetricsForAnalyticsNotFountException("Метрики для аналитики не найдены", HttpStatus.BAD_REQUEST);
+//        }
         String text = String.format(
                 "Вы - эксперт в области нейронауки и анализа физиологических данных, специализирующийся на мониторинге состояния членов экспедиций в экстремальных условиях. Вашей задачей является анализ предоставленных метрик мозга и тела для одного члена экспедиции. Метрики включают:\n" +
                         "\n" +
@@ -38,11 +46,11 @@ public class Prompt {
                         "Дайте рекомендации: практические советы по улучшению (например, техники релаксации, перерывы, медицинские проверки), адаптированные к контексту экспедиции.\n" +
                         "\n" +
                         "Выведите ответ в строгом структурированном формате\n" +
-                        "Убедитесь, что анализ объективен, основан на данных и полезен для поддержания здоровья и продуктивности в экспедиции. Не добавляйте вымышленные данные",
-                metrics.nfbMetrics().toString(),
-                metrics.physiologicalMetrics().toString(),
-                metrics.cardioMetrics().toString(),
-                metrics.productivityMetrics().toString()
+                        "Убедитесь, что анализ объективен, основан на данных и полезен для поддержания здоровья и продуктивности в экспедиции. Не добавляйте вымышленные данные. Напиши просто краткий анализ и все, без приветствия, без соглашения и тому подобного, исключительно краткий анализ и все.",
+                objectMapper.writeValueAsString(metrics.nfbMetrics()),
+                objectMapper.writeValueAsString(metrics.physiologicalMetrics()),
+                objectMapper.writeValueAsString(metrics.cardioMetrics()),
+                objectMapper.writeValueAsString(metrics.productivityMetrics())
         );
         log.info(text);
         return text;
