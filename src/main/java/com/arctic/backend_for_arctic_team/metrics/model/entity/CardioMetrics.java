@@ -34,22 +34,22 @@ public class CardioMetrics {
     @Column(name = "heartRate")
     private Double heartRate;
 
-    @Column(name = "hasArtifacts")
+    @Column(name = "has_artifacts")
     private Integer hasArtifacts;
 
-    @Column(name = "kaplanIndex")
+    @Column(name = "kaplan_index")
     private Double kaplanIndex;
 
-    @Column(name = "metricsAvailable")
+    @Column(name = "metrics_available")
     private Integer metricsAvailable;
 
-    @Column(name = "motionArtifacts")
+    @Column(name = "motion_artifacts")
     private Integer motionArtifacts;
 
-    @Column(name = "skinContact")
+    @Column(name = "skin_contact")
     private Integer skinContact;
 
-    @Column(name = "stressIndex")
+    @Column(name = "stress_index")
     private Double stressIndex;
 
 }

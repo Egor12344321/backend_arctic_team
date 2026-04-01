@@ -1,15 +1,15 @@
 package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "physiological_metrics")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class PhysiologicalMetrics {
     @Id
     @Column(name = "id")

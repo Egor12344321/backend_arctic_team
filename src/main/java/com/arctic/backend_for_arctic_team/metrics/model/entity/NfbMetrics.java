@@ -1,15 +1,15 @@
 package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "nfb_metrics")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class NfbMetrics {
     @Id
     @Column(name = "id")

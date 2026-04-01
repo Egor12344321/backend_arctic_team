@@ -34,13 +34,13 @@ public class EmotionalMetrics {
     @Column(name = "relaxation")
     private Double relaxation;
 
-    @Column(name = "cognitiveLoad")
+    @Column(name = "cognitive_load")
     private Double cognitiveLoad;
 
-    @Column(name = "cognitiveControl")
+    @Column(name = "cognitive_control")
     private Double cognitiveControl;
 
-    @Column(name = "selfControl")
+    @Column(name = "self_control")
     private Double selfControl;
 
 }

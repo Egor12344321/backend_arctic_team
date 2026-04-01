@@ -37,7 +37,7 @@ public class ProductivityMetricsCompressed {
     @Column(name = "fatigue")
     private Double fatigue;
 
-    @Column(name = "reverseFatigue")
+    @Column(name = "reverse_fatigue")
     private Double reverseFatigue;
 
     @Column(name = "relaxation")

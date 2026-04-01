@@ -1,15 +1,15 @@
 package com.arctic.backend_for_arctic_team.metrics.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "productivity_metrics")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class ProductivityMetrics {
     @Id
     @Column(name = "id")
@@ -37,7 +37,7 @@ public class ProductivityMetrics {
     @Column(name = "fatigue")
     private Double fatigue;
 
-    @Column(name = "reverseFatigue")
+    @Column(name = "reverse_fatigue")
     private Double reverseFatigue;
 
     @Column(name = "relaxation")
