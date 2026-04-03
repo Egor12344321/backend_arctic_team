@@ -56,4 +56,17 @@ public class AnalyticsServiceGigaChatOnlyImpl implements AnalyticsService {
             throw new GigaChatClientException("Ошибка преобразования метрик в JSON", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    private String processAdviceFromGigaChat(String advice){
+        if (advice == null) return "";
+
+        return advice
+                .replaceAll("(?m)^#{1,3}\\s*", "")
+                .replaceAll("\\*\\*([^*]+)\\*\\*", "$1")
+                .replaceAll("\\*([^*]+)\\*", "$1")
+                .replaceAll("(?m)^\\s*[-*]\\s+", "  • ")
+                .replaceAll("(?m)^\\s*(\\d+)\\.\\s+", "  $1. ")
+                .replaceAll("\\n{3,}", "\n\n")
+                .trim();
+    }
 }
