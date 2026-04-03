@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.expedition.config;
+package com.arctic.backend_for_arctic_team.metrics.service.charts.config;
 
 
 import lombok.RequiredArgsConstructor;
@@ -28,12 +28,14 @@ public class PythonClientConfiguration {
         return RestClient.builder()
                 .baseUrl(prop.getUrl())
                 .requestFactory(factory())
+                .requestInterceptor(new LoggingInterceptor())
                 .build();
     }
 
     private ClientHttpRequestFactory factory(){
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(50);
+        connectionManager.setDefaultMaxPerRoute(20);
 
         CloseableHttpClient httpClient = HttpClients.custom()
                 .setConnectionManager(connectionManager)
@@ -41,8 +43,8 @@ public class PythonClientConfiguration {
                 .build();
 
         HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
-        factory.setConnectionRequestTimeout(5000);
-        factory.setReadTimeout(5000);
+        factory.setConnectionRequestTimeout(3000);
+        factory.setReadTimeout(30000);
 
         return factory;
     }

@@ -35,12 +35,6 @@ public class ChartsServicePythonImpl implements ChartsService {
     public byte[] getSingleChart(String chartType, String indNum, Long expeditionId) {
         String uri = "/api/metrics/" + chartType + "/" + indNum + "/" + expeditionId;
 
-        log.info("chartType: {}", chartType);
-        log.info("indNum: {}", indNum);
-        log.info("expeditionId: {}", expeditionId);
-        log.info("URI: {}", uri);
-        log.info("Полный URL: http://python-service:8000{}", uri);
-
         return pythonRestClient.get()
                 .uri(uri)
                 .retrieve()
@@ -51,7 +45,6 @@ public class ChartsServicePythonImpl implements ChartsService {
                 })
                 .onStatus(HttpStatusCode::is5xxServerError, (req, res) -> {
                     log.error("Ошибка Python сервиса для {} {}", indNum, expeditionId);
-                    log.error("Запрос был: {}", uri);
                     throw new PythonClientException("Сервис графиков временно недоступен", HttpStatus.SERVICE_UNAVAILABLE);
                 })
                 .body(byte[].class);

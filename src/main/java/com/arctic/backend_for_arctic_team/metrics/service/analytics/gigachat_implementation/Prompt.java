@@ -52,7 +52,7 @@ public class Prompt {
                 objectMapper.writeValueAsString(metrics.cardioMetrics()),
                 objectMapper.writeValueAsString(metrics.productivityMetrics())
         );
-        log.info(text);
+        log.debug("Текст ответа GigaChat: {}", text);
         return text;
     }
 

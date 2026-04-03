@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.expedition.config;
+package com.arctic.backend_for_arctic_team.metrics.service.charts.config;
 
 
 import lombok.Getter;
