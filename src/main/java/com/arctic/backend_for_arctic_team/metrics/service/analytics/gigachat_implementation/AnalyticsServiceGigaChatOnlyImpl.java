@@ -23,6 +23,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 
 @Slf4j
 @Service
@@ -47,7 +49,8 @@ public class AnalyticsServiceGigaChatOnlyImpl implements AnalyticsService {
                             .build())
                     .build());
             String advice = response.choices().getFirst().message().content();
-            return new AnalyticsAdviceResponse(advice);
+            String formatAdvice = processAdviceFromGigaChat(advice);
+            return new AnalyticsAdviceResponse(formatAdvice);
         } catch (HttpClientException ex) {
             log.error("GIGACHAT выбросил исключение, status: {}, message: {} for indNum: {}", ex.statusCode(), ex.getMessage(), indNum);
             throw new GigaChatClientException(ex.getMessage(), HttpStatus.resolve(ex.statusCode()));
