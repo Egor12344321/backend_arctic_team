@@ -33,7 +33,7 @@ public class ChartsController {
     @Operation(summary = "Получить все графики участника экспедиции, либо выбрать несколько")
     public ResponseEntity<ParticipantChartsDto> getParticipantCharts(@PathVariable Long expeditionId, @PathVariable String indNum, @RequestParam(required = false) List<String> type) {
 
-        log.info("Loading charts for indNum={} in expedition={}", indNum, expeditionId);
+        log.debug("Loading charts for indNum={} in expedition={}", indNum, expeditionId);
 
         ParticipantChartsDto charts = chartsService.getParticipantCharts(indNum, expeditionId, type);
         return ResponseEntity.ok(charts);

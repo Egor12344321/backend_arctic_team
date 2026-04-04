@@ -60,7 +60,7 @@ public class ExpeditionController {
     public ResponseEntity<UserExpeditionResponse> getMyExpeditions(
             @AuthenticationPrincipal User currentUser) {
 
-        log.info("User {} requesting their expeditions", currentUser.getId());
+        log.debug("User {} requesting their expeditions", currentUser.getId());
 
         UserExpeditionResponse expeditions = expeditionService.getUserExpeditions(currentUser);
         return ResponseEntity.ok(expeditions);
@@ -120,7 +120,7 @@ public class ExpeditionController {
 
         log.debug("Leader {} removing participant {} from expedition {} STARTED",
                 currentUser.getId(), participantId, expeditionId);
-        participantService.removeParticipant(expeditionId, participantId);
+        participantService.removeParticipant(expeditionId, participantId, currentUser);
         log.debug("Leader {} removing participant {} from expedition {} ENDED",
                 currentUser.getId(), participantId, expeditionId);
         return ResponseEntity.noContent().build();

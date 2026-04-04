@@ -41,7 +41,10 @@ services:
     ports:
       - "8080:8080"
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_REDIS_HOST: redis-cache
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: egor
       SPRING_REDIS_PORT: 6379
       SPRING_FLYWAY_BASELINE_ON_MIGRATE: "false"
       JWT_SECRET: ${JWT_SECRET}

@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userMapperService.mapFromRequestToEntity(request);
 
         User savedUser = userRepository.save(user);
-
+        log.info("Пользователь: {} (id={}) зарегистрировался в системе", savedUser.getEmail(), user.getId());
         return userMapperService.mapFromEntityToResponse(savedUser);
     }
 
@@ -68,13 +68,15 @@ public class AuthServiceImpl implements AuthService {
                 throw new DisabledException("User account is disabled");
             }
             String email = userDetails.getUsername();
-            log.info("USER-SERVICE: User authenticated: {}", email);
+            log.debug("USER-SERVICE: User authenticated: {}", email);
             String accessToken = jwtUtil.generateAccessToken(userDetails);
-            log.info("AccessToken generated successfully");
+            log.debug("AccessToken generated successfully");
             String refreshToken = jwtUtil.generateRefreshToken(userDetails);
-            log.info("RefreshToken generated successfully");
+            log.debug("RefreshToken generated successfully");
             cacheService.saveToCache(userDetails.getIndividualNumber(), refreshToken);
-            log.info("USER-DETAILS ROLES: {}", userDetails.getRoles());
+            log.debug("USER-DETAILS ROLES: {}", userDetails.getRoles());
+
+            log.info("Пользователь: {} вошел в систему", email);
             return new LoginResponse(
                     accessToken,
                     refreshToken,
@@ -110,13 +112,13 @@ public class AuthServiceImpl implements AuthService {
         if (!jwtUtil.validateToken(refreshTokenFromCache)){
             throw new InvalidTokenRefreshException("Refresh токен из cache недействителен");
         }
-        log.info("Токен из кук найден и является валидным для пользователя: {}", email);
-        log.info("Токен из cache найден и является валидным для пользователя: {}", jwtUtil.extractUsername(refreshTokenFromCache));
-        log.info("Совпадение токенов из cache и cookie: {}", refreshToken.equals(refreshTokenFromCache));
+        log.debug("Токен из кук найден и является валидным для пользователя: {}", email);
+        log.debug("Токен из cache найден и является валидным для пользователя: {}", jwtUtil.extractUsername(refreshTokenFromCache));
+        log.debug("Совпадение токенов из cache и cookie: {}", refreshToken.equals(refreshTokenFromCache));
         if(refreshTokenFromCache.equals(refreshToken)) {
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new UserNotFoundException("Пользователь с таким email не найден"));
-            log.info("Пользователь с таким refresh найден");
+            log.debug("Пользователь с таким refresh найден");
 
 
             cacheService.removeFromCache(individualNumber);
@@ -125,6 +127,7 @@ public class AuthServiceImpl implements AuthService {
             String updatedAccessToken = jwtUtil.generateAccessToken(user);
 
             cacheService.saveToCache(individualNumber, updatedRefreshToken);
+            log.info("Пользователь: {} (id={}) обновил токены", user.getEmail(), user.getId());
             return new UpdateTokensResponse(
                     updatedAccessToken,
                     updatedRefreshToken,
@@ -139,9 +142,10 @@ public class AuthServiceImpl implements AuthService {
     public void logout(String accessToken, String refreshToken) {
         log.debug("Started logout for user: {}", jwtUtil.extractUsername(accessToken));
         redisTemplate.opsForValue().set(ACCESS_PREFIX + tokenBlackListedService.generateTokenId(accessToken), accessToken, Duration.ofMinutes(30));
-        log.info("Access token saved to blacklist");
+        log.debug("Access token saved to blacklist");
         String individualNumber = jwtUtil.extractIndividualNumber(refreshToken);
-        log.info("Individual number for deleting refresh: {}", individualNumber);
+        log.debug("Individual number for deleting refresh: {}", individualNumber);
+        log.info("Пользователь: {} вышел из системы", individualNumber);
         cacheService.removeFromCache(individualNumber);
     }
 

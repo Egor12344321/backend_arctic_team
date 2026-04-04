@@ -32,12 +32,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         log.debug("Filtering request: {} {}", method, requestPath);
         if ((requestPath.startsWith("/api/v1/auth/") ||  requestPath.startsWith("/api/metrics/upload")) && !requestPath.equals("/api/v1/auth/logout") ||  requestPath.startsWith("/api/metrics/upload") ||  requestPath.startsWith("/api/v1/metrics/upload") ||  requestPath.startsWith("/swagger") ||  requestPath.startsWith("/v3/api-docs") || requestPath.startsWith("/actuator")) {
-            log.info("Пропускаю проверку токена для запроса: {} {}", method, requestPath);
+            log.debug("Пропускаю проверку токена для запроса: {} {}", method, requestPath);
             filterChain.doFilter(request, response);
             return;
         }
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            log.info("No token for: {}", requestPath);
+            log.debug("No token for: {}", requestPath);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
@@ -51,15 +51,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
             if (!requestPath.equals("/api/v1/auth/refresh") && jwtUtil.isRefresh(jwt)) {
-                log.info("Отправлен refresh token, instead of access");
+                log.debug("Отправлен refresh token, instead of access");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
             username = jwtUtil.extractUsername(jwt);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                log.info("Аутентификация отсутствует, проверяем токен для пользователя: {}", username);
+                log.debug("Аутентификация отсутствует, проверяем токен для пользователя: {}", username);
                 if (jwtUtil.validateToken(jwt)) {
-                    log.info("Token valid {}", username);
+                    log.debug("Token valid {}", username);
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
@@ -68,13 +68,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     );
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    log.info("Установлена аутентификация для пользователя: {}", username);
+                    log.debug("Установлена аутентификация для пользователя: {}", username);
                 }
             } else {
                 if (username == null) {
                     log.warn("Не удалось извлечь username из токена");
                 } else {
-                    log.info("Аутентификация уже установлена для пользователя: {}", username);
+                    log.debug("Аутентификация уже установлена для пользователя: {}", username);
                 }
             }
         } catch (Exception e) {

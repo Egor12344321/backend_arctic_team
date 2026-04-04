@@ -22,7 +22,7 @@ public class AnalyticsServicePythonImpl implements AnalyticsService {
 
     @Override
     public AnalyticsAdviceResponse getAnalyticsAdvice(String indNum, Long expeditionId) {
-        log.info("Запрос аналитики от GigaChat для indNum: {}, expeditionId: {}", indNum, expeditionId);
+        log.debug("Запрос аналитики от GigaChat для indNum: {}, expeditionId: {}", indNum, expeditionId);
 
         String uri = UriComponentsBuilder.fromPath("/advices/{ind_num}/{expedition_id}")
                 .buildAndExpand(indNum, expeditionId)
@@ -41,7 +41,7 @@ public class AnalyticsServicePythonImpl implements AnalyticsService {
                 })
                 .body(AnalyticsAdviceResponse.class);
 
-        log.info("Успешно получен ответ от GigaChat для indNum: {}", indNum);
+        log.info("Успешно получен ответ от GigaChat для indNum: {} для экспедиции: {}", indNum, expeditionId);
         return response;
 
         }

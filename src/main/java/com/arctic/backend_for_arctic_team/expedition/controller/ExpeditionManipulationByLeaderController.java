@@ -29,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/expeditions/leader")
 @Validated
-@Tag(name = "Фукнции для лидера по манипуляции экспедициями")
+@Tag(name = "Функции для лидера по манипуляции экспедициями")
 public class ExpeditionManipulationByLeaderController {
 
     private final ExpeditionService expeditionService;
@@ -102,7 +102,7 @@ public class ExpeditionManipulationByLeaderController {
 
         log.debug("Leader {} removing participant {} from expedition {} STARTED",
                 currentUser.getId(), participantId, expeditionId);
-        participantService.removeParticipant(expeditionId, participantId);
+        participantService.removeParticipant(expeditionId, participantId, currentUser);
         log.debug("Leader {} removing participant {} from expedition {} ENDED",
                 currentUser.getId(), participantId, expeditionId);
         return ResponseEntity.noContent().build();

@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     public UserSearchResponse searchUserByIndividualNumber(String individualNumber) {
         User user = userRepository.findByIndividualNumber(individualNumber)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователя с таким индивидуальным номером нет"));
-        log.info("User with individual number fount: {}", individualNumber);
+        log.debug("User with individual number fount: {}", individualNumber);
         return UserSearchResponse.fromUser(user);
     }
 }

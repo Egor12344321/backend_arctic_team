@@ -27,11 +27,11 @@ public class AnalyticsController {
     @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId)")
     @Operation(summary = "Получить совет-вывод по полученным данным")
     public ResponseEntity<AnalyticsAdviceResponse> getAnalyticsAdvice(@PathVariable String indNum, @PathVariable Long expeditionId){
-        log.info("Started getting advice for user with indNum: {}, expeditionId: {}", indNum, expeditionId);
+        log.debug("Started getting advice for user with indNum: {}, expeditionId: {}", indNum, expeditionId);
 
         AnalyticsAdviceResponse response = analyticsService.getAnalyticsAdvice(indNum, expeditionId);
 
-        log.info("Ended getting advice for user with indNum: {}, expeditionId: {}", indNum, expeditionId);
+        log.debug("Ended getting advice for user with indNum: {}, expeditionId: {}", indNum, expeditionId);
 
         return ResponseEntity.ok().body(response);
     }

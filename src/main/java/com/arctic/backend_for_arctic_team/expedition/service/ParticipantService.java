@@ -32,7 +32,7 @@ public class ParticipantService {
 
     @Transactional(readOnly = true)
     public List<ParticipantResponse> getExpeditionParticipants(Long expeditionId) {
-        log.info("PARTICIPANT-SERVICE: Getting expedition participants");
+        log.debug("PARTICIPANT-SERVICE: Getting expedition participants");
         if (!expeditionRepository.existsById(expeditionId)) {
             log.warn("Expedition {} not found", expeditionId);
             throw new ExpeditionNotFoundException("Такой экспедиции не существует: " + expeditionId);
@@ -45,12 +45,12 @@ public class ParticipantService {
     }
 
     public ParticipantResponse addParticipant(Long expeditionId, AddParticipantRequest request) {
-        log.info("PARTICIPANT-SERVICE: Starting adding participant: {}", request.individualNumber());
+        log.debug("PARTICIPANT-SERVICE: Starting adding participant: {}", request.individualNumber());
 
         Expedition expedition = expeditionRepository.findById(expeditionId)
                 .orElseThrow(() -> new ExpeditionNotFoundException("Экспедиция с таким id: " + expeditionId + " не найдена"));
 
-        log.info("PARTICIPANT-SERVICE: Expedition fount");
+        log.debug("PARTICIPANT-SERVICE: Expedition fount");
         User user = userRepository.findByIndividualNumber(request.individualNumber())
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь с таким индивидуальным номером не найден"));
         if (checkUserInExpedition(expeditionId, user.getId())){
@@ -58,13 +58,13 @@ public class ParticipantService {
         }
 
 
-        log.info("PARTICIPANT-SERVICE: User fount");
+        log.debug("PARTICIPANT-SERVICE: User fount");
         Participant participant = Participant.builder()
                 .user(user)
                 .expedition(expedition)
                 .build();
         participantRepository.save(participant);
-        log.info("PARTICIPANT-SERVICE: Participant saved");
+        log.info("Добавлен новый участник: {} (id={}) в экспедицию: {} (id={})", participant.getUser().getEmail(), participant.getUser().getId(), participant.getExpedition().getName(), participant.getExpedition().getId());
         return ParticipantResponse.mapFromEntityToResponse(participant);
 
     }
@@ -73,9 +73,9 @@ public class ParticipantService {
         return participantRepository.existsByExpeditionIdAndUserId(expeditionId, id);
     }
 
-    public void removeParticipant(Long expeditionId, Long participantId) {
-        log.info("PARTICIPANT-SERVICE: Deleting participant started");
-        participantRepository.deleteById(participantId);
+    public void removeParticipant(Long expeditionId, Long participantId, User user) {
+        log.info("Пользователь c id участника: {} удален из экспедиции: {} лидером: {}", participantId, expeditionId, user.getId());
+        participantRepository.deleteById(participantId); // исправить на мягкое удаление
     }
 
 

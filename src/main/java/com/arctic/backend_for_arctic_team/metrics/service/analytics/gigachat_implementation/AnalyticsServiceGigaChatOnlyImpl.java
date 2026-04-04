@@ -50,6 +50,7 @@ public class AnalyticsServiceGigaChatOnlyImpl implements AnalyticsService {
                     .build());
             String advice = response.choices().getFirst().message().content();
             String formatAdvice = processAdviceFromGigaChat(advice);
+            log.info("Получен совет от нейросети для участника: {}, экспедиции: {}", indNum, expeditionId);
             return new AnalyticsAdviceResponse(formatAdvice);
         } catch (HttpClientException ex) {
             log.error("GIGACHAT выбросил исключение, status: {}, message: {} for indNum: {}", ex.statusCode(), ex.getMessage(), indNum);

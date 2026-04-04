@@ -30,7 +30,7 @@ public class ExpeditionService {
 
         Expedition expedition = mapperService.mapFromRequestToEntity(request, currentUser);
         Expedition savedExpedition = expeditionRepository.save(expedition);
-        log.info("Expedition saved successfully");
+        log.info("Создана новая экспедиция: {} (id={})", savedExpedition.getName(), savedExpedition.getId());
         return ExpeditionResponse.mapFromEntityToResponse(savedExpedition);
     }
 
@@ -94,6 +94,7 @@ public class ExpeditionService {
                 throw new EditExpeditionException("Дата начала экспедиции должна быть позже даты окончания");
             }
         }
+        log.info("Экспедиция: {} (id={}) была отредактирована", expedition.getName(), expedition.getId());
         return expeditionRepository.save(expedition);
     }
 

@@ -22,33 +22,36 @@ public class AdminService {
 
     // Получение списка всех пользователей, зарегистрированных в системе
     public List<UserWithRolesResponse> getAllUsers(User user) {
-        log.info("ADMIN-SERVICE: Admin getting all users: {}", user.getId());
 
         List<User> users = userRepository.findAllWithRoles();
-
+        log.info("Админ {} получил всех пользователей", user.getEmail());
         return users.stream()
                 .map(userMapperService::mapToUserWithRolesResponse)
                 .toList();
     }
 
     // Добавление роли админа пользотелю
-    public UserWithRolesResponse promoteToAdmin(Long userId){
+    public UserWithRolesResponse promoteToAdmin(Long userId, User admin){
+        log.info("Админ: {} (id: {}) пытается добавить роль админа пользователю: {}", admin.getEmail(), admin.getId(), userId);
         return addRole(userId, UserRole.ROLE_ADMIN);
     }
 
 
     // Добавление роли лидера пользователю
-    public UserWithRolesResponse promoteToLeader(Long userId){
+    public UserWithRolesResponse promoteToLeader(Long userId, User admin){
+        log.info("Админ: {} (id: {}) пытается добавить роль лидера пользователю: {}", admin.getEmail(), admin.getId(), userId);
         return addRole(userId, UserRole.ROLE_LEADER);
     };
 
     // Удаление роли админа у пользователя
-    public UserWithRolesResponse deleteAdminRole(Long userId) {
+    public UserWithRolesResponse deleteAdminRole(Long userId, User admin) {
+        log.info("Админ: {} (id: {}) пытается удалить роль админа у пользователя: {}", admin.getEmail(), admin.getId(), userId);
         return deleteRole(userId, UserRole.ROLE_ADMIN);
     }
 
     // Удаление роли лидера у пользователя
-    public UserWithRolesResponse deleteLeaderRole(Long userId) {
+    public UserWithRolesResponse deleteLeaderRole(Long userId, User admin) {
+        log.info("Админ: {} (id: {}) пытается удалить роль лидера у пользователя: {}", admin.getEmail(), admin.getId(), userId);
         return deleteRole(userId, UserRole.ROLE_LEADER);
     }
 
@@ -63,6 +66,7 @@ public class AdminService {
 
         user.getRoles().remove(role);
         User savedUser = userRepository.save(user);
+        log.info("Админ удалил роль: {} у пользователя: {}", role, userId);
         return userMapperService.mapToUserWithRolesResponse(savedUser);
     }
 
@@ -75,6 +79,7 @@ public class AdminService {
         }
         user.getRoles().add(role);
         User savedUser = userRepository.save(user);
+        log.info("Админ добавил роль: {} пользователю: {}", role, userId);
         return userMapperService.mapToUserWithRolesResponse(savedUser);
     }
 }

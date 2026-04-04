@@ -39,7 +39,7 @@ public class AdminController {
             @AuthenticationPrincipal User currentAdmin) {
 
         log.debug("ADMIN-CONTROLLER: Admin started promoting admin role to user: {}", userId);
-        UserWithRolesResponse userWithRolesResponse = adminService.promoteToAdmin(userId);
+        UserWithRolesResponse userWithRolesResponse = adminService.promoteToAdmin(userId, currentAdmin);
         log.debug("ADMIN-CONTROLLER: Admin ended promoting admin role to user: {}", userId);
 
         return ResponseEntity.ok(userWithRolesResponse);
@@ -53,7 +53,7 @@ public class AdminController {
 
 
         log.debug("ADMIN-CONTROLLER: Admin started promoting leader role to user: {}", userId);
-        UserWithRolesResponse userWithRolesResponse = adminService.promoteToLeader(userId);
+        UserWithRolesResponse userWithRolesResponse = adminService.promoteToLeader(userId, currentAdmin);
         log.debug("ADMIN-CONTROLLER: Admin ended promoting leader role to user: {}", userId);
 
         return ResponseEntity.ok(userWithRolesResponse);
@@ -64,7 +64,7 @@ public class AdminController {
     @Operation(summary = "Удаление роли админа у пользователя")
     public ResponseEntity<UserWithRolesResponse> deleteAdminRole(@PathVariable Long userId, @AuthenticationPrincipal User currentAdmin){
         log.debug("ADMIN-CONTROLLER: Admin {} started deleting admin role from user: {}", currentAdmin.getId(), userId);
-        UserWithRolesResponse response = adminService.deleteAdminRole(userId);
+        UserWithRolesResponse response = adminService.deleteAdminRole(userId, currentAdmin);
         return ResponseEntity.ok(response);
     }
 
@@ -72,7 +72,7 @@ public class AdminController {
     @Operation(summary = "Удаление роли лидера у пользователя")
     public ResponseEntity<UserWithRolesResponse> deleteLeaderRole(@PathVariable Long userId, @AuthenticationPrincipal User currentAdmin){
         log.debug("ADMIN-CONTROLLER: Admin {} started deleting leader role from user: {}", currentAdmin.getId(), userId);
-        UserWithRolesResponse response = adminService.deleteLeaderRole(userId);
+        UserWithRolesResponse response = adminService.deleteLeaderRole(userId, currentAdmin);
         return ResponseEntity.ok(response);
     }
 
