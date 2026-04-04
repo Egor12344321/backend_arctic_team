@@ -1,10 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.service.metrics_upload_service;
 
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.EmotionalMetricDto;
-import com.arctic.backend_for_arctic_team.metrics.model.dto.request.ProductivityMetricDto;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.EmotionalMetrics;
-import com.arctic.backend_for_arctic_team.metrics.model.entity.ProductivityMetrics;
-import com.arctic.backend_for_arctic_team.metrics.repository.EmotionalMetricsRepository;
+import com.arctic.backend_for_arctic_team.metrics.repository.jpa.EmotionalMetricsRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

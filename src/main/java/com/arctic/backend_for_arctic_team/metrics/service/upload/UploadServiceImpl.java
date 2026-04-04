@@ -3,7 +3,7 @@ package com.arctic.backend_for_arctic_team.metrics.service.upload;
 
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.*;
 import com.arctic.backend_for_arctic_team.metrics.model.dto.response.UploadResponse;
-import com.arctic.backend_for_arctic_team.metrics.repository.*;
+import com.arctic.backend_for_arctic_team.metrics.repository.jpa.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;

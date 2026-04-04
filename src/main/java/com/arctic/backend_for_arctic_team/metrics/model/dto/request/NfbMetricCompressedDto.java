@@ -1,8 +1,6 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
-import com.arctic.backend_for_arctic_team.metrics.model.entity.NfbMetrics;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.NfbMetricsCompressed;
-import com.arctic.backend_for_arctic_team.metrics.repository.NfbMetricsCompressedRepository;
 
 public record NfbMetricCompressedDto(
         String individualNumber,

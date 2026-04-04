@@ -1,7 +1,6 @@
-package com.arctic.backend_for_arctic_team.metrics.repository;
+package com.arctic.backend_for_arctic_team.metrics.repository.jpa;
 
 
-import com.arctic.backend_for_arctic_team.metrics.model.entity.CardioMetrics;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.CardioMetricsCompressed;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

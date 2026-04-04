@@ -1,9 +1,9 @@
 package com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation;
 
-import com.arctic.backend_for_arctic_team.metrics.repository.CardioMetricsRepository;
-import com.arctic.backend_for_arctic_team.metrics.repository.NfbMetricsRepository;
-import com.arctic.backend_for_arctic_team.metrics.repository.PhysiologicalMetricsRepository;
-import com.arctic.backend_for_arctic_team.metrics.repository.ProductivityMetricsRepository;
+import com.arctic.backend_for_arctic_team.metrics.repository.jpa.CardioMetricsRepository;
+import com.arctic.backend_for_arctic_team.metrics.repository.jpa.NfbMetricsRepository;
+import com.arctic.backend_for_arctic_team.metrics.repository.jpa.PhysiologicalMetricsRepository;
+import com.arctic.backend_for_arctic_team.metrics.repository.jpa.ProductivityMetricsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

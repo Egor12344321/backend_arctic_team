@@ -2,11 +2,8 @@ package com.arctic.backend_for_arctic_team.metrics.service.metrics_upload_servic
 
 
 import com.arctic.backend_for_arctic_team.metrics.model.dto.request.PhysiologicalMetricDto;
-import com.arctic.backend_for_arctic_team.metrics.model.dto.request.ProductivityMetricDto;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.PhysiologicalMetrics;
-import com.arctic.backend_for_arctic_team.metrics.model.entity.ProductivityMetrics;
-import com.arctic.backend_for_arctic_team.metrics.repository.PhysiologicalMetricsRepository;
-import com.arctic.backend_for_arctic_team.metrics.repository.ProductivityMetricsRepository;
+import com.arctic.backend_for_arctic_team.metrics.repository.jpa.PhysiologicalMetricsRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
