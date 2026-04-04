@@ -42,7 +42,8 @@ public class DashboardRepository {
         return jdbc.query(sql, (rs, i) -> {
             long ts = rs.getLong("ts");
             return new SessionMetricsDto(
-                    formatLabel(ts),
+                    formatDate(ts),
+                    formatTimeOfDay(ts),
                     rs.getDouble("alpha"),
                     rs.getDouble("beta"),
                     rs.getDouble("theta"),
@@ -55,11 +56,15 @@ public class DashboardRepository {
         }, indNum, expId);
     }
 
-    private String formatLabel(long ts) {
+    private String formatDate(long ts) {
         LocalDateTime dt = Instant.ofEpochMilli(ts).atZone(ZoneId.systemDefault()).toLocalDateTime();
-        String date = dt.format(DateTimeFormatter.ofPattern("dd.MM"));
-        int hour = dt.getHour();
-        String timeOfDay = hour < 12 ? "Утро" : hour < 18 ? "День" : "Вечер";
-        return date + " " + timeOfDay;
+        return dt.format(DateTimeFormatter.ofPattern("dd.MM"));
+    }
+
+    private String formatTimeOfDay(long ts) {
+        int hour = Instant.ofEpochMilli(ts).atZone(ZoneId.systemDefault()).toLocalDateTime().getHour();
+        if (hour < 12) return "Утро";
+        if (hour < 18) return "День";
+        return "Вечер";
     }
 }

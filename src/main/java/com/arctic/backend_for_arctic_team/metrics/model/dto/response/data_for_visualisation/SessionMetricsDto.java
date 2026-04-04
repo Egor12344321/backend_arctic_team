@@ -1,7 +1,8 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.response.data_for_visualisation;
 
 public record SessionMetricsDto(
-        String label,
+        String date,
+        String timeOfDay,
         Double alpha,
         Double beta,
         Double theta,
