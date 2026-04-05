@@ -64,6 +64,12 @@ charts:
   service:
     url: http://python-service:8000
 
+cors:
+  allowed-origins:
+    - http://localhost:3000
+    - http://159.194.217.94:3000
+    - http://159.194.217.94
+
 management:
   endpoints:
     web:
