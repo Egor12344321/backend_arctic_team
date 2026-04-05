@@ -9,9 +9,11 @@ spring:
     name: backend_for_arctic_team
 
   datasource:
-    url: jdbc:postgresql://postgres:5432/arctic_team?currentSchema=public
+    url: jdbc:postgresql://postgres:5432/arctic_team?currentSchema=public&reWriteBatchedInserts=true
     username: postgres
     password: egor
+    hikari:
+      auto-commit: false
 
   data:
     redis:
@@ -24,9 +26,10 @@ spring:
     properties:
       hibernate:
         jdbc:
-          batch_size: 1000
+          batch_size: 50
         order_inserts: true
         order_updates: true
+        generate_statistics: true
   redis:
     host: redis-cache
     port: 6379
@@ -40,6 +43,9 @@ logging:
     com.arctic.backend_for_arctic_team: TRACE
     org.springframework.security: DEBUG
     org.flywaydb: DEBUG
+    org.hibernate.SQL: TRACE
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.engine.jdbc.batch.internal: DEBUG
 
 
 charts:

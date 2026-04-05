@@ -41,7 +41,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_PROFILES_ACTIVE: prod
+#      SPRING_PROFILES_ACTIVE: prod
       SPRING_REDIS_HOST: redis-cache
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: egor
