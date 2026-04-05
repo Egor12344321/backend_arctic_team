@@ -28,7 +28,8 @@ public class DashboardRepository {
                 AVG(c.stress_index) as stress_index,
                 AVG(p.concentration) as concentration,
                 AVG(p.fatigue) as fatigue,
-                AVG(p.relax) as relax
+                AVG(p.relax) as relax,
+                AVG(n.smr) as smr
             FROM nfb_metrics n
             LEFT JOIN cardio_metrics c
                 ON n.session = c.session AND n.individual_number = c.individual_number
@@ -51,7 +52,8 @@ public class DashboardRepository {
                     rs.getDouble("stress_index"),
                     rs.getDouble("concentration"),
                     rs.getDouble("fatigue"),
-                    rs.getDouble("relax")
+                    rs.getDouble("relax"),
+                    rs.getDouble("smr")
             );
         }, indNum, expId);
     }

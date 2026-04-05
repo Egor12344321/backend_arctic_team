@@ -10,5 +10,6 @@ public record SessionMetricsDto(
         Double stressIndex,
         Double concentration,
         Double fatigue,
-        Double relax
+        Double relax,
+        Double smr
 ) {}
