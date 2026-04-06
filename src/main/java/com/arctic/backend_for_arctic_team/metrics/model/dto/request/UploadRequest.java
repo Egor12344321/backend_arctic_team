@@ -20,10 +20,11 @@ public record UploadRequest(
         @Valid List<NfbMetricCompressedDto> nfbMetricsCompressed,
         @Valid List<PhysiologicalMetricCompressedDto> physiologicalMetricsCompressed,
         @Valid List<ProductivityMetricCompressedDto> productivityMetricsCompressed,
-        List<EEGArtifactsMetricCompressedDto> EEGArtifactsMetricsCompressed,
+        List<EEGArtifactMetricCompressedDto> EEGArtifactsMetricsCompressed,
         List<EEGProceedMetricCompressedDto> EEGProceedMetricsCompressed,
         List<EEGRawMetricCompressedDto> EEGRawMetricsCompressed,
         List<PhysiologicalBaselineDto> physiologicalBaseline,
         List<ProductivityBaselineDto> productivityBaseline,
-        List<ProductivityIndexDto> productivityIndex
+        List<ProductivityIndexDto> productivityIndex,
+        List<SessionDto> sessionResults
 ) {}

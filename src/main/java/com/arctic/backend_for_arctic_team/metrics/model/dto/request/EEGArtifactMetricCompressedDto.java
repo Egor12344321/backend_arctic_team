@@ -1,19 +1,18 @@
 package com.arctic.backend_for_arctic_team.metrics.model.dto.request;
 
-import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGArtifactsMetrics;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.EEGArtifactsMetricsCompressed;
 
-public record EEGArtifactsMetricCompressedDto(
+public record EEGArtifactMetricCompressedDto(
         String individualNumber,
         String expeditionId,
         Long timestamp,
         Integer session,
-        Integer artifactsChannel1,
-        Integer artifactsChannel2,
-        Integer qualityChannel1,
-        Integer qualityChannel2
+        Boolean artifactsChannel1,
+        Boolean artifactsChannel2,
+        Float qualityChannel1,
+        Float qualityChannel2
 ) {
-    public static EEGArtifactsMetricsCompressed mapFromRequestToEntity(EEGArtifactsMetricCompressedDto request){
+    public static EEGArtifactsMetricsCompressed mapFromRequestToEntity(EEGArtifactMetricCompressedDto request){
         return EEGArtifactsMetricsCompressed.builder()
                 .artifactsChannel1(request.artifactsChannel1())
                 .artifactsChannel2(request.artifactsChannel2())

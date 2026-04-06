@@ -21,16 +21,16 @@ public class EEGArtifactsMetrics {
     private Long expeditionId;
 
     @Column(name = "artifacts_channel_1")
-    private Integer artifactsChannel1;
+    private Boolean artifactsChannel1;
 
     @Column(name = "artifacts_channel_2")
-    private Integer artifactsChannel2;
+    private Boolean artifactsChannel2;
 
     @Column(name = "quality_channel_1")
-    private Integer qualityChannel1;
+    private Float qualityChannel1;
 
     @Column(name = "quality_channel_2")
-    private Integer qualityChannel2;
+    private Float qualityChannel2;
 
     @Column(name = "individual_number")
     private String individualNumber;

@@ -1,4 +1,4 @@
-package com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation;
+package com.arctic.backend_for_arctic_team.metrics.service.analytics.gigachat_implementation.dto;
 
 import com.arctic.backend_for_arctic_team.metrics.model.entity.CardioMetrics;
 import com.arctic.backend_for_arctic_team.metrics.model.entity.NfbMetrics;

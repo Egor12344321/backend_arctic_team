@@ -56,18 +56,18 @@ public class MappingMetricsDtoTests {
 
     @Test
     void testEEGArtifactsMetricCompressedDto() {
-        EEGArtifactsMetricCompressedDto dto = new EEGArtifactsMetricCompressedDto(
+        EEGArtifactMetricCompressedDto dto = new EEGArtifactMetricCompressedDto(
                 "individualNumber",
                 "123",
                 1L,
                 1,
-                1,
-                0,
-                1,
-                0
+                true,
+                false,
+                1f,
+                0f
         );
 
-        var result = EEGArtifactsMetricCompressedDto.mapFromRequestToEntity(dto);
+        var result = EEGArtifactMetricCompressedDto.mapFromRequestToEntity(dto);
 
         assertThat(result)
                 .usingRecursiveComparison()
@@ -82,10 +82,10 @@ public class MappingMetricsDtoTests {
                 "123",
                 1L,
                 1,
-                1,
-                0,
-                1,
-                0
+                true,
+                false,
+                1f,
+                0f
         );
 
         var result = EEGArtifactsMetricDto.mapFromRequestToEntity(dto);

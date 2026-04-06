@@ -7,10 +7,10 @@ public record EEGArtifactsMetricDto(
         String expeditionId,
         Long timestamp,
         Integer session,
-        Integer artifactsChannel1,
-        Integer artifactsChannel2,
-        Integer qualityChannel1,
-        Integer qualityChannel2
+        Boolean artifactsChannel1,
+        Boolean artifactsChannel2,
+        Float qualityChannel1,
+        Float qualityChannel2
 ) {
     public static EEGArtifactsMetrics mapFromRequestToEntity(EEGArtifactsMetricDto request){
         return EEGArtifactsMetrics.builder()

@@ -39,7 +39,7 @@ public class UploadServiceImpl implements UploadService {
             uploadBatch(uploadRequest.emotionalMetricsCompressed(), EmotionalMetricCompressedDto::mapToEmotionalEntity);
             uploadBatch(uploadRequest.memsMetricsCompressed(), MemsMetricCompressedDto::mapToMemsEntity);
             uploadBatch(uploadRequest.nfbMetricsCompressed(), NfbMetricCompressedDto::mapToNfbEntity);
-            uploadBatch(uploadRequest.EEGArtifactsMetricsCompressed(), EEGArtifactsMetricCompressedDto::mapFromRequestToEntity);
+            uploadBatch(uploadRequest.EEGArtifactsMetricsCompressed(), EEGArtifactMetricCompressedDto::mapFromRequestToEntity);
             uploadBatch(uploadRequest.EEGProceedMetricsCompressed(), EEGProceedMetricCompressedDto::mapFromRequestToEntity);
             uploadBatch(uploadRequest.EEGRawMetricsCompressed(), EEGRawMetricCompressedDto::mapFromRequestToEntity);
             uploadBatch(uploadRequest.physiologicalMetricsCompressed(), PhysiologicalMetricCompressedDto::mapToPhysiologicalEntity);
@@ -47,6 +47,7 @@ public class UploadServiceImpl implements UploadService {
             uploadBatch(uploadRequest.physiologicalBaseline(), PhysiologicalBaselineDto::toEntity);
             uploadBatch(uploadRequest.productivityBaseline(), ProductivityBaselineDto::toEntity);
             uploadBatch(uploadRequest.productivityIndex(), ProductivityIndexDto::toEntity);
+            uploadBatch(uploadRequest.sessionResults(), SessionDto::toEntity);
 
             log.info("Загрузка метрик успешно завершена");
             return new UploadResponse(true);
