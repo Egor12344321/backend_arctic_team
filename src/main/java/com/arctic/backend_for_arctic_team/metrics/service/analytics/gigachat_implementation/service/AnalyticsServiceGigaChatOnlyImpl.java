@@ -51,6 +51,7 @@ public class AnalyticsServiceGigaChatOnlyImpl implements AnalyticsService {
         if (textForPrompt == null) return new AnalyticsAdviceResponse("Недостаточно данных для анализа.");
 
         try {
+            log.debug("Начало запроса аналитики");
             String advice = getAdvice(textForPrompt);
             String formatAdvice = processAdviceFromGigaChat(advice);
             log.info("Получен совет от нейросети для участника: {}, экспедиции: {}", indNum, expeditionId);
@@ -84,7 +85,7 @@ public class AnalyticsServiceGigaChatOnlyImpl implements AnalyticsService {
                         .role(ChatMessageRole.USER)
                         .build())
                 .build());
-
+        log.debug("Получен ответ от Гигачата");
         return response.choices().getFirst().message().content();
     }
 }
