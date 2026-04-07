@@ -18,9 +18,23 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-    @ExceptionHandler({RefreshNotFoundException.class, InvalidTokenRefreshException.class})
+    @ExceptionHandler(RefreshNotFoundException.class)
     public ResponseEntity<?> handleRefreshNotFoundException(RefreshNotFoundException e){
-        log.error("Handle Token Exception");
+        log.error("Refresh token not found: {}", e.getMessage());
+        ResponseCookie deleteCookie = ResponseCookie.from("refresh", "")
+                .httpOnly(true)
+                .maxAge(0)
+                .path("/")
+                .build();
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidTokenRefreshException.class)
+    public ResponseEntity<?> handleInvalidTokenRefreshException(InvalidTokenRefreshException e){
+        log.error("Invalid refresh token: {}", e.getMessage());
         ResponseCookie deleteCookie = ResponseCookie.from("refresh", "")
                 .httpOnly(true)
                 .maxAge(0)

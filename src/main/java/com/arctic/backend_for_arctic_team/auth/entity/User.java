@@ -58,14 +58,14 @@ public class User implements UserDetails {
     @PrePersist
     protected void onCreate(){
         if (this.individualNumber == null) {
-            Integer indNumber = (Integer) ThreadLocalRandom.current().nextInt(1, 1000);
-            this.individualNumber = indNumber.toString();
-            this.enabled = true;
-            this.accountNonExpired = true;
-            this.accountNonLocked = true;
-            this.credentialsNonExpired = true;
-
+            String emailPrefix = this.email.substring(0, Math.min(3, this.email.length())).toUpperCase();
+            String shortUuid = UUID.randomUUID().toString().substring(0, 6);
+            this.individualNumber = emailPrefix + "-" + shortUuid;
         }
+        this.enabled = true;
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
         this.createdAt = LocalDateTime.now();
     }
 
