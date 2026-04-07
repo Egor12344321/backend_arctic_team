@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Deprecated
 public class FetchingMetricsForAnalyticsRepository {
 
     private final JdbcTemplate jdbcTemplate;

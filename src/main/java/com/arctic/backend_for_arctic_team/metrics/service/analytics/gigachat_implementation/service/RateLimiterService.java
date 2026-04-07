@@ -10,6 +10,7 @@ import java.time.Instant;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Deprecated
 public class RateLimiterService {
 
     private final AnalyticsCache analyticsCache;
