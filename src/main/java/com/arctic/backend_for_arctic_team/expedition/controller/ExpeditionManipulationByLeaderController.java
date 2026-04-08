@@ -61,7 +61,7 @@ public class ExpeditionManipulationByLeaderController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId)")
+    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('ADMIN')")
     @GetMapping("/{expeditionId}/participants")
     @Operation(summary = "Получить участников экспедиции по id")
     public ResponseEntity<List<ParticipantResponse>> getExpeditionParticipants(

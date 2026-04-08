@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public record CreateExpeditionRequest(
         @NotBlank @Size(min = 3, max = 100) String name,
         @Size(max = 500) String description,
-        @NotNull @FutureOrPresent LocalDate startDate,
-        @NotNull @Future LocalDate endDate
+        @NotNull LocalDate startDate,
+        @NotNull LocalDate endDate
 ) {
 }

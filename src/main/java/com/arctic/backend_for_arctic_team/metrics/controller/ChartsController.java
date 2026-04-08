@@ -29,7 +29,7 @@ public class ChartsController {
     @GetMapping( "/{expeditionId}/{indNum}")
     // получение графиков, если пользователь лидер запрашиваемой экспедиции или участник запрашиваемой экспедиции
     // получение либо всех графиков, либо конкретно указанных в requestparam
-    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId)")
+    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId) or hasRole('ADMIN')")
     @Operation(summary = "Получить все графики участника экспедиции, либо выбрать несколько")
     public ResponseEntity<ParticipantChartsDto> getParticipantCharts(@PathVariable Long expeditionId, @PathVariable String indNum, @RequestParam(required = false) List<String> type) {
 
@@ -40,7 +40,7 @@ public class ChartsController {
     }
 
     @GetMapping(value = "/expeditions/{expeditionId}/{chartType}", produces = MediaType.IMAGE_PNG_VALUE)
-    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId)")
+    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expeditionId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expeditionId) or hasRole('ADMIN')")
     @Operation(summary = "Получение конкретного графика по типу")
     public ResponseEntity<byte[]> getChartImage(@PathVariable Long expeditionId, @PathVariable String chartType, @RequestParam @NotBlank String indNum
     ) {

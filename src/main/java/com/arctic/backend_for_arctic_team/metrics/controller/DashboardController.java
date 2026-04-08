@@ -22,7 +22,7 @@ public class DashboardController {
     private final DashboardService dashboardService;
 
     @GetMapping("/{indNum}/{expId}")
-    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expId)")
+    @PreAuthorize("hasRole('LEADER') and @expeditionSecurity.isLeaderOfExpedition(authentication, #expId) or hasRole('USER') and @expeditionSecurity.isParticipantOfExpedition(authentication, #expId) or hasRole('ADMIN')")
     public ResponseEntity<List<SessionMetricsDto>> getDashboard(@PathVariable String indNum, @PathVariable Long expId) {
         log.debug("Запрос на получение графиков начался");
         return ResponseEntity.ok(dashboardService.getDashboardData(indNum, expId));

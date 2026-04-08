@@ -14,6 +14,8 @@ import com.arctic.backend_for_arctic_team.expedition.repository.ParticipantRepos
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -106,5 +108,23 @@ public class ExpeditionService {
 
     public boolean isParticipantOfExpedition(Long expeditionId, Long userId) {
         return participantRepository.existsByExpeditionIdAndUserId(expeditionId, userId);
+    }
+
+    public List<ExpeditionResponse> getAllExpeditions(User user){
+        log.info("Админ: {} (id={}) хочет получить все экспедиции", user.getEmail(), user.getId());
+        List<ExpeditionResponse> expeditionResponses = expeditionRepository.findAll()
+                .stream().map(ExpeditionResponse::mapFromEntityToResponse)
+                .toList();
+        log.info("Админ: {} (id={}) получил все экспедиции", user.getEmail(), user.getId());
+
+        return expeditionResponses;
+    }
+
+    public Page<ExpeditionResponse> getAllExpeditionsPaginated(Pageable pageable) {
+        log.debug("Getting all expeditions with pagination: page={}, size={}", pageable.getPageNumber(), pageable.getPageSize());
+
+        Page<Expedition> expeditions = expeditionRepository.findAll(pageable);
+
+        return expeditions.map(ExpeditionResponse::mapFromEntityToResponse);
     }
 }
