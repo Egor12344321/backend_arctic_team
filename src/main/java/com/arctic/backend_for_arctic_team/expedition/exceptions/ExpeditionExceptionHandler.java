@@ -15,26 +15,26 @@ public class ExpeditionExceptionHandler {
 
     @ExceptionHandler({ExpeditionNotFoundException.class, ParticipantNotFoundException.class})
     public ResponseEntity<?> handleNotFoundException(Exception e){
-        log.error("Handle not found exception: {}", e.getMessage());
+        log.warn("Handle not found exception: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
     @ExceptionHandler({UserNotParticipantException.class})
     public ResponseEntity<?> handleUserException(Exception e){
-        log.error("Handle user not participant exception: {}", e.getMessage());
+        log.warn("Handle user not participant exception: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler({EditExpeditionException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> handleEditExpeditionException(Exception e){
-        log.error("Handle edit expedition exception: {}", e.getMessage());
+        log.warn("Handle edit expedition exception: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler({ParticipantException.class})
     public ResponseEntity<?> handleParticipantException(ParticipantException e){
-        log.error("Handle participant exception: {}", e.getMessage());
+        log.warn("Handle participant exception: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getError());
     }
     

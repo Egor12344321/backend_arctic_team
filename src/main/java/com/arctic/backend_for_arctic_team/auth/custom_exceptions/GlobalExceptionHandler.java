@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @ExceptionHandler({InvalidCredentialsException.class})
     public ResponseEntity<?> handleInvalidCredentialsException(InvalidCredentialsException e){
-        log.error("Handle InvalidCredentialsException");
+        log.warn("Handle InvalidCredentialsException");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler(RefreshNotFoundException.class)
     public ResponseEntity<?> handleRefreshNotFoundException(RefreshNotFoundException e){
-        log.error("Refresh token not found: {}", e.getMessage());
+        log.warn("Refresh token not found: {}", e.getMessage());
         ResponseCookie deleteCookie = ResponseCookie.from("refresh", "")
                 .httpOnly(true)
                 .maxAge(0)
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidTokenRefreshException.class)
     public ResponseEntity<?> handleInvalidTokenRefreshException(InvalidTokenRefreshException e){
-        log.error("Invalid refresh token: {}", e.getMessage());
+        log.warn("Invalid refresh token: {}", e.getMessage());
         ResponseCookie deleteCookie = ResponseCookie.from("refresh", "")
                 .httpOnly(true)
                 .maxAge(0)
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
                 .maxAge(0)
                 .path("/")
                 .build();
-        log.error("User not found");
+        log.warn("User not found");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
                 .body(e.getMessage());
@@ -66,9 +66,16 @@ public class GlobalExceptionHandler {
                 .maxAge(0)
                 .path("/")
                 .build();
-        log.error("Unauthorized exception");
+        log.warn("Unauthorized exception");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException e){
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
 

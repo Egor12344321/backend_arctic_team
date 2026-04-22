@@ -1,15 +1,12 @@
 package com.arctic.backend_for_arctic_team.auth.service_implementation.authentication;
 
+import com.arctic.backend_for_arctic_team.auth.custom_exceptions.*;
 import com.arctic.backend_for_arctic_team.auth.dto.response.auth_responses.LoginResponse;
 import com.arctic.backend_for_arctic_team.auth.dto.response.auth_responses.RegisterResponse;
 import com.arctic.backend_for_arctic_team.auth.dto.response.auth_responses.UpdateTokensResponse;
 import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.LoginRequest;
 import com.arctic.backend_for_arctic_team.auth.dto.request.auth_requests.RegisterRequest;
 import com.arctic.backend_for_arctic_team.auth.entity.User;
-import com.arctic.backend_for_arctic_team.auth.custom_exceptions.InvalidCredentialsException;
-import com.arctic.backend_for_arctic_team.auth.custom_exceptions.InvalidTokenRefreshException;
-import com.arctic.backend_for_arctic_team.auth.custom_exceptions.RefreshNotFoundException;
-import com.arctic.backend_for_arctic_team.auth.custom_exceptions.UserNotFoundException;
 import com.arctic.backend_for_arctic_team.auth.repository.UserRepository;
 import com.arctic.backend_for_arctic_team.auth.security.JwtUtil;
 import com.arctic.backend_for_arctic_team.auth.service_interface.CacheService;
@@ -43,7 +40,10 @@ public class AuthServiceImpl implements AuthService {
 
     public RegisterResponse register(RegisterRequest request){
         User user = userMapperService.mapFromRequestToEntity(request);
-
+        if (userRepository.existsByEmail(request.email())){
+            log.warn("Попытка создать аккаунт с существующим email");
+            throw new UserAlreadyExistsException("Пользователь с таким email уже зарегистрирован в системе");
+        }
         User savedUser = userRepository.save(user);
         log.info("Пользователь: {} (id={}) зарегистрировался в системе", savedUser.getEmail(), user.getId());
         return userMapperService.mapFromEntityToResponse(savedUser);
