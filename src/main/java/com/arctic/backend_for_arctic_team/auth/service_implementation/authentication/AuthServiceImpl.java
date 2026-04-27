@@ -120,9 +120,6 @@ public class AuthServiceImpl implements AuthService {
                     .orElseThrow(() -> new UserNotFoundException("Пользователь с таким email не найден"));
             log.debug("Пользователь с таким refresh найден");
 
-
-            cacheService.removeFromCache(individualNumber);
-
             String updatedRefreshToken = jwtUtil.generateRefreshToken(user);
             String updatedAccessToken = jwtUtil.generateAccessToken(user);
 

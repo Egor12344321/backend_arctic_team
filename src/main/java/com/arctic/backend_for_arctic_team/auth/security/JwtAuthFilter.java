@@ -78,7 +78,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            logger.error("JWT аутентификация неудачная" + e.getMessage());
+            logger.error("JWT аутентификация неудачная: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
