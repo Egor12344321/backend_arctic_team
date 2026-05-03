@@ -25,13 +25,13 @@ public class DashboardRepository {
             return new ArrayList<>();
         }
 
-        Map<Long, NFBData> nfbMap = getNFBMetrics(indNum, expeditionId);
+        Map<Integer, NFBData> nfbMap = getNFBMetrics(indNum, expeditionId);
 
-        Map<Long, PhysiologicalData> physioMap = getPhysiologicalMetrics(indNum, expeditionId);
+        Map<Integer, PhysiologicalData> physioMap = getPhysiologicalMetrics(indNum, expeditionId);
 
-        Map<Long, EmotionalData> emotionalMap = getEmotionalMetrics(indNum, expeditionId);
+        Map<Integer, EmotionalData> emotionalMap = getEmotionalMetrics(indNum, expeditionId);
 
-        Map<Long, ProductivityData> productivityMap = getProductivityMetrics(indNum, expeditionId);
+        Map<Integer, ProductivityData> productivityMap = getProductivityMetrics(indNum, expeditionId);
 
         for (SessionMetricsDto dto : results) {
             NFBData nfb = nfbMap.get(dto.getSession());
@@ -92,7 +92,7 @@ public class DashboardRepository {
         """;
 
         return jdbc.query(sql, (rs, i) -> SessionMetricsDto.builder()
-                .session((long) rs.getInt("session"))
+                .session((int) rs.getLong("session"))
                 .date(formatDate(rs.getInt("end_time")))
                 .timeOfDay(formatTimeOfDay(rs.getInt("end_time")))
                 .totalCognitive(rs.getInt("total_cognitive"))
@@ -112,7 +112,7 @@ public class DashboardRepository {
     }
 
 
-    private Map<Long, NFBData> getNFBMetrics(String indNum, Long expeditionId) {
+    private Map<Integer, NFBData> getNFBMetrics(String indNum, Long expeditionId) {
         String sql = """
             SELECT
                 session,
@@ -126,9 +126,9 @@ public class DashboardRepository {
         """;
 
         return jdbc.query(sql, rs -> {
-            Map<Long, NFBData> map = new HashMap<>();
+            Map<Integer, NFBData> map = new HashMap<>();
             while (rs.next()) {
-                map.put(rs.getLong("session"), new NFBData(
+                map.put(rs.getInt("session"), new NFBData(
                         rs.getDouble("alpha"),
                         rs.getDouble("beta"),
                         rs.getDouble("theta"),
@@ -139,7 +139,7 @@ public class DashboardRepository {
         }, indNum, expeditionId);
     }
 
-    private Map<Long, PhysiologicalData> getPhysiologicalMetrics(String indNum, Long expeditionId) {
+    private Map<Integer, PhysiologicalData> getPhysiologicalMetrics(String indNum, Long expeditionId) {
         String sql = """
             SELECT
                 session,
@@ -153,9 +153,9 @@ public class DashboardRepository {
         """;
 
         return jdbc.query(sql, rs -> {
-            Map<Long, PhysiologicalData> map = new HashMap<>();
+            Map<Integer, PhysiologicalData> map = new HashMap<>();
             while (rs.next()) {
-                map.put(rs.getLong("session"), new PhysiologicalData(
+                map.put(rs.getInt("session"), new PhysiologicalData(
                         rs.getDouble("concentration"),
                         rs.getDouble("fatigue"),
                         rs.getDouble("relax"),
@@ -166,7 +166,7 @@ public class DashboardRepository {
         }, indNum, expeditionId);
     }
 
-    private Map<Long, EmotionalData> getEmotionalMetrics(String indNum, Long expeditionId) {
+    private Map<Integer, EmotionalData> getEmotionalMetrics(String indNum, Long expeditionId) {
         String sql = """
             SELECT
                 session,
@@ -181,9 +181,9 @@ public class DashboardRepository {
         """;
 
         return jdbc.query(sql, rs -> {
-            Map<Long, EmotionalData> map = new HashMap<>();
+            Map<Integer, EmotionalData> map = new HashMap<>();
             while (rs.next()) {
-                map.put(rs.getLong("session"), new EmotionalData(
+                map.put(rs.getInt("session"), new EmotionalData(
                         rs.getDouble("attention"),
                         rs.getDouble("cognitive_load"),
                         rs.getDouble("relaxation"),
@@ -195,7 +195,7 @@ public class DashboardRepository {
         }, indNum, expeditionId);
     }
 
-    private Map<Long, ProductivityData> getProductivityMetrics(String indNum, Long expeditionId) {
+    private Map<Integer, ProductivityData> getProductivityMetrics(String indNum, Long expeditionId) {
         String sql = """
             SELECT
                 session,
@@ -206,9 +206,9 @@ public class DashboardRepository {
         """;
 
         return jdbc.query(sql, rs -> {
-            Map<Long, ProductivityData> map = new HashMap<>();
+            Map<Integer, ProductivityData> map = new HashMap<>();
             while (rs.next()) {
-                map.put(rs.getLong("session"), new ProductivityData(
+                map.put(rs.getInt("session"), new ProductivityData(
                         rs.getDouble("productivity")
                 ));
             }

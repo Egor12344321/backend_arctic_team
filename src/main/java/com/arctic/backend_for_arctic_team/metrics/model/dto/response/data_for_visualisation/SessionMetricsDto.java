@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class SessionMetricsDto {
-    private Long session;
+    private Integer session;
     private String date;
     private String timeOfDay;
 
