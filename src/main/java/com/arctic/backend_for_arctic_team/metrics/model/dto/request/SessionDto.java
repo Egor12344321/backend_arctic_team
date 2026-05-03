@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public record SessionDto(
         @JsonProperty("individualNumber") String individualNumber,
         @JsonProperty("expeditionId") String expeditionId,
-        @JsonProperty("session") Long session,
+        @JsonProperty("session") Integer session,
         @JsonProperty("objectiveCognitive") Integer objectiveCognitive,
         @JsonProperty("objectivePsychological") Integer objectivePsychological,
         @JsonProperty("objectivePhysiological") Integer objectivePhysiological,

@@ -92,7 +92,7 @@ public class DashboardRepository {
         """;
 
         return jdbc.query(sql, (rs, i) -> SessionMetricsDto.builder()
-                .session((int) rs.getLong("session"))
+                .session(rs.getInt("session"))
                 .date(formatDate(rs.getInt("end_time")))
                 .timeOfDay(formatTimeOfDay(rs.getInt("end_time")))
                 .totalCognitive(rs.getInt("total_cognitive"))

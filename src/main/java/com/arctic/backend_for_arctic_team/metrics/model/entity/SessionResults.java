@@ -23,7 +23,7 @@ public class SessionResults {
     private Long expeditionId;
 
     @Column(name = "session", nullable = false)
-    private Long session;
+    private Integer session;
 
     @Column(name = "objective_cognitive")
     private Integer objectiveCognitive;

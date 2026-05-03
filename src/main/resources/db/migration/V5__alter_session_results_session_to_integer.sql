@@ -1,0 +1,3 @@
+ALTER TABLE session_results
+ALTER COLUMN session TYPE INTEGER
+USING LEFT(session::TEXT, 10)::INTEGER;
