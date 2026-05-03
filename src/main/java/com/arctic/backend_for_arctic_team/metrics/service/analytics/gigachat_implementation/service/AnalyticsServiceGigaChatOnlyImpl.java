@@ -41,6 +41,7 @@ public class AnalyticsServiceGigaChatOnlyImpl implements AnalyticsService {
 
         // проверка кеша
         Optional<String> cached = analyticsCache.get(indNum, expeditionId);
+
         if (cached.isPresent()) {
             log.info("Получен совет от нейросети для участника: {}, экспедиции: {} из кеша", indNum, expeditionId);
             return new AnalyticsAdviceResponse(cached.get());
